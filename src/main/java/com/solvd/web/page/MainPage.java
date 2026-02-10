@@ -2,6 +2,7 @@ package com.solvd.web.page;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -12,30 +13,21 @@ import java.util.List;
 
 public class MainPage {
 
+    private WebDriver driver;
     private static final Logger log = LogManager.getLogger(MainPage.class);
 
-    @FindBy(css = ".cup-body")
-    private List<WebElement> coffee;
+    @FindBy(css = "input.ui-autocomplete-input")
+    private WebElement inputForm;
 
     public MainPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
+        this.driver=driver;
     }
 
-    public List<String> getCoffeNameList() {
-        List<String> coffeeNames = new ArrayList<>();
-        coffee.forEach(webElement -> coffeeNames.add(webElement.getAttribute("data-test").toLowerCase()));
-        return coffeeNames;
+    public SearchPage search(String name){
+        inputForm.sendKeys(name);
+        inputForm.submit();
+        return new SearchPage(driver);
     }
-
-    public boolean areAllCoffeesVisible() {
-        for (WebElement webElement : coffee) {
-            if (!webElement.isDisplayed()) {
-                log.info(webElement.getAccessibleName() + " is not visible");
-                return false;
-            }
-        }
-        return true;
-    }
-
 
 }
