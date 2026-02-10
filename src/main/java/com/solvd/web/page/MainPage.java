@@ -2,14 +2,10 @@ package com.solvd.web.page;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainPage {
 
@@ -21,10 +17,10 @@ public class MainPage {
 
     public MainPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
-        this.driver=driver;
+        this.driver = driver;
     }
 
-    public SearchPage search(String name){
+    public SearchPage search(String name) {
         inputForm.sendKeys(name);
         inputForm.submit();
         return new SearchPage(driver);
