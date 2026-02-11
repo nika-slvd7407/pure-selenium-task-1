@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -29,10 +30,11 @@ public class SearchPage {
     public List<String> getSearchedItems() {
         List<String> titles = new ArrayList<>();
         new WebDriverWait(driver, Duration.ofSeconds(10))
-                .until(driver -> !items.isEmpty());
+                .until(ExpectedConditions.visibilityOfAllElements(items));
 
         for (WebElement item : items) {
             titles.add(item.getText().toLowerCase());
+            log.info("found {} items on the search page", titles.size());
         }
 
         return titles;
