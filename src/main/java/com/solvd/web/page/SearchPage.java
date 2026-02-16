@@ -15,7 +15,6 @@ public class SearchPage extends AbstractPage {
 
     public SearchPage(WebDriver driver) {
         super(driver);
-        this.driver = driver;
         wait.until(ExpectedConditions.visibilityOfAllElements(items));
     }
 
@@ -23,8 +22,9 @@ public class SearchPage extends AbstractPage {
         List<String> titles = new ArrayList<>();
         for (WebElement item : items) {
             titles.add(getText(item).toLowerCase());
-            log.info("found {} items on the search page", titles.size());
         }
+        log.info("found {} items on the search page", titles.size());
+
 
         return titles;
     }
