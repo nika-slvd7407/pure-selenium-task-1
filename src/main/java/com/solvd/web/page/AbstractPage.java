@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -57,6 +58,13 @@ public abstract class AbstractPage {
         wait.until(ExpectedConditions.visibilityOf(webElement));
         log.debug("{} checking if visible", webElement.getTagName());
         return webElement.isDisplayed();
-
     }
+
+    protected void hover(WebElement webElement){
+        wait.until(ExpectedConditions.visibilityOf(webElement));
+        Actions actions = new Actions(driver);
+        actions.moveToElement(webElement).perform();
+        log.debug("{} hovering over", webElement.getTagName());
+    }
+
 }
