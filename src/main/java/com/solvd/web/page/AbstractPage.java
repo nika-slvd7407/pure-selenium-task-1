@@ -1,6 +1,7 @@
 package com.solvd.web.page;
 
 import com.solvd.util.Config;
+import com.solvd.util.DriverManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
@@ -11,20 +12,20 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public abstract class AbstractPage {
+import static com.solvd.util.DriverManager.getDriver;
 
-    protected WebDriver driver;
+public abstract class AbstractPage {
+    protected static final ThreadLocal<WebDriver> driverThread = new ThreadLocal<>();
     protected WebDriverWait wait;
     protected final Logger log = LogManager.getLogger(getClass());
 
     public AbstractPage(WebDriver driver) {
-        this.driver = driver;
+        driverThread.set(driver);
         this.wait = new WebDriverWait(
-                driver,
+                getDriver(),
                 Duration.ofSeconds(Integer.parseInt(Config.get("WAIT_TIME")))
         );
-        PageFactory.initElements(driver, this);
-
+        PageFactory.initElements(getDriver(), this);
     }
 
     protected void click(WebElement element) {
@@ -34,7 +35,7 @@ public abstract class AbstractPage {
     }
 
     protected String getText(WebElement webElement) {
-        wait.until(ExpectedConditions.visibilityOfAllElements(webElement));
+        wait.until(ExpectedConditions.visibilityOf(webElement));
         String text = webElement.getText();
         log.debug("{} got text {}", webElement.getTagName(), text);
         return text;
