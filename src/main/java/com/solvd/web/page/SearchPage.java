@@ -1,50 +1,43 @@
 package com.solvd.web.page;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class SearchPage extends AbstractPage {
+public class SearchPage {
+
+    private WebDriver driver;
+    private static final Logger log = LogManager.getLogger(SearchPage.class);
 
     @FindBy(css = "div.js-product.product h2 a")
     private List<WebElement> items;
 
-    @FindBy(id = "wrapper")
-    private WebElement resultContainer;
-
     public SearchPage(WebDriver driver) {
-        super(driver);
-        switchToFramelive();
-        waitForElementVisible(resultContainer);
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
     }
 
     public List<String> getSearchedItems() {
-        return getItems().stream()
-                .map(e -> getText(e).toLowerCase())
-                .collect(Collectors.toList());
-    }
+        List<String> titles = new ArrayList<>();
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.visibilityOfAllElements(items));
 
-    public ProductDetailsPage openItemByIndex(int index) {
-        List<WebElement> elements = getItems();
-
-        if (index >= elements.size()) {
-            throw new IllegalArgumentException(
-                    "Index " + index + " is out of bounds. Total items: " + elements.size()
-            );
+        for (WebElement item : items) {
+            titles.add(item.getText().toLowerCase());
         }
+        log.info("found {} items on the search page", titles.size());
 
-        click(elements.get(index));
-        return new ProductDetailsPage(getDriver());
+        return titles;
     }
 
-    public int getItemAmount() {
-        return items.size();
-    }
-
-    private List<WebElement> getItems(){
-        return items;
-    }
 }
