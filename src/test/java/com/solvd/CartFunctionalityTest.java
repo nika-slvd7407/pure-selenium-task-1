@@ -13,7 +13,7 @@ public class CartFunctionalityTest extends AbstractTest {
 
     @Test(description = "assert that after pressing add to cart button item added into cart")
     public void testCartFunction() {
-        MainPage mainPage = new MainPage(driver);
+        MainPage mainPage = new MainPage(getDriver());
         ItemPage itemPage = mainPage.clickRandomItem();
 
         String itemName = itemPage.getItemName().toLowerCase();
@@ -28,7 +28,7 @@ public class CartFunctionalityTest extends AbstractTest {
 
     @Test(description = "assert that after adding item into cart incrementation function works")
     public void testCartQuantityUpdate() {
-        MainPage mainPage = new MainPage(driver);
+        MainPage mainPage = new MainPage(getDriver());
         ItemPage itemPage = mainPage.clickRandomItem();
 
         itemPage.addToCart();

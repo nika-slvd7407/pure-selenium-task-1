@@ -1,7 +1,7 @@
 package com.solvd;
 
 import com.solvd.util.Config;
-import com.solvd.util.DriverManager;
+import com.solvd.web.page.ItemPage;
 import com.solvd.web.page.MainPage;
 import com.solvd.web.page.SearchPage;
 import org.openqa.selenium.By;
@@ -17,11 +17,8 @@ public class SearchFunctionalityTest extends AbstractTest {
 
     @Test(description = "assert that search function is working properly and outputs items")
     public void testSearchFunction() throws InterruptedException {
-        WebElement iframe = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("framelive")));
-        DriverManager.getDriver().switchTo().frame(iframe);
-        log.info("frame switch");
 
-        MainPage mainPage = new MainPage(driver);
+        MainPage mainPage = new MainPage(getDriver());
         SearchPage searchPage = mainPage.search(ITEM_TO_SEARCH);
 
         List<String> searchedItems = searchPage.getSearchedItems();
@@ -29,5 +26,24 @@ public class SearchFunctionalityTest extends AbstractTest {
         sf.assertTrue(!searchedItems.isEmpty(), "error zero items found!");
         searchedItems.forEach(item -> log.info("{} found", item));
         sf.assertAll();
+    }
+
+    @Test(description = "select category and assert that all the items shown are of right category")
+    public void testCategoryFunctionality(){
+        MainPage mainPage = new MainPage(getDriver());
+        SearchPage searchPage = mainPage.selectClothesMenCategory();
+
+        int itemsOnSearchPageAmount = searchPage.getItemAmount();
+        boolean areAllItemsRightCategory =true;
+        for (int i =0; i<itemsOnSearchPageAmount; i++){
+
+
+            ItemPage itemPage = searchPage.openItemByIndex(i);
+            if (!itemPage.checkCategory(Config.get("CATEGORY"))){
+                areAllItemsRightCategory = false;
+            }
+            getDriver().navigate().back();
+        }
+        sf.assertTrue(areAllItemsRightCategory);
     }
 }

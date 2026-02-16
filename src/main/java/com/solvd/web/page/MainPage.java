@@ -29,13 +29,14 @@ public class MainPage extends AbstractPage {
         wait.until(ExpectedConditions.visibilityOf(inputForm));
         wait.until(ExpectedConditions.visibilityOfAllElements(mainPageItemList));
         wait.until(ExpectedConditions.visibilityOfAllElements(priceList));
+        wait.until(ExpectedConditions.visibilityOf(clotheCategoryButton));
 
     }
 
     public SearchPage search(String name) {
         sendKeys(inputForm, name);
         submit(inputForm);
-        return new SearchPage(driverThread.get());
+        return new SearchPage(driver);
     }
 
     public ItemPage clickRandomItem() {

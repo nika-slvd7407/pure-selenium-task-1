@@ -10,7 +10,7 @@ public class ProductCardFunctionalityTest extends AbstractTest {
 
     @Test(description = "assert that product card from the main page works ")
     public void testProductCard() {
-        MainPage mainPage = new MainPage(driver);
+        MainPage mainPage = new MainPage(getDriver());
         int itemIndex = new Random().nextInt(mainPage.getMainPageItemAmount());
 
         Double supposedCost = mainPage.getPrice(itemIndex);
