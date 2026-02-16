@@ -7,6 +7,8 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 public class MainPage extends AbstractPage {
@@ -59,8 +61,10 @@ public class MainPage extends AbstractPage {
 
     public Double getPrice(int index) {
         String rawPrice = getText(priceList.get(index));
-        double priceWithoutTax = Double.valueOf(rawPrice.substring(1));
-        return priceWithoutTax * 1.20;
+        double priceWithoutTax = Double.parseDouble(rawPrice.substring(1));
+        double priceWithTax = priceWithoutTax * 1.20;
+        BigDecimal rounded = BigDecimal.valueOf(priceWithTax).setScale(2, RoundingMode.HALF_UP);
+        return rounded.doubleValue();
     }
 
     public int getMainPageItemAmount() {

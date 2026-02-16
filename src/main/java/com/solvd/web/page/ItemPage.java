@@ -28,17 +28,18 @@ public class ItemPage extends AbstractPage {
         return getText(itemDescription);
     }
 
-
     public CheckoutPage clickProceedToCheckout() {
-        By checkoutLocator = By.cssSelector("a.btn.btn-primary:has(i.material-icons)");
+        // FIX: Changed CSS selector to XPath for better compatibility
+        // This finds an <a> with class 'btn-primary' that contains an <i> with class 'material-icons'
+        By checkoutLocator = By.xpath("//a[contains(@class, 'btn-primary') and .//i[contains(@class, 'material-icons')]]");
+
         WebElement checkoutButton = wait.until(
-                ExpectedConditions.visibilityOfElementLocated(checkoutLocator)
+                ExpectedConditions.elementToBeClickable(checkoutLocator)
         );
 
         click(checkoutButton);
         return new CheckoutPage(driver);
     }
-
 
     public void addToCart(){
         click(addToCartButton);
@@ -47,7 +48,6 @@ public class ItemPage extends AbstractPage {
     public Double getPrice(){
         String rawPrice = getText(itemCost);
         return Double.valueOf(rawPrice.substring(1));
-
     }
 
     public boolean checkCategory(String category) {
@@ -56,5 +56,4 @@ public class ItemPage extends AbstractPage {
         );
         return !elements.isEmpty();
     }
-
 }
