@@ -18,7 +18,7 @@ public class MainPage extends AbstractPage {
     public SearchPage search(String name) {
         sendKeys(inputForm, name);
         submit(inputForm);
-        return new SearchPage(driver);
+        return new SearchPage(driverThread.get());
     }
 
 }

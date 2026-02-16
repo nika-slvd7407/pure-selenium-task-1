@@ -1,6 +1,7 @@
 package com.solvd;
 
 import com.solvd.util.Config;
+import com.solvd.util.DriverManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
@@ -11,6 +12,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.asserts.SoftAssert;
 
 import java.time.Duration;
+
+import static com.solvd.util.DriverManager.getDriver;
 
 public abstract class AbstractTest {
 
@@ -23,11 +26,12 @@ public abstract class AbstractTest {
     public void setup() {
         log.info("setup start");
         driver = new ChromeDriver();
-        driver.manage().window().maximize();
-        wait = new WebDriverWait(driver, Duration.ofSeconds(Long.parseLong(Config.get("WAIT_TIME"))));
+        DriverManager.setDriver(driver);
+        getDriver().manage().window().maximize();
+        wait = new WebDriverWait(getDriver(), Duration.ofSeconds(Long.parseLong(Config.get("WAIT_TIME"))));
         sf = new SoftAssert();
         log.info("setup end");
-        driver.get(Config.get("URL"));
+        getDriver().get(Config.get("URL"));
     }
 
     @AfterMethod
