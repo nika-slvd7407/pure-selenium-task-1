@@ -17,14 +17,14 @@ import java.util.List;
 public class SearchPage {
 
     private WebDriver driver;
-    private static final Logger log = LogManager.getLogger(MainPage.class);
+    private static final Logger log = LogManager.getLogger(SearchPage.class);
 
     @FindBy(css = "div.js-product.product h2 a")
     private List<WebElement> items;
 
     public SearchPage(WebDriver driver) {
-        PageFactory.initElements(driver, this);
         this.driver = driver;
+        PageFactory.initElements(driver, this);
     }
 
     public List<String> getSearchedItems() {
@@ -34,8 +34,8 @@ public class SearchPage {
 
         for (WebElement item : items) {
             titles.add(item.getText().toLowerCase());
-            log.info("found {} items on the search page", titles.size());
         }
+        log.info("found {} items on the search page", titles.size());
 
         return titles;
     }
