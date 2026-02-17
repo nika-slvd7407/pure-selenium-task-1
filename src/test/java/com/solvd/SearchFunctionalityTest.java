@@ -42,8 +42,9 @@ public class SearchFunctionalityTest extends AbstractTest {
             if (!itemPage.checkCategory(Config.get("CATEGORY"))){
                 areAllItemsRightCategory = false;
             }
-            getDriver().navigate().back();
+            itemPage.back();
         }
         sf.assertTrue(areAllItemsRightCategory);
+        sf.assertAll();
     }
 }

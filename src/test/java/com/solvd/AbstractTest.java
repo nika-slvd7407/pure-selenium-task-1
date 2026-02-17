@@ -22,7 +22,7 @@ public abstract class AbstractTest {
     protected WebDriverWait wait;
     protected SoftAssert sf;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setup() {
         log.info("setup start");
 
@@ -35,10 +35,10 @@ public abstract class AbstractTest {
         driverThreadLocal.set(new ChromeDriver(options));
         WebDriver driver = getDriver();
 
-        wait = new WebDriverWait(driver, Duration.ofSeconds(Long.parseLong(Config.get("WAIT_TIME"))));
+        wait = new WebDriverWait(getDriver(), Duration.ofSeconds(Long.parseLong(Config.get("WAIT_TIME"))));
         sf = new SoftAssert();
 
-        driver.get(Config.get("URL"));
+        getDriver().get(Config.get("URL"));
 
         try {
             wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.id("framelive")));
@@ -50,7 +50,7 @@ public abstract class AbstractTest {
         log.info("setup end");
     }
 
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void tearDown() {
         WebDriver driver = driverThreadLocal.get();
         if (driver != null) {

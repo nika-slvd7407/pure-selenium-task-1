@@ -29,8 +29,7 @@ public class ItemPage extends AbstractPage {
     }
 
     public CheckoutPage clickProceedToCheckout() {
-        // FIX: Changed CSS selector to XPath for better compatibility
-        // This finds an <a> with class 'btn-primary' that contains an <i> with class 'material-icons'
+
         By checkoutLocator = By.xpath("//a[contains(@class, 'btn-primary') and .//i[contains(@class, 'material-icons')]]");
 
         WebElement checkoutButton = wait.until(
@@ -55,5 +54,9 @@ public class ItemPage extends AbstractPage {
                 By.xpath("//span[contains(text(), '" + category + "')]")
         );
         return !elements.isEmpty();
+    }
+
+    public void back(){
+        driver.navigate().back();
     }
 }
