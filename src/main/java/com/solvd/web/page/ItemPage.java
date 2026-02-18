@@ -24,7 +24,7 @@ public class ItemPage extends AbstractPage {
         wait.until(ExpectedConditions.visibilityOf(addToCartButton));
     }
 
-    public String getItemName(){
+    public String getItemName() {
         return getText(itemDescription);
     }
 
@@ -40,11 +40,11 @@ public class ItemPage extends AbstractPage {
         return new CheckoutPage(driver);
     }
 
-    public void addToCart(){
+    public void addToCart() {
         click(addToCartButton);
     }
 
-    public Double getPrice(){
+    public Double getPrice() {
         String rawPrice = getText(itemCost);
         return Double.valueOf(rawPrice.substring(1));
     }
@@ -56,7 +56,7 @@ public class ItemPage extends AbstractPage {
         return !elements.isEmpty();
     }
 
-    public void back(){
+    public void back() {
         driver.navigate().back();
     }
 }

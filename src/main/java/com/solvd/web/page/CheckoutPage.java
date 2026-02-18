@@ -24,21 +24,21 @@ public class CheckoutPage extends AbstractPage {
         wait.until(ExpectedConditions.visibilityOfAllElements(itemsInCheckout));
     }
 
-    public List<String> getItemList(){
+    public List<String> getItemList() {
         List<String> itemList = new ArrayList<>();
 
-        for (WebElement webElement : itemsInCheckout){
+        for (WebElement webElement : itemsInCheckout) {
             itemList.add(getText(webElement).toLowerCase());
         }
         return itemList;
     }
 
-    public int getItemAmount(){
+    public int getItemAmount() {
         String rawAmount = getText(itemAmount);
-      return Integer.valueOf(rawAmount.split(" ")[0]);
+        return Integer.valueOf(rawAmount.split(" ")[0]);
     }
 
-    public void clickIncrementButton(){
+    public void clickIncrementButton() {
         click(incrementButton);
     }
 

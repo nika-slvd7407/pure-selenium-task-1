@@ -5,7 +5,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -22,8 +21,8 @@ public class MainPage extends AbstractPage {
     @FindBy(css = "div.thumbnail-container span.price")
     private List<WebElement> priceList;
 
-     @FindBy(id = "category-3")
-     private WebElement clotheCategoryButton;
+    @FindBy(id = "category-3")
+    private WebElement clotheCategoryButton;
 
 
     public MainPage(WebDriver driver) {
@@ -56,7 +55,7 @@ public class MainPage extends AbstractPage {
 
     public String getName(int index) {
         WebElement elementToGetName = mainPageItemList.get(index);
-        return getText(elementToGetName).toLowerCase().replace("...","");
+        return getText(elementToGetName).toLowerCase().replace("...", "");
     }
 
     public Double getPrice(int index) {
@@ -71,7 +70,7 @@ public class MainPage extends AbstractPage {
         return mainPageItemList.size();
     }
 
-    public SearchPage selectClothesMenCategory(){
+    public SearchPage selectClothesMenCategory() {
         hover(clotheCategoryButton);
         WebElement subMenu = driver.findElement(By.id("category-4"));
         click(subMenu);

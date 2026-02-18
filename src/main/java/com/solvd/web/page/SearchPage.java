@@ -1,6 +1,5 @@
 package com.solvd.web.page;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -30,16 +29,14 @@ public class SearchPage extends AbstractPage {
         return titles;
     }
 
-    public ItemPage openItemByIndex(int index){
+    public ItemPage openItemByIndex(int index) {
         click(items.get(index));
         return new ItemPage(driver);
     }
 
-    public int getItemAmount(){
+    public int getItemAmount() {
         return items.size();
     }
-
-
 
 
 }

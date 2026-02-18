@@ -4,9 +4,6 @@ import com.solvd.util.Config;
 import com.solvd.web.page.ItemPage;
 import com.solvd.web.page.MainPage;
 import com.solvd.web.page.SearchPage;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -29,17 +26,17 @@ public class SearchFunctionalityTest extends AbstractTest {
     }
 
     @Test(description = "select category and assert that all the items shown are of right category")
-    public void testCategoryFunctionality(){
+    public void testCategoryFunctionality() {
         MainPage mainPage = new MainPage(getDriver());
         SearchPage searchPage = mainPage.selectClothesMenCategory();
 
         int itemsOnSearchPageAmount = searchPage.getItemAmount();
-        boolean areAllItemsRightCategory =true;
-        for (int i =0; i<itemsOnSearchPageAmount; i++){
+        boolean areAllItemsRightCategory = true;
+        for (int i = 0; i < itemsOnSearchPageAmount; i++) {
 
 
             ItemPage itemPage = searchPage.openItemByIndex(i);
-            if (!itemPage.checkCategory(Config.get("CATEGORY"))){
+            if (!itemPage.checkCategory(Config.get("CATEGORY"))) {
                 areAllItemsRightCategory = false;
             }
             itemPage.back();
