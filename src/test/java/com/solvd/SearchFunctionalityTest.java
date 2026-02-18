@@ -34,7 +34,6 @@ public class SearchFunctionalityTest extends AbstractTest {
         boolean areAllItemsRightCategory = true;
         for (int i = 0; i < itemsOnSearchPageAmount; i++) {
 
-
             ItemPage itemPage = searchPage.openItemByIndex(i);
             if (!itemPage.checkCategory(Config.get("CATEGORY"))) {
                 areAllItemsRightCategory = false;

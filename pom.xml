@@ -44,6 +44,12 @@
             <version>2.24.3</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.21.0</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -65,7 +71,8 @@
                 <version>3.2.5</version>
                 <configuration>
                     <suiteXmlFiles>
-                        <suiteXmlFile>testing.xml</suiteXmlFile>
+                        <!--                        <suiteXmlFile>src/test/resources/testing.xml</suiteXmlFile>-->
+                        <suiteXmlFile>src/test/resources/grid-testing.xml</suiteXmlFile>
                     </suiteXmlFiles>
                 </configuration>
             </plugin>
