@@ -1,5 +1,6 @@
 package com.solvd;
 
+import com.solvd.util.WebUtil;
 import com.solvd.web.page.MainPage;
 import com.solvd.web.page.SearchPage;
 import org.apache.logging.log4j.LogManager;
@@ -51,7 +52,7 @@ public class SearchFunctionalityTest {
     @Test(description = "assert that search function is working properly and outputs items")
     public void testSearchFunction() throws InterruptedException {
 
-        switchFrame(driver,wait,"framelive");
+        WebUtil.switchFrame(driver,"framelive", wait);
         log.info("frame switch");
 
         MainPage mainPage = new MainPage(driver);
@@ -65,8 +66,4 @@ public class SearchFunctionalityTest {
 
     }
 
-    private void switchFrame(WebDriver driver, WebDriverWait wait, String id){
-            WebElement iframe = wait.until(ExpectedConditions.presenceOfElementLocated(By.id(id)));
-            driver.switchTo().frame(iframe);
-    };
 }
