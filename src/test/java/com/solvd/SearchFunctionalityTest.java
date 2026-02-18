@@ -2,6 +2,7 @@ package com.solvd;
 
 import com.solvd.util.Config;
 import com.solvd.util.DriverManager;
+import com.solvd.util.WebUtil;
 import com.solvd.web.page.MainPage;
 import com.solvd.web.page.SearchPage;
 import org.openqa.selenium.By;
@@ -17,8 +18,7 @@ public class SearchFunctionalityTest extends AbstractTest {
 
     @Test(description = "assert that search function is working properly and outputs items")
     public void testSearchFunction() throws InterruptedException {
-        WebElement iframe = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("framelive")));
-        DriverManager.getDriver().switchTo().frame(iframe);
+        WebUtil.switchFrame(driver,"framelive", wait);
         log.info("frame switch");
 
         MainPage mainPage = new MainPage(driver);
