@@ -10,6 +10,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -29,7 +30,7 @@ public class SearchFunctionalityTest {
     private SoftAssert sf;
 
     @BeforeMethod
-    public void setup(){
+    public void setup() {
         log.info("setup start");
         driver = new ChromeDriver();
         driver.manage().window().maximize();
@@ -50,18 +51,22 @@ public class SearchFunctionalityTest {
     @Test(description = "assert that search function is working properly and outputs items")
     public void testSearchFunction() throws InterruptedException {
 
-            WebElement iframe = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("framelive")));
-            driver.switchTo().frame(iframe);
-            log.info("frame switch");
+        switchFrame(driver,wait,"framelive");
+        log.info("frame switch");
 
-            MainPage mainPage = new MainPage(driver);
-            SearchPage searchPage = mainPage.search(ITEM_TO_SEARCH);
+        MainPage mainPage = new MainPage(driver);
+        SearchPage searchPage = mainPage.search(ITEM_TO_SEARCH);
 
-            List<String> searchedItems = searchPage.getSearchedItems();
+        List<String> searchedItems = searchPage.getSearchedItems();
 
-            sf.assertTrue(!searchedItems.isEmpty(), "error zero items found!");
-            searchedItems.forEach(item -> log.info("{} found", item));
-            sf.assertAll();
+        Assert.assertTrue(!searchedItems.isEmpty(), "error zero items found!");
+        searchedItems.forEach(item -> log.info("{} found", item));
+        sf.assertAll();
 
     }
+
+    private void switchFrame(WebDriver driver, WebDriverWait wait, String id){
+            WebElement iframe = wait.until(ExpectedConditions.presenceOfElementLocated(By.id(id)));
+            driver.switchTo().frame(iframe);
+    };
 }
