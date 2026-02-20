@@ -10,7 +10,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
@@ -20,6 +19,12 @@ public class SearchFunctionalityTestt extends AbstractTest {
 
     protected final Logger log = LogManager.getLogger(SearchFunctionalityTestt.class);
     private static final String ITEM_TO_SEARCH = R.CONFIG.get("ITEM_TO_SEARCH");
+    protected SoftAssert sf;
+
+    @BeforeMethod
+    public void setUp() {
+        sf = new SoftAssert();
+    }
 
     @Test(description = "assert that search function is working properly and outputs items")
     public void testSearchFunction() throws InterruptedException {
@@ -27,16 +32,15 @@ public class SearchFunctionalityTestt extends AbstractTest {
         BasePage basePage = new BasePage(getDriver());
         basePage.open();
         MainPage mainPage = basePage.switchToShopFrame();
+
         String url = getDriver().getCurrentUrl();
-        log.info(url);
         log.info(ITEM_TO_SEARCH);
         SearchPage searchPage = mainPage.search(ITEM_TO_SEARCH);
-
         List<String> searchedItems = searchPage.getSearchedItems();
 
-        Assert.assertTrue(!searchedItems.isEmpty(), "error zero items found!");
+        sf.assertTrue(!searchedItems.isEmpty(), "error zero items found!");
         searchedItems.forEach(item -> log.info("{} found", item));
-
+        sf.assertAll();
     }
 
     @Test(description = "select category and assert that all the items shown are of right category")
@@ -52,7 +56,7 @@ public class SearchFunctionalityTestt extends AbstractTest {
         int itemsOnSearchPageAmount = searchPage.getItemAmount();
         boolean areAllItemsRightCategory = true;
         for (int i = 0; i < itemsOnSearchPageAmount; i++) {
-
+            log.info("found item amount {} ", itemsOnSearchPageAmount);
             ItemPage itemPage = searchPage.openItemByIndex(i);
             log.info("found item description: {}" , itemPage.getItemName());
             if (!itemPage.checkCategory(R.CONFIG.get("CATEGORY"))) {
@@ -60,6 +64,8 @@ public class SearchFunctionalityTestt extends AbstractTest {
             }
             itemPage.back();
         }
-        Assert.assertTrue(areAllItemsRightCategory);
+        sf.assertTrue(areAllItemsRightCategory);
+        sf.assertTrue(itemsOnSearchPageAmount>0, "error zero items found!");
+        sf.assertAll();
     }
 }
