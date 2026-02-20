@@ -16,12 +16,11 @@ import java.time.Duration;
 import static com.solvd.util.DriverManager.getDriver;
 
 public abstract class AbstractPage {
-    protected static final ThreadLocal<WebDriver> driverThread = new ThreadLocal<>();
+
     protected WebDriverWait wait;
     protected final Logger log = LogManager.getLogger(getClass());
 
     public AbstractPage(WebDriver driver) {
-        driverThread.set(driver);
         this.wait = new WebDriverWait(
                 getDriver(),
                 Duration.ofSeconds(Integer.parseInt(Config.get("WAIT_TIME")))
@@ -59,5 +58,9 @@ public abstract class AbstractPage {
         log.debug("{} checking if visible", webElement.getTagName());
         return webElement.isDisplayed();
 
+    }
+
+    protected WebDriver getDriver() {
+        return DriverManager.getDriver();
     }
 }
