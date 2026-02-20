@@ -15,6 +15,9 @@ import org.openqa.selenium.support.pagefactory.DefaultElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Duration;
@@ -50,6 +53,9 @@ public class MainPage extends AbstractPage {
     }
 
     public ItemPage clickRandomItem() {
+        new WebDriverWait(getDriver(), Duration.ofSeconds(WAIT_TIME)).until(
+                driver -> mainPageItemList.size() > 0
+        );
         int randomIndex = new Random().nextInt(mainPageItemList.size());
         ExtendedWebElement elementToClick = mainPageItemList.get(randomIndex);
         elementToClick.click();
@@ -76,6 +82,9 @@ public class MainPage extends AbstractPage {
     }
 
     public int getMainPageItemAmount() {
+        new WebDriverWait(getDriver(), Duration.ofSeconds(WAIT_TIME)).until(
+                driver -> mainPageItemList.size() > 0
+        );
         return mainPageItemList.size();
     }
 

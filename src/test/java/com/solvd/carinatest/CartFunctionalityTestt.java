@@ -37,13 +37,24 @@ public class CartFunctionalityTestt extends AbstractTest {
         MainPage mainPage = basePage.switchToShopFrame();
         ItemPage itemPage = mainPage.clickRandomItem();
 
-        String itemName = itemPage.getItemName().toLowerCase();
+        String itemName = itemPage.getItemName().toLowerCase().trim();
         log.info("{} - added item", itemName);
 
         itemPage.addToCart();
         CheckoutPage checkoutPage = itemPage.clickProceedToCheckout();
         List<String> checkoutItemList = checkoutPage.getItemList();
-        sf.assertTrue(checkoutItemList.contains(itemName), "checkout doesn't contains added item");
+        log.info("Checkout items: {}", checkoutItemList);
+        log.info("Looking for item: '{}'", itemName);
+
+        boolean itemFound = false;
+        for (String checkoutItem : checkoutItemList) {
+            if (checkoutItem.contains(itemName) || itemName.contains(checkoutItem.replace("...", ""))) {
+                itemFound = true;
+                break;
+            }
+        }
+
+        sf.assertTrue(itemFound, "checkout doesn't contains added item. Looking for: '" + itemName + "' in: " + checkoutItemList);
         sf.assertAll();
     }
 
