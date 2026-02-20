@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 
 import java.util.Random;
 
-public class ProductCardFunctionalityTestt extends BaseTest {
+public class ProductCardFunctionalityTest extends BaseTest {
 
     private static final int WAIT_TIME = R.CONFIG.getInt("WAIT_TIME");
 

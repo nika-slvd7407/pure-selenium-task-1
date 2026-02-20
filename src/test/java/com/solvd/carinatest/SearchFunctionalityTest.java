@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 
-public class SearchFunctionalityTestt extends BaseTest {
+public class SearchFunctionalityTest extends BaseTest {
 
     @Test(description = "assert that search function is working properly and outputs items")
     public void testSearchFunction() throws InterruptedException {

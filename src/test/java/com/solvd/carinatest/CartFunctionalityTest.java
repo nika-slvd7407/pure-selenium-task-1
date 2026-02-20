@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 import java.time.Duration;
 import java.util.List;
 
-public class CartFunctionalityTestt extends BaseTest {
+public class CartFunctionalityTest extends BaseTest {
 
     @Test(description = "assert that after pressing add to cart button item added into cart")
     public void testCartFunction() {
