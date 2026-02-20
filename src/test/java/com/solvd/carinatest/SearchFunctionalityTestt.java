@@ -3,7 +3,6 @@ package com.solvd.carinatest;
 import com.solvd.carinaweb.page.ItemPage;
 import com.solvd.carinaweb.page.MainPage;
 import com.solvd.carinaweb.page.SearchPage;
-import com.solvd.util.Config;
 import com.zebrunner.carina.core.AbstractTest;
 import com.zebrunner.carina.utils.R;
 import org.apache.logging.log4j.LogManager;
@@ -18,18 +17,9 @@ import java.util.List;
 public class SearchFunctionalityTestt extends AbstractTest {
 
     protected final Logger log = LogManager.getLogger(SearchFunctionalityTestt.class);
-    private static final String ITEM_TO_SEARCH = Config.get("ITEM_TO_SEARCH");
-
-    @BeforeMethod
-    @Parameters({"browser"})
-    public void setUp(String browser) {
-
-        R.CONFIG.put("browser", browser);
-        log.info("{} browser selected", browser);
-    }
+    private static final String ITEM_TO_SEARCH = R.CONFIG.get("ITEM_TO_SEARCH");
 
     @Test(description = "assert that search function is working properly and outputs items")
-    @Parameters("browser")
     public void testSearchFunction() throws InterruptedException {
 
         MainPage mainPage = new MainPage(getDriver());
@@ -46,7 +36,6 @@ public class SearchFunctionalityTestt extends AbstractTest {
     }
 
     @Test(description = "select category and assert that all the items shown are of right category")
-    @Parameters("browser")
     public void testCategoryFunctionality() {
         MainPage mainPage = new MainPage(getDriver());
         mainPage.open();
@@ -61,7 +50,7 @@ public class SearchFunctionalityTestt extends AbstractTest {
         for (int i = 0; i < itemsOnSearchPageAmount; i++) {
 
             ItemPage itemPage = searchPage.openItemByIndex(i);
-            if (!itemPage.checkCategory(Config.get("CATEGORY"))) {
+            if (!itemPage.checkCategory(R.CONFIG.get("CATEGORY"))) {
                 areAllItemsRightCategory = false;
             }
             itemPage.back();

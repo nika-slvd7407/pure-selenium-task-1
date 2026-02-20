@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 
-<suite name="suite" parallel="tests" thread-count="2">
-    <listeners>
-        <listener class-name="com.solvd.testutil.ScreenshotListener"/>
-    </listeners>
+<suite name="suite" parallel="tests" thread-count="3">
 
     <test name="web tests chrome">
         <parameter name="browser" value="chrome"/>

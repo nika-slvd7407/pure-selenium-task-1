@@ -24,14 +24,6 @@ public class CartFunctionalityTestt extends AbstractTest {
     protected SoftAssert sf;
     private static final int WAIT_TIME = R.CONFIG.getInt("WAIT_TIME");
 
-
-    @BeforeMethod
-    @Parameters({"browser"})
-    public void setUp(String browser) {
-        R.CONFIG.put("browser", browser);
-        log.info("{} browser selected", browser);
-    }
-
     @Test(description = "assert that after pressing add to cart button item added into cart")
     public void testCartFunction() {
         MainPage mainPage = new MainPage(getDriver());

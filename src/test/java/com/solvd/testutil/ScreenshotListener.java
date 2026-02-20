@@ -1,7 +1,7 @@
 package com.solvd.testutil;
 
-import com.solvd.AbstractTest;
 import com.solvd.util.ScreenshotUtil;
+import com.zebrunner.carina.core.AbstractTest;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 import org.openqa.selenium.WebDriver;

@@ -72,8 +72,6 @@
                 <version>3.2.5</version>
                 <configuration>
                     <suiteXmlFiles>
-                        <!--<suiteXmlFile>src/test/resources/testing.xml</suiteXmlFile>-->
-                        <!--<suiteXmlFile>src/test/resources/grid-testing.xml</suiteXmlFile>-->
                             <suiteXmlFile>src/test/resources/carina-testing.xml</suiteXmlFile>
                     </suiteXmlFiles>
                 </configuration>
