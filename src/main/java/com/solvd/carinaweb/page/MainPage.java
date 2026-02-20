@@ -1,7 +1,7 @@
 package com.solvd.carinaweb.page;
 
-import com.solvd.carinaweb.page.SearchPage;
 import com.zebrunner.carina.utils.R;
+import com.zebrunner.carina.webdriver.decorator.ExtendedFieldDecorator;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
 import org.apache.logging.log4j.LogManager;
@@ -10,6 +10,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.pagefactory.DefaultElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -17,10 +19,12 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Duration;
 import java.util.List;
+import java.util.Random;
 
 public class MainPage extends AbstractPage {
 
     private static final Logger log = LogManager.getLogger(MainPage.class);
+
     @FindBy(css = "input.ui-autocomplete-input")
     private ExtendedWebElement inputForm;
 
@@ -46,7 +50,7 @@ public class MainPage extends AbstractPage {
     }
 
     public ItemPage clickRandomItem() {
-        int randomIndex = (int) (Math.random() * mainPageItemList.size() - 1);
+        int randomIndex = new Random().nextInt(mainPageItemList.size());
         ExtendedWebElement elementToClick = mainPageItemList.get(randomIndex);
         elementToClick.click();
         return new ItemPage(getDriver());
@@ -82,13 +86,6 @@ public class MainPage extends AbstractPage {
         return new SearchPage(getDriver());
     }
 
-    public void switchToShopFrame() {
-        try {
-            new WebDriverWait(getDriver(), Duration.ofSeconds(WAIT_TIME)).until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.id("framelive")));
-            log.info("frame switched");
-        } catch (Exception e) {
-            log.error("failed to switch frame {}",e);
-        }
-    }
+
 
 }

@@ -1,6 +1,7 @@
 package com.solvd.carinatest;
 
 
+import com.solvd.carinaweb.page.BasePage;
 import com.solvd.carinaweb.page.CheckoutPage;
 import com.solvd.carinaweb.page.ItemPage;
 import com.solvd.carinaweb.page.MainPage;
@@ -24,11 +25,16 @@ public class CartFunctionalityTestt extends AbstractTest {
     protected SoftAssert sf;
     private static final int WAIT_TIME = R.CONFIG.getInt("WAIT_TIME");
 
+    @BeforeMethod
+    public void setUp() {
+        sf = new SoftAssert();
+    }
+
     @Test(description = "assert that after pressing add to cart button item added into cart")
     public void testCartFunction() {
-        MainPage mainPage = new MainPage(getDriver());
-        mainPage.open();
-        mainPage.switchToShopFrame();
+        BasePage basePage = new BasePage(getDriver());
+        basePage.open();
+        MainPage mainPage = basePage.switchToShopFrame();
         ItemPage itemPage = mainPage.clickRandomItem();
 
         String itemName = itemPage.getItemName().toLowerCase();
@@ -43,9 +49,9 @@ public class CartFunctionalityTestt extends AbstractTest {
 
     @Test(description = "assert that after adding item into cart incrementation function works")
     public void testCartQuantityUpdate() {
-        MainPage mainPage = new MainPage(getDriver());
-        mainPage.open();
-        mainPage.switchToShopFrame();
+        BasePage basePage = new BasePage(getDriver());
+        basePage.open();
+        MainPage mainPage = basePage.switchToShopFrame();
         ItemPage itemPage = mainPage.clickRandomItem();
 
         itemPage.addToCart();
