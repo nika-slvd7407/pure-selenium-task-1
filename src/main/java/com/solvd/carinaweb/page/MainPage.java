@@ -1,8 +1,11 @@
 package com.solvd.carinaweb.page;
 
 import com.solvd.carinaweb.page.SearchPage;
+import com.zebrunner.carina.utils.R;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -17,6 +20,7 @@ import java.util.List;
 
 public class MainPage extends AbstractPage {
 
+    private static final Logger log = LogManager.getLogger(MainPage.class);
     @FindBy(css = "input.ui-autocomplete-input")
     private ExtendedWebElement inputForm;
 
@@ -29,6 +33,8 @@ public class MainPage extends AbstractPage {
     @FindBy(id = "category-3")
     private ExtendedWebElement clotheCategoryButton;
 
+    private static final int WAIT_TIME = R.CONFIG.getInt("WAIT_TIME");
+
     public MainPage(WebDriver driver) {
         super(driver);
     }
@@ -36,24 +42,24 @@ public class MainPage extends AbstractPage {
     public SearchPage search(String name) {
         inputForm.sendKeys(name);
         inputForm.submit();
-        return new SearchPage(driver);
+        return new SearchPage(getDriver());
     }
 
     public ItemPage clickRandomItem() {
         int randomIndex = (int) (Math.random() * mainPageItemList.size() - 1);
-        WebElement elementToClick = mainPageItemList.get(randomIndex);
+        ExtendedWebElement elementToClick = mainPageItemList.get(randomIndex);
         elementToClick.click();
-        return new ItemPage(driver);
+        return new ItemPage(getDriver());
     }
 
     public ItemPage clickItem(int index) {
-        WebElement elementToClick = mainPageItemList.get(index);
+        ExtendedWebElement elementToClick = mainPageItemList.get(index);
         elementToClick.click();
-        return new ItemPage(driver);
+        return new ItemPage(getDriver());
     }
 
     public String getName(int index) {
-        WebElement elementToGetName = mainPageItemList.get(index);
+        ExtendedWebElement elementToGetName = mainPageItemList.get(index);
         return elementToGetName.getText().toLowerCase().replace("...", "");
     }
 
@@ -71,17 +77,18 @@ public class MainPage extends AbstractPage {
 
     public SearchPage selectClothesMenCategory() {
         clotheCategoryButton.hover();
-        WebElement subMenu = driver.findElement(By.id("category-4"));
+        WebElement subMenu = getDriver().findElement(By.id("category-4"));
         subMenu.click();
-        return new SearchPage(driver);
+        return new SearchPage(getDriver());
     }
 
     public void switchToShopFrame() {
         try {
-            new WebDriverWait(getDriver(), Duration.ofSeconds(50L)).until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.id("framelive")));
+            new WebDriverWait(getDriver(), Duration.ofSeconds(WAIT_TIME)).until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.id("framelive")));
+            log.info("frame switched");
         } catch (Exception e) {
+            log.error("failed to switch frame {}",e);
         }
-        getDriver().switchTo().frame("framelive");
     }
 
 }

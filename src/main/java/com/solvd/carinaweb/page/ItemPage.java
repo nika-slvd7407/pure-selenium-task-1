@@ -1,24 +1,31 @@
 package com.solvd.carinaweb.page;
 
+import com.zebrunner.carina.utils.R;
+import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
 
 public class ItemPage extends AbstractPage {
 
+    private static final int WAIT_TIME = R.CONFIG.getInt("WAIT_TIME");
+
+
     @FindBy(css = "button.add-to-cart")
-    private WebElement addToCartButton;
+    private ExtendedWebElement addToCartButton;
 
     @FindBy(css = "h1.h1")
-    private WebElement itemDescription;
+    private ExtendedWebElement itemDescription;
 
     @FindBy(css = "span.current-price-value")
-    private WebElement itemCost;
+    private ExtendedWebElement itemCost;
 
     public ItemPage(WebDriver driver) {
         super(driver);
@@ -39,7 +46,7 @@ public class ItemPage extends AbstractPage {
     }
 
     public boolean checkCategory(String category) {
-        List<WebElement> elements = driver.findElements(
+        List<WebElement> elements = getDriver().findElements(
                 By.xpath("//span[contains(text(), '" + category + "')]")
         );
         return !elements.isEmpty();
@@ -47,5 +54,17 @@ public class ItemPage extends AbstractPage {
 
     public void back() {
         getDriver().navigate().back();
+    }
+
+    public CheckoutPage clickProceedToCheckout() {
+
+        By checkoutLocator = By.xpath("//a[contains(@class, 'btn-primary') and .//i[contains(@class, 'material-icons')]]");
+
+        WebElement checkoutButton = new WebDriverWait(getDriver(), Duration.ofSeconds(WAIT_TIME)).until(
+                ExpectedConditions.elementToBeClickable(checkoutLocator)
+        );
+
+        checkoutButton.click();
+        return new CheckoutPage(getDriver());
     }
 }

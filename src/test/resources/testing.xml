@@ -6,7 +6,7 @@
         <classes>
             <class name="com.solvd.SearchFunctionalityTest"/>
             <class name="com.solvd.ProductCardFunctionalityTest"/>
-            <class name="com.solvd.CartFunctionalityTest"/>
+            <class name="com.solvd.CartFunctionalityTestt"/>
         </classes>
     </test>
 </suite>

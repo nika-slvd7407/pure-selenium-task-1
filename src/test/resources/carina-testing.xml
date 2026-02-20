@@ -10,6 +10,8 @@
         <parameter name="browser" value="chrome"/>
         <classes>
             <class name="com.solvd.carinatest.SearchFunctionalityTestt"/>
+            <class name="com.solvd.carinatest.ProductCardFunctionalityTestt"/>
+            <class name="com.solvd.carinatest.CartFunctionalityTestt"/>
         </classes>
     </test>
 
@@ -17,6 +19,8 @@
         <parameter name="browser" value="firefox"/>
         <classes>
             <class name="com.solvd.carinatest.SearchFunctionalityTestt"/>
+            <class name="com.solvd.carinatest.ProductCardFunctionalityTestt"/>
+            <class name="com.solvd.carinatest.CartFunctionalityTestt"/>
         </classes>
     </test>
 

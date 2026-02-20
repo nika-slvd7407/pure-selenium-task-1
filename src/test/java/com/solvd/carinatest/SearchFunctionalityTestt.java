@@ -17,8 +17,8 @@ import java.util.List;
 
 public class SearchFunctionalityTestt extends AbstractTest {
 
-    private static final String ITEM_TO_SEARCH = Config.get("ITEM_TO_SEARCH");
     protected final Logger log = LogManager.getLogger(SearchFunctionalityTestt.class);
+    private static final String ITEM_TO_SEARCH = Config.get("ITEM_TO_SEARCH");
 
     @BeforeMethod
     @Parameters({"browser"})

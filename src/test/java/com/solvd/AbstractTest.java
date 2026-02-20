@@ -29,7 +29,7 @@ public abstract class AbstractTest {
     protected WebDriverWait wait;
     protected SoftAssert sf;
 
-    @BeforeMethod(alwaysRun = true)
+    @BeforeMethod()
     @Parameters("browser")
     public void setup( String browser) {
         log.info("setup start");
@@ -50,7 +50,7 @@ public abstract class AbstractTest {
         log.info("setup end");
     }
 
-    @AfterMethod(alwaysRun = true)
+    @AfterMethod()
     public void tearDown() {
         WebDriver driver = driverThreadLocal.get();
         if (driver != null) {
