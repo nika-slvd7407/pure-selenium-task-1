@@ -3,6 +3,7 @@ package com.solvd.web.page;
 import com.solvd.util.Config;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -64,6 +65,20 @@ public abstract class AbstractPage {
         Actions actions = new Actions(driver);
         actions.moveToElement(webElement).perform();
         log.debug("{} hovering over", webElement.getTagName());
+    }
+
+    protected void switchToFrame(String frameId) {
+        log.info("Switching to frame: {}", frameId);
+
+        WebElement iframe = wait.until(
+                ExpectedConditions.presenceOfElementLocated(By.id(frameId))
+        );
+
+        getDriver().switchTo().frame(iframe);
+    }
+
+    protected WebDriver getDriver(){
+        return driver;
     }
 
 }

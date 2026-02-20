@@ -9,7 +9,7 @@ import java.util.Random;
 public class ProductCardFunctionalityTest extends AbstractTest {
 
     @Test(description = "assert that product card from the main page works ")
-    public void testProductCard() {
+    public void testAddProductToCard() {
         MainPage mainPage = new MainPage(getDriver());
         int itemIndex = new Random().nextInt(mainPage.getMainPageItemAmount());
 
@@ -17,7 +17,7 @@ public class ProductCardFunctionalityTest extends AbstractTest {
         String supposedTitle = mainPage.getName(itemIndex);
 
         ItemPage itemPage = mainPage.clickItem(itemIndex);
-        Double actualCost = itemPage.getPrice();
+        Double actualCost = itemPage.getItemPrice();
         String actualTitle = itemPage.getItemName().toLowerCase();
 
         sf.assertEquals(actualCost, supposedCost, "wrong cost");

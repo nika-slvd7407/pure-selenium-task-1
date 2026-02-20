@@ -25,13 +25,12 @@ public class SearchPage extends AbstractPage {
         }
         log.info("found {} items on the search page", titles.size());
 
-
         return titles;
     }
 
     public ItemPage openItemByIndex(int index) {
         click(items.get(index));
-        return new ItemPage(driver);
+        return new ItemPage(getDriver());
     }
 
     public int getItemAmount() {

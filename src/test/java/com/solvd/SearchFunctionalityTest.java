@@ -11,6 +11,7 @@ import java.util.List;
 public class SearchFunctionalityTest extends AbstractTest {
 
     private static final String ITEM_TO_SEARCH = Config.get("ITEM_TO_SEARCH");
+    private static final String CATEGORY = Config.get("CATEGORY");
 
     @Test(description = "assert that search function is working properly and outputs items")
     public void testSearchFunction() throws InterruptedException {
@@ -36,7 +37,7 @@ public class SearchFunctionalityTest extends AbstractTest {
 
 
             ItemPage itemPage = searchPage.openItemByIndex(i);
-            if (!itemPage.checkCategory(Config.get("CATEGORY"))) {
+            if (!itemPage.checkCategory(CATEGORY)) {
                 areAllItemsRightCategory = false;
             }
             itemPage.back();

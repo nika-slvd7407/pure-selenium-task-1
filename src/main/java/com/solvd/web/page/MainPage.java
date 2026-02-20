@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
+import java.util.Random;
 
 public class MainPage extends AbstractPage {
 
@@ -37,20 +38,20 @@ public class MainPage extends AbstractPage {
     public SearchPage search(String name) {
         sendKeys(inputForm, name);
         submit(inputForm);
-        return new SearchPage(driver);
+        return new SearchPage(getDriver());
     }
 
     public ItemPage clickRandomItem() {
-        int randomIndex = (int) (Math.random() * mainPageItemList.size() - 1);
+        int randomIndex = new Random().nextInt(mainPageItemList.size());
         WebElement elementToClick = mainPageItemList.get(randomIndex);
         click(elementToClick);
-        return new ItemPage(driver);
+        return new ItemPage(getDriver());
     }
 
     public ItemPage clickItem(int index) {
         WebElement elementToClick = mainPageItemList.get(index);
         click(elementToClick);
-        return new ItemPage(driver);
+        return new ItemPage(getDriver());
     }
 
     public String getName(int index) {
@@ -72,9 +73,9 @@ public class MainPage extends AbstractPage {
 
     public SearchPage selectClothesMenCategory() {
         hover(clotheCategoryButton);
-        WebElement subMenu = driver.findElement(By.id("category-4"));
+        WebElement subMenu = getDriver().findElement(By.id("category-4"));
         click(subMenu);
-        return new SearchPage(driver);
+        return new SearchPage(getDriver());
     }
 
 

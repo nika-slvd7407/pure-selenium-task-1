@@ -17,7 +17,7 @@ public class ItemPage extends AbstractPage {
     private WebElement itemDescription;
 
     @FindBy(css = "span.current-price-value")
-    private WebElement itemCost;
+    private WebElement itemPrice;
 
     public ItemPage(WebDriver driver) {
         super(driver);
@@ -37,26 +37,26 @@ public class ItemPage extends AbstractPage {
         );
 
         click(checkoutButton);
-        return new CheckoutPage(driver);
+        return new CheckoutPage(getDriver());
     }
 
     public void addToCart() {
         click(addToCartButton);
     }
 
-    public Double getPrice() {
-        String rawPrice = getText(itemCost);
+    public Double getItemPrice() {
+        String rawPrice = getText(itemPrice);
         return Double.valueOf(rawPrice.substring(1));
     }
 
     public boolean checkCategory(String category) {
-        List<WebElement> elements = driver.findElements(
+        List<WebElement> elements = getDriver().findElements(
                 By.xpath("//span[contains(text(), '" + category + "')]")
         );
         return !elements.isEmpty();
     }
 
     public void back() {
-        driver.navigate().back();
+        getDriver().navigate().back();
     }
 }
