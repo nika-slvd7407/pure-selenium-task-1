@@ -5,30 +5,13 @@ import com.solvd.carinaweb.page.BasePage;
 import com.solvd.carinaweb.page.CheckoutPage;
 import com.solvd.carinaweb.page.ItemPage;
 import com.solvd.carinaweb.page.MainPage;
-import com.zebrunner.carina.core.AbstractTest;
-import com.zebrunner.carina.utils.R;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
 
 import java.time.Duration;
 import java.util.List;
 
-public class CartFunctionalityTestt extends AbstractTest {
-
-    protected final Logger log = LogManager.getLogger(CartFunctionalityTestt.class);
-    private static final int AMOUNT_OF_CLICKS = 5;
-    protected SoftAssert sf;
-    private static final int WAIT_TIME = R.CONFIG.getInt("WAIT_TIME");
-
-    @BeforeMethod
-    public void setUp() {
-        sf = new SoftAssert();
-    }
+public class CartFunctionalityTestt extends BaseTest {
 
     @Test(description = "assert that after pressing add to cart button item added into cart")
     public void testCartFunction() {

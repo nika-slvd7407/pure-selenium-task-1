@@ -4,27 +4,12 @@ import com.solvd.carinaweb.page.BasePage;
 import com.solvd.carinaweb.page.ItemPage;
 import com.solvd.carinaweb.page.MainPage;
 import com.solvd.carinaweb.page.SearchPage;
-import com.zebrunner.carina.core.AbstractTest;
 import com.zebrunner.carina.utils.R;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
 
 import java.util.List;
 
-public class SearchFunctionalityTestt extends AbstractTest {
-
-    protected final Logger log = LogManager.getLogger(SearchFunctionalityTestt.class);
-    private static final String ITEM_TO_SEARCH = R.CONFIG.get("ITEM_TO_SEARCH");
-    protected SoftAssert sf;
-
-    @BeforeMethod
-    public void setUp() {
-        sf = new SoftAssert();
-    }
+public class SearchFunctionalityTestt extends BaseTest {
 
     @Test(description = "assert that search function is working properly and outputs items")
     public void testSearchFunction() throws InterruptedException {
@@ -58,14 +43,14 @@ public class SearchFunctionalityTestt extends AbstractTest {
         for (int i = 0; i < itemsOnSearchPageAmount; i++) {
             log.info("found item amount {} ", itemsOnSearchPageAmount);
             ItemPage itemPage = searchPage.openItemByIndex(i);
-            log.info("found item description: {}" , itemPage.getItemName());
+            log.info("found item description: {}", itemPage.getItemName());
             if (!itemPage.checkCategory(R.CONFIG.get("CATEGORY"))) {
                 areAllItemsRightCategory = false;
             }
             itemPage.back();
         }
         sf.assertTrue(areAllItemsRightCategory);
-        sf.assertTrue(itemsOnSearchPageAmount>0, "error zero items found!");
+        sf.assertTrue(itemsOnSearchPageAmount > 0, "error zero items found!");
         sf.assertAll();
     }
 }

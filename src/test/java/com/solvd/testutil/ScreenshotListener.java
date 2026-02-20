@@ -2,9 +2,9 @@ package com.solvd.testutil;
 
 import com.solvd.util.ScreenshotUtil;
 import com.zebrunner.carina.core.AbstractTest;
+import org.openqa.selenium.WebDriver;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
-import org.openqa.selenium.WebDriver;
 
 public class ScreenshotListener implements ITestListener {
 

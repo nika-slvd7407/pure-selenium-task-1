@@ -4,23 +4,14 @@ package com.solvd.carinatest;
 import com.solvd.carinaweb.page.BasePage;
 import com.solvd.carinaweb.page.ItemPage;
 import com.solvd.carinaweb.page.MainPage;
-import com.zebrunner.carina.core.AbstractTest;
 import com.zebrunner.carina.utils.R;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
 
 import java.util.Random;
 
-public class ProductCardFunctionalityTestt extends AbstractTest {
+public class ProductCardFunctionalityTestt extends BaseTest {
 
-    protected SoftAssert sf;
     private static final int WAIT_TIME = R.CONFIG.getInt("WAIT_TIME");
-
-    @BeforeMethod
-    public void setUp() {
-        sf = new SoftAssert();
-    }
 
     @Test(description = "assert that product card from the main page works ")
     public void testProductCard() {

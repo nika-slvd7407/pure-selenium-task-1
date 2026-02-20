@@ -12,10 +12,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.Duration;
 import java.util.List;
 import java.util.Random;
 
@@ -36,6 +35,7 @@ public class MainPage extends AbstractPage {
     private ExtendedWebElement clotheCategoryButton;
 
     private static final int WAIT_TIME = R.CONFIG.getInt("WAIT_TIME");
+    private final WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(WAIT_TIME));
 
     public MainPage(WebDriver driver) {
         super(driver);
@@ -48,9 +48,7 @@ public class MainPage extends AbstractPage {
     }
 
     public ItemPage clickRandomItem() {
-        new WebDriverWait(getDriver(), Duration.ofSeconds(WAIT_TIME)).until(
-                driver -> mainPageItemList.size() > 0
-        );
+        wait.until(driver -> !mainPageItemList.isEmpty());
         int randomIndex = new Random().nextInt(mainPageItemList.size());
         ExtendedWebElement elementToClick = mainPageItemList.get(randomIndex);
         elementToClick.click();
@@ -77,7 +75,7 @@ public class MainPage extends AbstractPage {
     }
 
     public int getMainPageItemAmount() {
-        new WebDriverWait(getDriver(), Duration.ofSeconds(WAIT_TIME)).until(
+        wait.until(
                 driver -> mainPageItemList.size() > 0
         );
         return mainPageItemList.size();
@@ -89,7 +87,6 @@ public class MainPage extends AbstractPage {
         subMenu.click();
         return new SearchPage(getDriver());
     }
-
 
 
 }
