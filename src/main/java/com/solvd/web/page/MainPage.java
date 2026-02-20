@@ -1,5 +1,6 @@
 package com.solvd.web.page;
 
+import com.solvd.util.DriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -18,7 +19,7 @@ public class MainPage extends AbstractPage {
     public SearchPage search(String name) {
         sendKeys(inputForm, name);
         submit(inputForm);
-        return new SearchPage(driverThread.get());
+        return new SearchPage(DriverManager.getDriver());
     }
 
 }
