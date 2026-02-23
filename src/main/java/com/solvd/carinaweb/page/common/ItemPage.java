@@ -1,4 +1,4 @@
-package com.solvd.carinaweb.page;
+package com.solvd.carinaweb.page.common;
 
 import com.zebrunner.carina.utils.R;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
@@ -13,7 +13,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.List;
 
-public class ItemPage extends AbstractPage {
+public abstract class ItemPage extends AbstractPage {
 
     private static final int WAIT_TIME = R.CONFIG.getInt("WAIT_TIME");
 
@@ -65,6 +65,6 @@ public class ItemPage extends AbstractPage {
         );
 
         checkoutButton.click();
-        return new CheckoutPage(getDriver());
+        return initPage(getDriver(), CheckoutPage.class);
     }
 }

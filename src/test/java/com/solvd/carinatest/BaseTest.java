@@ -11,7 +11,7 @@ import org.testng.asserts.SoftAssert;
 
 public class BaseTest extends AbstractTest {
 
-    protected final Logger log = LogManager.getLogger(getCases());
+    protected final Logger log = LogManager.getLogger(getClass());
     protected static final int AMOUNT_OF_CLICKS = 5;
     protected SoftAssert sf;
     protected static final int WAIT_TIME = R.CONFIG.getInt("WAIT_TIME");

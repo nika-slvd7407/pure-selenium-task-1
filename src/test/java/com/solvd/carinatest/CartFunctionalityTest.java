@@ -1,10 +1,10 @@
 package com.solvd.carinatest;
 
 
-import com.solvd.carinaweb.page.BasePage;
-import com.solvd.carinaweb.page.CheckoutPage;
-import com.solvd.carinaweb.page.ItemPage;
-import com.solvd.carinaweb.page.MainPage;
+import com.solvd.carinaweb.page.common.BasePage;
+import com.solvd.carinaweb.page.common.CheckoutPage;
+import com.solvd.carinaweb.page.common.ItemPage;
+import com.solvd.carinaweb.page.common.MainPage;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 
@@ -15,7 +15,7 @@ public class CartFunctionalityTest extends BaseTest {
 
     @Test(description = "assert that after pressing add to cart button item added into cart")
     public void testCartFunction() {
-        BasePage basePage = new BasePage(getDriver());
+        BasePage basePage = initPage(getDriver(), BasePage.class);
         basePage.open();
         MainPage mainPage = basePage.switchToShopFrame();
         ItemPage itemPage = mainPage.clickRandomItem();
@@ -43,7 +43,7 @@ public class CartFunctionalityTest extends BaseTest {
 
     @Test(description = "assert that after adding item into cart incrementation function works")
     public void testCartQuantityUpdate() {
-        BasePage basePage = new BasePage(getDriver());
+        BasePage basePage = initPage(getDriver(), BasePage.class);
         basePage.open();
         MainPage mainPage = basePage.switchToShopFrame();
         ItemPage itemPage = mainPage.clickRandomItem();

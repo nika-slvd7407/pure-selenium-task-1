@@ -1,5 +1,7 @@
-package com.solvd.carinaweb.page;
+package com.solvd.carinaweb.page.common;
 
+import com.solvd.carinaweb.page.desktop.BasePageDesktop;
+import com.solvd.carinaweb.page.desktop.MainPageDesktop;
 import com.zebrunner.carina.utils.R;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
 import org.apache.logging.log4j.LogManager;
@@ -11,9 +13,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public class BasePage extends AbstractPage {
-
-    private static final Logger log = LogManager.getLogger(BasePage.class);
+public abstract class BasePage extends AbstractPage {
+    private static final Logger log = LogManager.getLogger(BasePageDesktop.class);
     private static final int WAIT_TIME = R.CONFIG.getInt("WAIT_TIME");
 
     public BasePage(WebDriver driver) {
@@ -24,7 +25,7 @@ public class BasePage extends AbstractPage {
         try {
             new WebDriverWait(getDriver(), Duration.ofSeconds(WAIT_TIME)).until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.id("framelive")));
             log.info("frame switched");
-            return new MainPage(getDriver());
+            return initPage(getDriver(), MainPage.class);
         } catch (Exception e) {
             log.error("failed to switch frame {}", e);
         }

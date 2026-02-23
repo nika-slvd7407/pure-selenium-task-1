@@ -1,4 +1,4 @@
-package com.solvd.carinaweb.page;
+package com.solvd.carinaweb.page.common;
 
 import com.zebrunner.carina.utils.R;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
@@ -13,7 +13,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchPage extends AbstractPage {
+public abstract class SearchPage extends AbstractPage {
 
     private static final Logger log = LogManager.getLogger(SearchPage.class);
     private static final int WAIT_TIME = R.CONFIG.getInt("WAIT_TIME");
@@ -40,7 +40,7 @@ public class SearchPage extends AbstractPage {
 
     public ItemPage openItemByIndex(int index) {
         items.get(index).click();
-        return new ItemPage(getDriver());
+        return initPage(getDriver(), ItemPage.class);
     }
 
     public int getItemAmount() {

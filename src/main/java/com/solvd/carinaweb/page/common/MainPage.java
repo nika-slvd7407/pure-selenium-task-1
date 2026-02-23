@@ -1,5 +1,6 @@
-package com.solvd.carinaweb.page;
+package com.solvd.carinaweb.page.common;
 
+import com.solvd.carinaweb.page.desktop.SearchPageDesktop;
 import com.zebrunner.carina.utils.R;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
@@ -18,7 +19,7 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Random;
 
-public class MainPage extends AbstractPage {
+public abstract class MainPage extends AbstractPage {
 
     private static final Logger log = LogManager.getLogger(MainPage.class);
 
@@ -44,7 +45,7 @@ public class MainPage extends AbstractPage {
     public SearchPage search(String name) {
         inputForm.type(name);
         inputForm.sendKeys(Keys.ENTER);
-        return new SearchPage(getDriver());
+        return  initPage(getDriver(), SearchPage.class);
     }
 
     public ItemPage clickRandomItem() {
@@ -52,13 +53,13 @@ public class MainPage extends AbstractPage {
         int randomIndex = new Random().nextInt(mainPageItemList.size());
         ExtendedWebElement elementToClick = mainPageItemList.get(randomIndex);
         elementToClick.click();
-        return new ItemPage(getDriver());
+        return initPage(getDriver(), ItemPage.class);
     }
 
     public ItemPage clickItem(int index) {
         ExtendedWebElement elementToClick = mainPageItemList.get(index);
         elementToClick.click();
-        return new ItemPage(getDriver());
+        return initPage(getDriver(), ItemPage.class);
     }
 
     public String getName(int index) {
@@ -85,7 +86,7 @@ public class MainPage extends AbstractPage {
         clotheCategoryButton.hover();
         WebElement subMenu = getDriver().findElement(By.id("category-4"));
         subMenu.click();
-        return new SearchPage(getDriver());
+        return initPage(getDriver(), SearchPage.class);
     }
 
 

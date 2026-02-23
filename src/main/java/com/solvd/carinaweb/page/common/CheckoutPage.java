@@ -1,4 +1,4 @@
-package com.solvd.carinaweb.page;
+package com.solvd.carinaweb.page.common;
 
 import com.zebrunner.carina.utils.R;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
@@ -13,7 +13,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CheckoutPage extends AbstractPage {
+public abstract class CheckoutPage extends AbstractPage {
 
     private static final Logger log = LogManager.getLogger(CheckoutPage.class);
     private static final int WAIT_TIME = R.CONFIG.getInt("WAIT_TIME");

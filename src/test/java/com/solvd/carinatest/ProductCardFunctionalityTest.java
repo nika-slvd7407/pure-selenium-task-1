@@ -1,9 +1,9 @@
 package com.solvd.carinatest;
 
 
-import com.solvd.carinaweb.page.BasePage;
-import com.solvd.carinaweb.page.ItemPage;
-import com.solvd.carinaweb.page.MainPage;
+import com.solvd.carinaweb.page.common.BasePage;
+import com.solvd.carinaweb.page.common.ItemPage;
+import com.solvd.carinaweb.page.common.MainPage;
 import com.zebrunner.carina.utils.R;
 import org.testng.annotations.Test;
 
@@ -15,7 +15,7 @@ public class ProductCardFunctionalityTest extends BaseTest {
 
     @Test(description = "assert that product card from the main page works ")
     public void testProductCard() {
-        BasePage basePage = new BasePage(getDriver());
+        BasePage basePage = initPage(getDriver(), BasePage.class);
         basePage.open();
         MainPage mainPage = basePage.switchToShopFrame();
         int itemIndex = new Random().nextInt(mainPage.getMainPageItemAmount());
