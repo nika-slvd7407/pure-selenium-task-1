@@ -49,6 +49,7 @@ public class CartFunctionalityTest extends BaseTest {
         ItemPage itemPage = mainPage.clickRandomItem();
 
         itemPage.addToCart();
+
         CheckoutPage checkoutPage = itemPage.clickProceedToCheckout();
 
         for (int i = 0; i < AMOUNT_OF_CLICKS; i++) {

@@ -21,7 +21,7 @@ import java.util.Random;
 
 public abstract class MainPage extends AbstractPage {
 
-    private static final Logger log = LogManager.getLogger(MainPage.class);
+    protected static final Logger log = LogManager.getLogger(MainPage.class);
 
     @FindBy(css = "input.ui-autocomplete-input")
     private ExtendedWebElement inputForm;
@@ -32,8 +32,6 @@ public abstract class MainPage extends AbstractPage {
     @FindBy(css = "div.thumbnail-container span.price")
     private List<ExtendedWebElement> priceList;
 
-    @FindBy(id = "category-3")
-    private ExtendedWebElement clotheCategoryButton;
 
     private static final int WAIT_TIME = R.CONFIG.getInt("WAIT_TIME");
     private final WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(WAIT_TIME));
@@ -82,12 +80,7 @@ public abstract class MainPage extends AbstractPage {
         return mainPageItemList.size();
     }
 
-    public SearchPage selectClothesMenCategory() {
-        clotheCategoryButton.hover();
-        WebElement subMenu = getDriver().findElement(By.id("category-4"));
-        subMenu.click();
-        return initPage(getDriver(), SearchPage.class);
-    }
+    public abstract SearchPage selectClothesMenCategory();
 
 
 }

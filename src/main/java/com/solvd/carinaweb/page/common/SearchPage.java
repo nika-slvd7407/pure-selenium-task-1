@@ -49,4 +49,10 @@ public abstract class SearchPage extends AbstractPage {
         );
         return items.size();
     }
+
+    public ItemPage openFirstItem() {
+        items.stream().findFirst().get().click();
+
+        return initPage(getDriver(), ItemPage.class);
+    }
 }

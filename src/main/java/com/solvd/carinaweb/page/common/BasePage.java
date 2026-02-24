@@ -15,7 +15,7 @@ import java.time.Duration;
 
 public abstract class BasePage extends AbstractPage {
     private static final Logger log = LogManager.getLogger(BasePageDesktop.class);
-    private static final int WAIT_TIME = R.CONFIG.getInt("WAIT_TIME");
+    protected static final int WAIT_TIME = R.CONFIG.getInt("WAIT_TIME");
 
     public BasePage(WebDriver driver) {
         super(driver);
@@ -31,4 +31,6 @@ public abstract class BasePage extends AbstractPage {
         }
         return null;
     }
+
+
 }

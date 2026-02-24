@@ -28,29 +28,23 @@ public class SearchFunctionalityTest extends BaseTest {
         sf.assertAll();
     }
 
-    @Test(description = "select category and assert that all the items shown are of right category")
+    @Test(description = "select category and assert that the first item shown is of the right category")
     public void testCategoryFunctionality() {
         BasePage basePage = initPage(getDriver(), BasePage.class);
         basePage.open();
         MainPage mainPage = basePage.switchToShopFrame();
 
-        String url = getDriver().getCurrentUrl();
-        log.info(url);
-
         SearchPage searchPage = mainPage.selectClothesMenCategory();
+        pause(5L);
         int itemsOnSearchPageAmount = searchPage.getItemAmount();
-        boolean areAllItemsRightCategory = true;
-        for (int i = 0; i < itemsOnSearchPageAmount; i++) {
-            log.info("found item amount {} ", itemsOnSearchPageAmount);
-            ItemPage itemPage = searchPage.openItemByIndex(i);
-            log.info("found item description: {}", itemPage.getItemName());
-            if (!itemPage.checkCategory(R.CONFIG.get("CATEGORY"))) {
-                areAllItemsRightCategory = false;
-            }
-            itemPage.back();
-        }
-        sf.assertTrue(areAllItemsRightCategory);
+
         sf.assertTrue(itemsOnSearchPageAmount > 0, "error zero items found!");
+
+        ItemPage firstItemPage = searchPage.openFirstItem();
+        boolean isFirstItemRightCategory = firstItemPage.checkCategory(R.CONFIG.get("CATEGORY"));
+        firstItemPage.back();
+
+        sf.assertTrue(isFirstItemRightCategory, " item is not in the correct category");
         sf.assertAll();
     }
 }

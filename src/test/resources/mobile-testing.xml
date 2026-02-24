@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 
-<suite name="suite" parallel="classes" thread-count="3">
+<suite name="suite" parallel="tests">
+    <listeners>
+        <listener class-name="com.solvd.testutil.ScreenshotListener"/>
+    </listeners>
+
     <test name="mobile tests">
         <classes>
-<!--            <class name="com.solvd.carinatest.CartFunctionalityTest"/>-->
+            <class name="com.solvd.carinatest.CartFunctionalityTest"/>
             <class name="com.solvd.carinatest.ProductCardFunctionalityTest"/>
-<!--            <class name="com.solvd.carinatest.SearchFunctionalityTest"/>-->
+            <class name="com.solvd.carinatest.SearchFunctionalityTest"/>
         </classes>
     </test>
 </suite>

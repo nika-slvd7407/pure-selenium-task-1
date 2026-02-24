@@ -2,6 +2,7 @@ package com.solvd.carinaweb.page.desktop;
 
 import com.solvd.carinaweb.page.common.BasePage;
 import com.solvd.carinaweb.page.common.MainPage;
+import com.solvd.carinaweb.page.common.SearchPage;
 import com.zebrunner.carina.utils.R;
 import com.zebrunner.carina.utils.factory.DeviceType;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
@@ -25,8 +26,19 @@ import java.util.Random;
 
 public class MainPageDesktop extends MainPage {
 
+    @FindBy(id = "category-3")
+    private ExtendedWebElement clotheCategoryButton;
+
     public MainPageDesktop(WebDriver driver) {
         super(driver);
+    }
+
+    @Override
+    public SearchPage selectClothesMenCategory() {
+        clotheCategoryButton.hover();
+        WebElement subMenu = getDriver().findElement(By.id("category-4"));
+        subMenu.click();
+        return initPage(getDriver(), SearchPage.class);
     }
 
 }
