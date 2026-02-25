@@ -1,9 +1,9 @@
 package com.solvd.web.page;
 
+import com.solvd.util.PriceUtil;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
 public class CheckoutPage extends AbstractPage {
 
     @FindBy(css = "div.product-line-info a.label")
-    private List<WebElement> itemsInCheckout;
+    private List<WebElement> productListItems;
 
     @FindBy(css = "span.js-subtotal")
     private WebElement itemAmount;
@@ -19,15 +19,20 @@ public class CheckoutPage extends AbstractPage {
     @FindBy(css = "button.bootstrap-touchspin-up")
     private WebElement incrementButton;
 
+    @FindBy(id = "content-wrapper")
+    private WebElement checkoutContainer;
+
     public CheckoutPage(WebDriver driver) {
         super(driver);
-        wait.until(ExpectedConditions.visibilityOfAllElements(itemsInCheckout));
+      //  switchToFramelive();
+
+        waitForElementVisible(checkoutContainer);
     }
 
     public List<String> getItemList() {
         List<String> itemList = new ArrayList<>();
 
-        for (WebElement webElement : itemsInCheckout) {
+        for (WebElement webElement : productListItems) {
             itemList.add(getText(webElement).toLowerCase());
         }
         return itemList;
@@ -41,5 +46,16 @@ public class CheckoutPage extends AbstractPage {
     public void clickIncrementButton() {
         click(incrementButton);
     }
+
+    public void incrementAmount(int clickTime){
+        for (int i = 0; i < clickTime; i++) {
+            clickIncrementButton();
+        }
+    }
+
+    public void waitUntilAmountUpdated(int expectedAmount) {
+        wait.until(driver -> getItemAmount() == expectedAmount);
+    }
+
 
 }

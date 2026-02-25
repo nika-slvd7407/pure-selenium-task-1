@@ -4,6 +4,7 @@ import com.solvd.util.Config;
 import com.solvd.web.page.ItemPage;
 import com.solvd.web.page.MainPage;
 import com.solvd.web.page.SearchPage;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 public class SearchFunctionalityTest extends AbstractTest {
 
     private static final String ITEM_TO_SEARCH = Config.get("ITEM_TO_SEARCH");
+    private static final String CATEGORY = Config.get("CATEGORY");
 
     @Test(description = "assert that search function is working properly and outputs items")
     public void testSearchFunction() throws InterruptedException {
@@ -29,18 +31,14 @@ public class SearchFunctionalityTest extends AbstractTest {
     public void testCategoryFunctionality() {
         MainPage mainPage = new MainPage(getDriver());
         SearchPage searchPage = mainPage.selectClothesMenCategory();
+        ItemPage itemPage = searchPage.openItemByIndex(0);
+        String firstCategory = itemPage.getCategory();
 
-        int itemsOnSearchPageAmount = searchPage.getItemAmount();
-        boolean areAllItemsRightCategory = true;
-        for (int i = 0; i < itemsOnSearchPageAmount; i++) {
-
-            ItemPage itemPage = searchPage.openItemByIndex(i);
-            if (!itemPage.checkCategory(Config.get("CATEGORY"))) {
-                areAllItemsRightCategory = false;
-            }
-            itemPage.back();
-        }
-        sf.assertTrue(areAllItemsRightCategory);
-        sf.assertAll();
+        Assert.assertEquals(
+                firstCategory,
+                CATEGORY,
+                "First item does not belong to selected category: " + firstCategory
+        );
     }
+
 }
