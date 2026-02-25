@@ -3,9 +3,9 @@ package com.solvd.carinaweb.page;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,13 +23,12 @@ public class CheckoutPage extends BasePage {
     @FindBy(css = "button.bootstrap-touchspin-up")
     private ExtendedWebElement incrementButton;
 
-    @FindBy(id = "content-wrapper")
-    private ExtendedWebElement checkoutContainer;
+    private By itemListLocator = By.id("main");
 
     public CheckoutPage(WebDriver driver) {
         super(driver);
-        switchToFramelive();
-        wait.until(ExpectedConditions.visibilityOf(checkoutContainer.getElement()));
+        //   switchToFramelive();
+        waitUntilVisibilityOf(itemListLocator);
     }
 
     public List<String> getItemList() {
@@ -53,6 +52,7 @@ public class CheckoutPage extends BasePage {
     }
 
     public void clickIncrementButton() {
+        waitUntilClickableOf(incrementButton);
         incrementButton.click();
     }
 

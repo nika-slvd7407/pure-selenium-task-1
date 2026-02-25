@@ -1,10 +1,10 @@
 package com.solvd.carinaweb.page;
 
+import com.solvd.carinaweb.component.ItemCartComponent;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
@@ -19,13 +19,15 @@ public class ItemPage extends BasePage {
     @FindBy(css = "span.current-price-value")
     private ExtendedWebElement itemPrice;
 
-    @FindBy(id = "content")
-    private ExtendedWebElement pageContainer;
+    private By breadcrumbs = By.cssSelector("nav.breadcrumb");
+
+    @FindBy(id = "breadcrumb")
+    private ItemCartComponent ItemCartComponent;
 
     public ItemPage(WebDriver driver) {
         super(driver);
-        switchToFramelive();
-        wait.until(ExpectedConditions.visibilityOf(pageContainer.getElement()));
+   //     switchToFramelive();
+        waitUntilVisibilityOf(breadcrumbs);
     }
 
     public String getItemName() {
@@ -33,7 +35,9 @@ public class ItemPage extends BasePage {
     }
 
     public void addToCart() {
+        waitUntilClickableOf(addToCartButton);
         addToCartButton.click();
+       // wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".modal-body")));
     }
 
     public Double getItemPrice() {
@@ -41,24 +45,8 @@ public class ItemPage extends BasePage {
         return Double.parseDouble(rawPrice.replaceAll("[^0-9.]", ""));
     }
 
-    public CheckoutPage clickProceedToCheckout() {
-
-        By checkoutLocator = By.cssSelector(".modal-body .cart-content-btn .btn-primary");
-
-        wait.until(d -> d.findElement(checkoutLocator).isDisplayed());
-
-        getDriver().findElement(checkoutLocator).click();
-
-        return new CheckoutPage(getDriver());
-    }
-
-    public void clickContinueShopping() {
-
-        By continueLocator = By.cssSelector(".modal-body .cart-content-btn .btn-secondary");
-
-        wait.until(d -> d.findElement(continueLocator).isDisplayed());
-
-        getDriver().findElement(continueLocator).click();
+    public ItemCartComponent getItemCartComponent() {
+        return ItemCartComponent;
     }
 
     public boolean checkCategory(String category) {
@@ -76,11 +64,14 @@ public class ItemPage extends BasePage {
         if (items.isEmpty()) {
             return "no category";
         }
-
         return items.get(items.size() - 1).getText().trim();
     }
 
     public void back() {
         getDriver().navigate().back();
+    }
+
+    public CheckoutPage clickProceedToCheckout(){
+        return getItemCartComponent().clickProceedToCheckout();
     }
 }

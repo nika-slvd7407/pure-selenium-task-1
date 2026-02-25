@@ -33,7 +33,7 @@ public class MainPage extends BasePage {
 
     public MainPage(WebDriver driver) {
         super(driver);
-        switchToFramelive();
+        //switchToFramelive();
     }
 
     public SearchPage search(String name) {

@@ -15,15 +15,17 @@ public class CartFunctionalityTest extends BaseTest {
 
     @Test(description = "assert that after pressing add to cart button item added into cart")
     public void testCartFunction() {
+
         BasePage basePage = new BasePage(getDriver());
         basePage.open();
         MainPage mainPage = basePage.switchToShopFrame();
         ItemPage itemPage = mainPage.clickItem(0);
 
         String itemName = itemPage.getItemName().toLowerCase();
-        itemPage.addToCart();
 
-        CheckoutPage checkoutPage = itemPage.clickProceedToCheckout();
+        itemPage.addToCart();
+        CheckoutPage checkoutPage = itemPage.getItemCartComponent().clickProceedToCheckout();
+
         List<String> checkoutItemList = checkoutPage.getItemList();
 
         Assert.assertTrue(
@@ -38,8 +40,9 @@ public class CartFunctionalityTest extends BaseTest {
         BasePage basePage = new BasePage(getDriver());
         basePage.open();
         MainPage mainPage = basePage.switchToShopFrame();
+        ItemPage itemPage = mainPage.clickItem(0);
 
-        ItemPage itemPage = mainPage.clickRandomItem();
+        pause(3L);
 
         itemPage.addToCart();
         CheckoutPage checkoutPage = itemPage.clickProceedToCheckout();

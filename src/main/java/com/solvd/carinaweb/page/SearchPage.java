@@ -2,6 +2,7 @@ package com.solvd.carinaweb.page;
 
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
@@ -16,10 +17,13 @@ public class SearchPage extends BasePage {
     @FindBy(id = "wrapper")
     private ExtendedWebElement resultContainer;
 
+    private By resultContainerLocator = By.id("wrapper");
+
     public SearchPage(WebDriver driver) {
         super(driver);
-      switchToFramelive();
-//        wait.until(d -> resultContainer.isElementPresent());
+   //   switchToFramelive();
+        waitUntilVisibilityOf(resultContainerLocator);
+
     }
 
     public List<String> getSearchedItems() {

@@ -12,7 +12,6 @@ import org.testng.asserts.SoftAssert;
 public class BaseTest extends AbstractTest {
 
     protected final Logger log = LogManager.getLogger(getCases());
-    protected static final int AMOUNT_OF_CLICKS = 5;
     protected SoftAssert sf;
 
     @BeforeMethod
