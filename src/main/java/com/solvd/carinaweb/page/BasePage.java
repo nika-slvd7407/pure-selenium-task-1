@@ -15,19 +15,36 @@ public class BasePage extends AbstractPage {
 
     private static final Logger log = LogManager.getLogger(BasePage.class);
     private static final int WAIT_TIME = R.CONFIG.getInt("WAIT_TIME");
+    private final static String frameId = "framelive";
+    protected WebDriverWait wait;
 
     public BasePage(WebDriver driver) {
         super(driver);
+        this.wait = new WebDriverWait(
+                driver,
+                Duration.ofSeconds(WAIT_TIME)
+        );
     }
 
     public MainPage switchToShopFrame() {
         try {
             new WebDriverWait(getDriver(), Duration.ofSeconds(WAIT_TIME)).until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.id("framelive")));
-            log.info("frame switched");
             return new MainPage(getDriver());
         } catch (Exception e) {
             log.error("failed to switch frame {}", e);
         }
         return null;
+    }
+
+    protected void switchToFrame(String frameId) {
+            wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.id(frameId)));
+    }
+
+    protected void switchToFramelive() {
+        switchToFrame(frameId);
+    }
+
+    protected void switchToDefault() {
+        getDriver().switchTo().defaultContent();
     }
 }

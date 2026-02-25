@@ -1,26 +1,18 @@
 package com.solvd.carinaweb.page;
 
-import com.zebrunner.carina.utils.R;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.Duration;
 import java.util.List;
 import java.util.Random;
 
-public class MainPage extends AbstractPage {
-
-    private static final Logger log = LogManager.getLogger(MainPage.class);
+public class MainPage extends BasePage {
 
     @FindBy(css = "input.ui-autocomplete-input")
     private ExtendedWebElement inputForm;
@@ -34,11 +26,14 @@ public class MainPage extends AbstractPage {
     @FindBy(id = "category-3")
     private ExtendedWebElement clotheCategoryButton;
 
-    private static final int WAIT_TIME = R.CONFIG.getInt("WAIT_TIME");
-    private final WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(WAIT_TIME));
+    private final By menCategory = By.id("category-4");
+
+    @FindBy(id = "wrapper")
+    private ExtendedWebElement pageContainer;
 
     public MainPage(WebDriver driver) {
         super(driver);
+        switchToFramelive();
     }
 
     public SearchPage search(String name) {
@@ -48,45 +43,51 @@ public class MainPage extends AbstractPage {
     }
 
     public ItemPage clickRandomItem() {
-        wait.until(driver -> !mainPageItemList.isEmpty());
+        wait.until(d -> !mainPageItemList.isEmpty());
         int randomIndex = new Random().nextInt(mainPageItemList.size());
-        ExtendedWebElement elementToClick = mainPageItemList.get(randomIndex);
-        elementToClick.click();
+        mainPageItemList.get(randomIndex).click();
         return new ItemPage(getDriver());
     }
 
     public ItemPage clickItem(int index) {
-        ExtendedWebElement elementToClick = mainPageItemList.get(index);
-        elementToClick.click();
+        wait.until(d -> !mainPageItemList.isEmpty());
+        mainPageItemList.get(index).click();
         return new ItemPage(getDriver());
     }
 
     public String getName(int index) {
-        ExtendedWebElement elementToGetName = mainPageItemList.get(index);
-        return elementToGetName.getText().toLowerCase().replace("...", "");
+        wait.until(d -> !mainPageItemList.isEmpty());
+        return mainPageItemList.get(index)
+                .getText()
+                .toLowerCase()
+                .replace("...", "")
+                .trim();
     }
 
     public Double getPrice(int index) {
-        String rawPrice = priceList.get(index).getText();
-        double priceWithoutTax = Double.parseDouble(rawPrice.substring(1));
+        wait.until(d -> !priceList.isEmpty());
+
+        String rawPrice = priceList.get(index)
+                .getText()
+                .replaceAll("[^0-9.]", "");
+
+        double priceWithoutTax = Double.parseDouble(rawPrice);
         double priceWithTax = priceWithoutTax * 1.20;
-        BigDecimal rounded = BigDecimal.valueOf(priceWithTax).setScale(2, RoundingMode.HALF_UP);
-        return rounded.doubleValue();
+
+        return BigDecimal.valueOf(priceWithTax)
+                .setScale(2, RoundingMode.HALF_UP)
+                .doubleValue();
     }
 
     public int getMainPageItemAmount() {
-        wait.until(
-                driver -> mainPageItemList.size() > 0
-        );
+        wait.until(d -> !mainPageItemList.isEmpty());
         return mainPageItemList.size();
     }
 
     public SearchPage selectClothesMenCategory() {
         clotheCategoryButton.hover();
-        WebElement subMenu = getDriver().findElement(By.id("category-4"));
-        subMenu.click();
+        wait.until(d -> getDriver().findElement(menCategory).isDisplayed());
+        getDriver().findElement(menCategory).click();
         return new SearchPage(getDriver());
     }
-
-
 }

@@ -1,22 +1,14 @@
 package com.solvd.carinaweb.page;
 
-import com.zebrunner.carina.utils.R;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
-import com.zebrunner.carina.webdriver.gui.AbstractPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
 import java.util.List;
 
-public class ItemPage extends AbstractPage {
-
-    private static final int WAIT_TIME = R.CONFIG.getInt("WAIT_TIME");
-
+public class ItemPage extends BasePage {
 
     @FindBy(css = "button.add-to-cart")
     private ExtendedWebElement addToCartButton;
@@ -25,46 +17,70 @@ public class ItemPage extends AbstractPage {
     private ExtendedWebElement itemDescription;
 
     @FindBy(css = "span.current-price-value")
-    private ExtendedWebElement itemCost;
+    private ExtendedWebElement itemPrice;
+
+    @FindBy(id = "content")
+    private ExtendedWebElement pageContainer;
 
     public ItemPage(WebDriver driver) {
         super(driver);
+        switchToFramelive();
+        wait.until(ExpectedConditions.visibilityOf(pageContainer.getElement()));
     }
 
     public String getItemName() {
         return itemDescription.getText();
     }
 
-
     public void addToCart() {
         addToCartButton.click();
     }
 
-    public Double getPrice() {
-        String rawPrice = itemCost.getText();
-        return Double.valueOf(rawPrice.substring(1));
-    }
-
-    public boolean checkCategory(String category) {
-        List<WebElement> elements = getDriver().findElements(
-                By.xpath("//span[contains(text(), '" + category + "')]")
-        );
-        return !elements.isEmpty();
-    }
-
-    public void back() {
-        getDriver().navigate().back();
+    public Double getItemPrice() {
+        String rawPrice = itemPrice.getText();
+        return Double.parseDouble(rawPrice.replaceAll("[^0-9.]", ""));
     }
 
     public CheckoutPage clickProceedToCheckout() {
 
-        By checkoutLocator = By.xpath("//a[contains(@class, 'btn-primary') and .//i[contains(@class, 'material-icons')]]");
+        By checkoutLocator = By.cssSelector(".modal-body .cart-content-btn .btn-primary");
 
-        WebElement checkoutButton = new WebDriverWait(getDriver(), Duration.ofSeconds(WAIT_TIME)).until(
-                ExpectedConditions.elementToBeClickable(checkoutLocator)
-        );
+        wait.until(d -> d.findElement(checkoutLocator).isDisplayed());
 
-        checkoutButton.click();
+        getDriver().findElement(checkoutLocator).click();
+
         return new CheckoutPage(getDriver());
+    }
+
+    public void clickContinueShopping() {
+
+        By continueLocator = By.cssSelector(".modal-body .cart-content-btn .btn-secondary");
+
+        wait.until(d -> d.findElement(continueLocator).isDisplayed());
+
+        getDriver().findElement(continueLocator).click();
+    }
+
+    public boolean checkCategory(String category) {
+
+        List<ExtendedWebElement> items =
+                findExtendedWebElements(By.cssSelector("nav.breadcrumb a span"));
+
+        return items.stream()
+                .anyMatch(el -> el.getText().trim().equals(category));
+    }
+
+    public String getCategory() {
+        List<ExtendedWebElement> items =
+                findExtendedWebElements(By.cssSelector("nav.breadcrumb a span"));
+        if (items.isEmpty()) {
+            return "no category";
+        }
+
+        return items.get(items.size() - 1).getText().trim();
+    }
+
+    public void back() {
+        getDriver().navigate().back();
     }
 }
