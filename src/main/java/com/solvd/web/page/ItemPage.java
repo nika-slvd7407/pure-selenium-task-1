@@ -1,5 +1,6 @@
 package com.solvd.web.page;
 
+import com.solvd.web.component.CartItemComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -19,6 +20,8 @@ public class ItemPage extends AbstractPage {
     @FindBy(css = "span.current-price-value")
     private WebElement itemPrice;
 
+    private CartItemComponent cartItemComponent = new CartItemComponent(getDriver());
+
     public ItemPage(WebDriver driver) {
         super(driver);
         wait.until(ExpectedConditions.visibilityOf(addToCartButton));
@@ -29,15 +32,12 @@ public class ItemPage extends AbstractPage {
     }
 
     public CheckoutPage clickProceedToCheckout() {
-
-        By checkoutLocator = By.xpath("//a[contains(@class, 'btn-primary') and .//i[contains(@class, 'material-icons')]]");
-
-        WebElement checkoutButton = wait.until(
-                ExpectedConditions.elementToBeClickable(checkoutLocator)
-        );
-
-        click(checkoutButton);
+        cartItemComponent.clickProceedToCheckout();
         return new CheckoutPage(getDriver());
+    }
+
+    public void clickContinueShopping() {
+        cartItemComponent.clickContinueShopping();
     }
 
     public void addToCart() {
@@ -46,14 +46,27 @@ public class ItemPage extends AbstractPage {
 
     public Double getItemPrice() {
         String rawPrice = getText(itemPrice);
-        return Double.valueOf(rawPrice.substring(1));
+        return  Double.parseDouble(rawPrice
+                .replaceAll("[^0-9.]", ""));
     }
 
     public boolean checkCategory(String category) {
-        List<WebElement> elements = getDriver().findElements(
-                By.xpath("//span[contains(text(), '" + category + "')]")
-        );
-        return !elements.isEmpty();
+        List<WebElement> items = getDriver()
+                .findElements(By.cssSelector("nav.breadcrumb a span"));
+
+        return items.stream()
+                .anyMatch(el -> el.getText().trim().equals(category));
+    }
+
+    public String getCategory() {
+        List<WebElement> items = getDriver()
+                .findElements(By.cssSelector("nav.breadcrumb a span"));
+
+        if (items.isEmpty()) {
+            return "no category";
+        }
+
+        return items.get(items.size() - 1).getText().trim();
     }
 
     public void back() {

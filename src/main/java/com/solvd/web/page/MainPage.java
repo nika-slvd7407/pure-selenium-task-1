@@ -1,13 +1,12 @@
 package com.solvd.web.page;
 
+import com.solvd.util.PriceUtil;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.List;
 import java.util.Random;
 
@@ -16,8 +15,9 @@ public class MainPage extends AbstractPage {
     @FindBy(css = "input.ui-autocomplete-input")
     private WebElement inputForm;
 
-    @FindBy(css = "div.thumbnail-container h3 a")
-    private List<WebElement> mainPageItemList;
+    private By itemLocator = By.cssSelector("div.thumbnail-container h3 a");
+
+    private By menCategory = By.id("category-4");
 
     @FindBy(css = "div.thumbnail-container span.price")
     private List<WebElement> priceList;
@@ -25,14 +25,13 @@ public class MainPage extends AbstractPage {
     @FindBy(id = "category-3")
     private WebElement clotheCategoryButton;
 
+    @FindBy(id = "wrapper")
+    private WebElement pageContainer;
 
     public MainPage(WebDriver driver) {
         super(driver);
-        wait.until(ExpectedConditions.visibilityOf(inputForm));
-        wait.until(ExpectedConditions.visibilityOfAllElements(mainPageItemList));
-        wait.until(ExpectedConditions.visibilityOfAllElements(priceList));
-        wait.until(ExpectedConditions.visibilityOf(clotheCategoryButton));
-
+        switchToFramelive();
+        waitForElementVisible(pageContainer);
     }
 
     public SearchPage search(String name) {
@@ -42,39 +41,41 @@ public class MainPage extends AbstractPage {
     }
 
     public ItemPage clickRandomItem() {
-        int randomIndex = new Random().nextInt(mainPageItemList.size());
-        WebElement elementToClick = mainPageItemList.get(randomIndex);
+        int randomIndex = new Random().nextInt(getItems().size());
+        WebElement elementToClick = getItems().get(randomIndex);
         click(elementToClick);
         return new ItemPage(getDriver());
     }
 
+    private List<WebElement> getItems() {
+        return wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(itemLocator));
+    }
+
     public ItemPage clickItem(int index) {
-        WebElement elementToClick = mainPageItemList.get(index);
-        click(elementToClick);
+        List<WebElement> items = getItems();
+        click(items.get(index));
         return new ItemPage(getDriver());
     }
 
     public String getName(int index) {
-        WebElement elementToGetName = mainPageItemList.get(index);
+        WebElement elementToGetName = getItems().get(index);
         return getText(elementToGetName).toLowerCase().replace("...", "");
     }
 
     public Double getPrice(int index) {
         String rawPrice = getText(priceList.get(index));
-        double priceWithoutTax = Double.parseDouble(rawPrice.substring(1));
-        double priceWithTax = priceWithoutTax * 1.20;
-        BigDecimal rounded = BigDecimal.valueOf(priceWithTax).setScale(2, RoundingMode.HALF_UP);
-        return rounded.doubleValue();
+        double priceWithoutTax = Double.parseDouble(rawPrice
+                .replaceAll("[^0-9.]", ""));
+        return PriceUtil.addTaxAndRound(priceWithoutTax);
     }
 
     public int getMainPageItemAmount() {
-        return mainPageItemList.size();
+        return getItems().size();
     }
 
     public SearchPage selectClothesMenCategory() {
         hover(clotheCategoryButton);
-        WebElement subMenu = getDriver().findElement(By.id("category-4"));
-        click(subMenu);
+        click(wait.until(ExpectedConditions.elementToBeClickable(menCategory)));
         return new SearchPage(getDriver());
     }
 

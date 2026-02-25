@@ -1,6 +1,7 @@
 package com.solvd;
 
 import com.solvd.util.Config;
+import com.solvd.util.DriverFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
@@ -19,33 +20,19 @@ public abstract class AbstractTest {
 
     protected final Logger log = LogManager.getLogger(getClass());
     private static final ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
-    protected WebDriverWait wait;
     protected SoftAssert sf;
 
     @BeforeMethod(alwaysRun = true)
     public void setup() {
         log.info("setup start");
 
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--start-maximized");
-        options.addArguments("--remote-allow-origins=*");
-        options.addArguments("--no-sandbox");
-        options.addArguments("--disable-dev-shm-usage");
-
-        driverThreadLocal.set(new ChromeDriver(options));
+        driverThreadLocal.set(DriverFactory.createDriver("chrome"));
         WebDriver driver = getDriver();
 
-        wait = new WebDriverWait(getDriver(), Duration.ofSeconds(Long.parseLong(Config.get("WAIT_TIME"))));
         sf = new SoftAssert();
 
         getDriver().get(Config.get("URL"));
 
-        try {
-            wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.id("framelive")));
-            log.info("frame switch successful");
-        } catch (Exception e) {
-            log.warn("'framelive' not found");
-        }
 
         log.info("setup end");
     }

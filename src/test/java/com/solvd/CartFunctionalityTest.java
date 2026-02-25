@@ -3,6 +3,7 @@ package com.solvd;
 import com.solvd.web.page.CheckoutPage;
 import com.solvd.web.page.ItemPage;
 import com.solvd.web.page.MainPage;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -14,16 +15,16 @@ public class CartFunctionalityTest extends AbstractTest {
     @Test(description = "assert that after pressing add to cart button item added into cart")
     public void testCartFunction() {
         MainPage mainPage = new MainPage(getDriver());
-        ItemPage itemPage = mainPage.clickRandomItem();
+        ItemPage itemPage = mainPage.clickItem(0);
 
         String itemName = itemPage.getItemName().toLowerCase();
+        itemPage.addToCart();
         log.info("{} - added item", itemName);
 
-        itemPage.addToCart();
         CheckoutPage checkoutPage = itemPage.clickProceedToCheckout();
         List<String> checkoutItemList = checkoutPage.getItemList();
-        sf.assertTrue(checkoutItemList.contains(itemName), "checkout doesn't contains added item");
-        sf.assertAll();
+        log.info("checkout item list: {}", checkoutItemList);
+        Assert.assertTrue(checkoutItemList.contains(itemName), "checkout doesn't contains added item");
     }
 
     @Test(description = "assert that after adding item into cart incrementation function works")
@@ -34,14 +35,11 @@ public class CartFunctionalityTest extends AbstractTest {
         itemPage.addToCart();
         CheckoutPage checkoutPage = itemPage.clickProceedToCheckout();
 
-        for (int i = 0; i < AMOUNT_OF_CLICKS; i++) {
-            checkoutPage.clickIncrementButton();
-        }
+        checkoutPage.incrementAmount(AMOUNT_OF_CLICKS);
         int expectedAmount = 1 + AMOUNT_OF_CLICKS;
-        wait.until(driver -> checkoutPage.getItemAmount() == expectedAmount);
-        int itemAmount = checkoutPage.getItemAmount();
-        sf.assertEquals(itemAmount, expectedAmount);
+        checkoutPage.waitUntilAmountUpdated(expectedAmount);
 
-        sf.assertAll();
+        int itemAmount = checkoutPage.getItemAmount();
+        Assert.assertEquals(itemAmount, expectedAmount);
     }
 }

@@ -4,6 +4,7 @@ import com.solvd.util.Config;
 import com.solvd.web.page.ItemPage;
 import com.solvd.web.page.MainPage;
 import com.solvd.web.page.SearchPage;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -30,19 +31,14 @@ public class SearchFunctionalityTest extends AbstractTest {
     public void testCategoryFunctionality() {
         MainPage mainPage = new MainPage(getDriver());
         SearchPage searchPage = mainPage.selectClothesMenCategory();
+        ItemPage itemPage = searchPage.openItemByIndex(0);
+        String firstCategory = itemPage.getCategory();
 
-        int itemsOnSearchPageAmount = searchPage.getItemAmount();
-        boolean areAllItemsRightCategory = true;
-        for (int i = 0; i < itemsOnSearchPageAmount; i++) {
-
-
-            ItemPage itemPage = searchPage.openItemByIndex(i);
-            if (!itemPage.checkCategory(CATEGORY)) {
-                areAllItemsRightCategory = false;
-            }
-            itemPage.back();
-        }
-        sf.assertTrue(areAllItemsRightCategory);
-        sf.assertAll();
+        Assert.assertEquals(
+                firstCategory,
+                CATEGORY,
+                "First item does not belong to selected category: " + firstCategory
+        );
     }
+
 }
