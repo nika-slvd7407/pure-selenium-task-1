@@ -1,65 +1,60 @@
 package com.solvd.carinatest;
 
-
 import com.solvd.carinaweb.page.common.BasePage;
 import com.solvd.carinaweb.page.common.CheckoutPage;
 import com.solvd.carinaweb.page.common.ItemPage;
 import com.solvd.carinaweb.page.common.MainPage;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.time.Duration;
 import java.util.List;
 
 public class CartFunctionalityTest extends BaseTest {
 
+    private static final int AMOUNT_OF_CLICKS = 5;
+
     @Test(description = "assert that after pressing add to cart button item added into cart")
     public void testCartFunction() {
-        BasePage basePage = initPage(getDriver(), BasePage.class);
+
+        BasePage basePage = new BasePage(getDriver());
         basePage.open();
         MainPage mainPage = basePage.switchToShopFrame();
-        ItemPage itemPage = mainPage.clickRandomItem();
+        ItemPage itemPage = mainPage.clickItem(0);
 
-        String itemName = itemPage.getItemName().toLowerCase().trim();
-        log.info("{} - added item", itemName);
+        String itemName = itemPage.getItemName().toLowerCase();
 
         itemPage.addToCart();
-        CheckoutPage checkoutPage = itemPage.clickProceedToCheckout();
+        CheckoutPage checkoutPage = itemPage.getItemCartComponent().clickProceedToCheckout();
+
         List<String> checkoutItemList = checkoutPage.getItemList();
-        log.info("Checkout items: {}", checkoutItemList);
-        log.info("Looking for item: '{}'", itemName);
 
-        boolean itemFound = false;
-        for (String checkoutItem : checkoutItemList) {
-            if (checkoutItem.contains(itemName) || itemName.contains(checkoutItem.replace("...", ""))) {
-                itemFound = true;
-                break;
-            }
-        }
-
-        sf.assertTrue(itemFound, "checkout doesn't contains added item. Looking for: '" + itemName + "' in: " + checkoutItemList);
-        sf.assertAll();
+        Assert.assertTrue(
+                checkoutItemList.contains(itemName),
+                "checkout doesn't contain added item"
+        );
     }
 
     @Test(description = "assert that after adding item into cart incrementation function works")
     public void testCartQuantityUpdate() {
-        BasePage basePage = initPage(getDriver(), BasePage.class);
+
+        BasePage basePage = new BasePage(getDriver());
         basePage.open();
         MainPage mainPage = basePage.switchToShopFrame();
-        ItemPage itemPage = mainPage.clickRandomItem();
+        ItemPage itemPage = mainPage.clickItem(0);
+
+        pause(3L);
 
         itemPage.addToCart();
-
         CheckoutPage checkoutPage = itemPage.clickProceedToCheckout();
 
-        for (int i = 0; i < AMOUNT_OF_CLICKS; i++) {
-            checkoutPage.clickIncrementButton();
-        }
-        int expectedAmount = 1 + AMOUNT_OF_CLICKS;
-        new WebDriverWait(getDriver(), Duration.ofSeconds(WAIT_TIME)).until(driver -> checkoutPage.getItemAmount() == expectedAmount);
-        int itemAmount = checkoutPage.getItemAmount();
-        sf.assertEquals(itemAmount, expectedAmount);
+        checkoutPage.incrementAmount(AMOUNT_OF_CLICKS);
 
-        sf.assertAll();
+        int expectedAmount = 1 + AMOUNT_OF_CLICKS;
+        checkoutPage.waitUntilAmountUpdated(expectedAmount);
+
+        Assert.assertEquals(
+                checkoutPage.getItemAmount(),
+                expectedAmount
+        );
     }
 }

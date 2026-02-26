@@ -1,22 +1,14 @@
 package com.solvd.carinaweb.page.common;
 
-import com.zebrunner.carina.utils.R;
+import com.solvd.carinaweb.uielement.common.ItemCartComponent;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
-import com.zebrunner.carina.webdriver.gui.AbstractPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
 import java.util.List;
 
-public abstract class ItemPage extends AbstractPage {
-
-    private static final int WAIT_TIME = R.CONFIG.getInt("WAIT_TIME");
-
+public abstract class ItemPage extends BasePage {
 
     @FindBy(css = "button.add-to-cart")
     private ExtendedWebElement addToCartButton;
@@ -25,46 +17,59 @@ public abstract class ItemPage extends AbstractPage {
     private ExtendedWebElement itemDescription;
 
     @FindBy(css = "span.current-price-value")
-    private ExtendedWebElement itemCost;
+    private ExtendedWebElement itemPrice;
+
+    private By breadcrumbs = By.cssSelector("nav.breadcrumb");
+
+    @FindBy(id = "breadcrumb")
+    private ItemCartComponent ItemCartComponent;
 
     public ItemPage(WebDriver driver) {
         super(driver);
+        waitUntilVisibilityOf(breadcrumbs);
     }
 
     public String getItemName() {
         return itemDescription.getText();
     }
 
-
     public void addToCart() {
+        waitUntilClickableOf(addToCartButton);
         addToCartButton.click();
     }
 
-    public Double getPrice() {
-        String rawPrice = itemCost.getText();
-        return Double.valueOf(rawPrice.substring(1));
+    public Double getItemPrice() {
+        String rawPrice = itemPrice.getText();
+        return Double.parseDouble(rawPrice.replaceAll("[^0-9.]", ""));
+    }
+
+    public ItemCartComponent getItemCartComponent() {
+        return ItemCartComponent;
     }
 
     public boolean checkCategory(String category) {
-        List<WebElement> elements = getDriver().findElements(
-                By.xpath("//span[contains(text(), '" + category + "')]")
-        );
-        return !elements.isEmpty();
+
+        List<ExtendedWebElement> items =
+                findExtendedWebElements(By.cssSelector("nav.breadcrumb a span"));
+
+        return items.stream()
+                .anyMatch(el -> el.getText().trim().equals(category));
+    }
+
+    public String getCategory() {
+        List<ExtendedWebElement> items =
+                findExtendedWebElements(By.cssSelector("nav.breadcrumb a span"));
+        if (items.isEmpty()) {
+            return "no category";
+        }
+        return items.get(items.size() - 1).getText().trim();
     }
 
     public void back() {
         getDriver().navigate().back();
     }
 
-    public CheckoutPage clickProceedToCheckout() {
-
-        By checkoutLocator = By.xpath("//a[contains(@class, 'btn-primary') and .//i[contains(@class, 'material-icons')]]");
-
-        WebElement checkoutButton = new WebDriverWait(getDriver(), Duration.ofSeconds(WAIT_TIME)).until(
-                ExpectedConditions.elementToBeClickable(checkoutLocator)
-        );
-
-        checkoutButton.click();
-        return initPage(getDriver(), CheckoutPage.class);
+    public CheckoutPage clickProceedToCheckout(){
+        return getItemCartComponent().clickProceedToCheckout();
     }
 }
