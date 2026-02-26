@@ -1,9 +1,10 @@
 package com.solvd.carinatest;
 
-import com.solvd.carinaweb.page.BasePage;
-import com.solvd.carinaweb.page.ItemPage;
-import com.solvd.carinaweb.page.MainPage;
-import com.solvd.carinaweb.page.SearchPage;
+
+import com.solvd.carinaweb.page.common.SearchPage;
+import com.solvd.carinaweb.page.common.BasePage;
+import com.solvd.carinaweb.page.common.ItemPage;
+import com.solvd.carinaweb.page.common.MainPage;
 import com.zebrunner.carina.utils.R;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -17,7 +18,7 @@ public class SearchFunctionalityTest extends BaseTest {
 
     @Test(description = "assert that search function is working properly and outputs items")
     public void testSearchFunction() {
-        BasePage basePage = new BasePage(getDriver());
+        BasePage basePage = initPage(getDriver(), BasePage.class);
         basePage.open();
         MainPage mainPage = basePage.switchToShopFrame();
 
@@ -34,7 +35,7 @@ public class SearchFunctionalityTest extends BaseTest {
     @Test(description = "select category and assert that first item belongs to selected category")
     public void testCategoryFunctionality() {
 
-        BasePage basePage = new BasePage(getDriver());
+        BasePage basePage = initPage(getDriver(), BasePage.class);
         basePage.open();
         MainPage mainPage = basePage.switchToShopFrame();
         SearchPage searchPage = mainPage.selectClothesMenCategory();

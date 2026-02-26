@@ -29,6 +29,8 @@ public class MainPageDesktop extends MainPage {
     @FindBy(id = "category-3")
     private ExtendedWebElement clotheCategoryButton;
 
+    private final By menCategory = By.id("category-4");
+
     public MainPageDesktop(WebDriver driver) {
         super(driver);
     }
@@ -36,8 +38,8 @@ public class MainPageDesktop extends MainPage {
     @Override
     public SearchPage selectClothesMenCategory() {
         clotheCategoryButton.hover();
-        WebElement subMenu = getDriver().findElement(By.id("category-4"));
-        subMenu.click();
+        wait.until(d -> getDriver().findElement(menCategory).isDisplayed());
+        getDriver().findElement(menCategory).click();
         return initPage(getDriver(), SearchPage.class);
     }
 

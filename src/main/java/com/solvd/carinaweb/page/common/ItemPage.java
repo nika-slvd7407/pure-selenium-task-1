@@ -5,6 +5,7 @@ import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
@@ -19,14 +20,14 @@ public abstract class ItemPage extends BasePage {
     @FindBy(css = "span.current-price-value")
     private ExtendedWebElement itemPrice;
 
-    private By breadcrumbs = By.cssSelector("nav.breadcrumb");
+    private By content = By.id("add-to-cart-or-refresh");
 
-    @FindBy(id = "breadcrumb")
+     @FindBy(id = "breadcrumb")
     private ItemCartComponent ItemCartComponent;
 
     public ItemPage(WebDriver driver) {
         super(driver);
-        waitUntilVisibilityOf(breadcrumbs);
+        waitUntilVisibilityOf(content);
     }
 
     public String getItemName() {
@@ -57,8 +58,10 @@ public abstract class ItemPage extends BasePage {
     }
 
     public String getCategory() {
+        By breadcrumbItems = By.cssSelector("nav.breadcrumb a span");
+        wait.until(ExpectedConditions.visibilityOfAllElements(getDriver().findElements(breadcrumbItems)));
         List<ExtendedWebElement> items =
-                findExtendedWebElements(By.cssSelector("nav.breadcrumb a span"));
+                findExtendedWebElements(breadcrumbItems);
         if (items.isEmpty()) {
             return "no category";
         }

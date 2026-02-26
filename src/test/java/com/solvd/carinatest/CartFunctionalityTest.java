@@ -16,7 +16,7 @@ public class CartFunctionalityTest extends BaseTest {
     @Test(description = "assert that after pressing add to cart button item added into cart")
     public void testCartFunction() {
 
-        BasePage basePage = new BasePage(getDriver());
+        BasePage basePage = initPage(getDriver(), BasePage.class);
         basePage.open();
         MainPage mainPage = basePage.switchToShopFrame();
         ItemPage itemPage = mainPage.clickItem(0);
@@ -37,12 +37,10 @@ public class CartFunctionalityTest extends BaseTest {
     @Test(description = "assert that after adding item into cart incrementation function works")
     public void testCartQuantityUpdate() {
 
-        BasePage basePage = new BasePage(getDriver());
+        BasePage basePage = initPage(getDriver(), BasePage.class);
         basePage.open();
         MainPage mainPage = basePage.switchToShopFrame();
         ItemPage itemPage = mainPage.clickItem(0);
-
-        pause(3L);
 
         itemPage.addToCart();
         CheckoutPage checkoutPage = itemPage.clickProceedToCheckout();
