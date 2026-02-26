@@ -28,10 +28,12 @@ public class MainPage extends AbstractPage {
     @FindBy(id = "wrapper")
     private WebElement pageContainer;
 
+    private By contentWrapper = By.id("content");
+
     public MainPage(WebDriver driver) {
         super(driver);
         switchToFramelive();
-        waitForElementVisible(pageContainer);
+        waitUntilVisibilityOf(contentWrapper);
     }
 
     public SearchPage search(String name) {
@@ -84,8 +86,10 @@ public class MainPage extends AbstractPage {
                 "//ul[@id='top-menu']//a[contains(@class,'dropdown-item') and contains(normalize-space(),'" + mainCategoryName + "')]");
 
         By subCategory = By.xpath("//a[contains(@class,'dropdown-submenu') and contains(text(),'" + subCategoryName + "')]");
+        waitUntilVisibilityOf(mainCategory);
 
         hover(getDriver().findElement(mainCategory));
+        waitUntilVisibilityOf(subCategory);
 
         click(getDriver().findElement(subCategory));
         return new SearchPage(getDriver());

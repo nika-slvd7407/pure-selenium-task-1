@@ -22,12 +22,21 @@ public class CartItemComponent extends AbstractComponent {
     public void clickProceedToCheckout() {
         WebElement checkoutButton =
                 wait.until(ExpectedConditions.elementToBeClickable(checkoutButtonLocator));
-        checkoutButton.click();
+        click(checkoutButton);
     }
 
     public void clickContinueShopping() {
         WebElement continueButton =
                 wait.until(ExpectedConditions.elementToBeClickable(continueShoppingLocator));
-        continueButton.click();
+        click(continueButton);
+    }
+
+    private void click(WebElement element) {
+        waitForElementVisible(element);
+        element.click();
+    }
+
+    protected WebElement waitForElementVisible(WebElement element) {
+        return wait.until(ExpectedConditions.visibilityOf(element));
     }
 }

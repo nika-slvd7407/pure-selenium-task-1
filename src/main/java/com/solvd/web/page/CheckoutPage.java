@@ -1,6 +1,5 @@
 package com.solvd.web.page;
 
-import com.solvd.util.PriceUtil;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -24,7 +23,7 @@ public class CheckoutPage extends AbstractPage {
 
     public CheckoutPage(WebDriver driver) {
         super(driver);
-      //  switchToFramelive();
+        switchToFramelive();
 
         waitForElementVisible(checkoutContainer);
     }
@@ -47,7 +46,7 @@ public class CheckoutPage extends AbstractPage {
         click(incrementButton);
     }
 
-    public void incrementAmount(int clickTime){
+    public void incrementAmount(int clickTime) {
         for (int i = 0; i < clickTime; i++) {
             clickIncrementButton();
         }

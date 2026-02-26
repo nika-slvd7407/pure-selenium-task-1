@@ -13,6 +13,8 @@ public class SearchFunctionalityTest extends AbstractTest {
 
     private static final String ITEM_TO_SEARCH = Config.get("ITEM_TO_SEARCH");
     private static final String CATEGORY = Config.get("CATEGORY");
+    private static final String MAIN_CATEGORY = Config.get("MAIN_CATEGORY");
+
 
     @Test(description = "assert that search function is working properly and outputs items")
     public void testSearchFunction() throws InterruptedException {
@@ -30,7 +32,7 @@ public class SearchFunctionalityTest extends AbstractTest {
     @Test(description = "select category and assert that all the items shown are of right category")
     public void testCategoryFunctionality() {
         MainPage mainPage = new MainPage(getDriver());
-        SearchPage searchPage = mainPage.selectClothesMenCategory();
+        SearchPage searchPage = mainPage.selectSubCategory(MAIN_CATEGORY, CATEGORY);
         ItemPage itemPage = searchPage.openItemByIndex(0);
         String firstCategory = itemPage.getCategory();
 

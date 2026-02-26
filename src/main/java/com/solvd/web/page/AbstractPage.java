@@ -84,6 +84,10 @@ public abstract class AbstractPage {
         }
     }
 
+    protected void waitUntilVisibilityOf(By locator) {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+    }
+
     protected void switchToFramelive() {
         switchToFrame(frameId);
     }
@@ -92,7 +96,7 @@ public abstract class AbstractPage {
         driver.switchTo().defaultContent();
     }
 
-    protected WebDriver getDriver(){
+    protected WebDriver getDriver() {
         return driver;
     }
 

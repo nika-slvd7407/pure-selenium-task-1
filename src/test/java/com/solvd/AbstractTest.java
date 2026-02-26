@@ -4,18 +4,12 @@ import com.solvd.util.Config;
 import com.solvd.util.DriverFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.asserts.SoftAssert;
-
-import java.time.Duration;
 
 public abstract class AbstractTest {
 
@@ -25,7 +19,7 @@ public abstract class AbstractTest {
 
     @BeforeMethod(alwaysRun = true)
     @Parameters("browser")
-    public void setup( String browser) {
+    public void setup(@Optional("chrome") String browser) {
         log.info("setup start");
         driverThreadLocal.set(DriverFactory.createDriver(browser));
         log.info("driver for {} initialised", browser);

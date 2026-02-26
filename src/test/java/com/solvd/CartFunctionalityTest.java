@@ -30,7 +30,7 @@ public class CartFunctionalityTest extends AbstractTest {
     @Test(description = "assert that after adding item into cart incrementation function works")
     public void testCartQuantityUpdate() {
         MainPage mainPage = new MainPage(getDriver());
-        ItemPage itemPage = mainPage.clickRandomItem();
+        ItemPage itemPage = mainPage.clickItem(0);
 
         itemPage.addToCart();
         CheckoutPage checkoutPage = itemPage.clickProceedToCheckout();

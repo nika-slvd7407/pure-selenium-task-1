@@ -15,25 +15,26 @@ public class ItemPage extends AbstractPage {
     private WebElement addToCartButton;
 
     @FindBy(css = "h1.h1")
-    private WebElement itemDescription;
+    private WebElement itemName;
 
     @FindBy(css = "span.current-price-value")
     private WebElement itemPrice;
 
-    private CartItemComponent cartItemComponent = new CartItemComponent(getDriver());
+    private By content = By.id("add-to-cart-or-refresh");
 
     public ItemPage(WebDriver driver) {
         super(driver);
-        waitForElementVisible(addToCartButton);
+        wait.until(ExpectedConditions.visibilityOf(addToCartButton));
+        waitUntilVisibilityOf(content);
     }
 
     public String getItemName() {
-        return getText(itemDescription);
+        return getText(itemName);
     }
 
     public CheckoutPage clickProceedToCheckout() {
         getCartItemComponent().clickProceedToCheckout();
-       return new CheckoutPage(getDriver());
+        return new CheckoutPage(getDriver());
     }
 
     public void clickContinueShopping() {
@@ -41,6 +42,7 @@ public class ItemPage extends AbstractPage {
     }
 
     public void addToCart() {
+        wait.until(ExpectedConditions.elementToBeClickable(addToCartButton));
         click(addToCartButton);
     }
 

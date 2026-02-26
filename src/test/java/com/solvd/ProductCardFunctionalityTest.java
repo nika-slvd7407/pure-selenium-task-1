@@ -5,8 +5,6 @@ import com.solvd.web.page.MainPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.util.Random;
-
 public class ProductCardFunctionalityTest extends AbstractTest {
 
     @Test(description = "assert that product card from the main page works ")

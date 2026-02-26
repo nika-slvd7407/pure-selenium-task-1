@@ -46,7 +46,7 @@ public class SearchPage extends AbstractPage {
         return items.size();
     }
 
-    private List<WebElement> getItems(){
+    private List<WebElement> getItems() {
         return items;
     }
 
