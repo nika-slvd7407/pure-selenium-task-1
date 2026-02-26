@@ -5,6 +5,7 @@ import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
@@ -19,15 +20,16 @@ public class ItemPage extends BasePage {
     @FindBy(css = "span.current-price-value")
     private ExtendedWebElement itemPrice;
 
-    private By breadcrumbs = By.cssSelector("nav.breadcrumb");
+    private By content = By.id("add-to-cart-or-refresh");
 
-    @FindBy(id = "breadcrumb")
+     @FindBy(id = "breadcrumb")
     private ItemCartComponent ItemCartComponent;
 
     public ItemPage(WebDriver driver) {
         super(driver);
-   //     switchToFramelive();
-        waitUntilVisibilityOf(breadcrumbs);
+        //     switchToFramelive();
+        waitUntilVisibilityOf(content);
+        //pause(3L);
     }
 
     public String getItemName() {
@@ -37,7 +39,7 @@ public class ItemPage extends BasePage {
     public void addToCart() {
         waitUntilClickableOf(addToCartButton);
         addToCartButton.click();
-       // wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".modal-body")));
+       // wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("blockcart-modal")));
     }
 
     public Double getItemPrice() {
@@ -59,19 +61,24 @@ public class ItemPage extends BasePage {
     }
 
     public String getCategory() {
+        By breadcrumbItems = By.cssSelector("nav.breadcrumb a span");
+        wait.until(ExpectedConditions.visibilityOfAllElements(getDriver().findElements(breadcrumbItems)));
         List<ExtendedWebElement> items =
-                findExtendedWebElements(By.cssSelector("nav.breadcrumb a span"));
+                findExtendedWebElements(breadcrumbItems);
         if (items.isEmpty()) {
             return "no category";
         }
-        return items.get(items.size() - 1).getText().trim();
+        for (ExtendedWebElement item : items) {
+            log.info(item.getText().trim());
+        }
+        return items.get(items.size()-1).getText().trim();
     }
 
     public void back() {
         getDriver().navigate().back();
     }
 
-    public CheckoutPage clickProceedToCheckout(){
+    public CheckoutPage clickProceedToCheckout() {
         return getItemCartComponent().clickProceedToCheckout();
     }
 }

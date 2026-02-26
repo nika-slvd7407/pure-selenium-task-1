@@ -5,6 +5,7 @@ import com.zebrunner.carina.utils.R;
 import com.zebrunner.carina.webdriver.gui.AbstractUIObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -25,14 +26,14 @@ public class ItemCartComponent extends AbstractUIObject {
     public CheckoutPage clickProceedToCheckout() {
 
         By checkoutLocator = By.cssSelector(".modal-body .cart-content-btn .btn-primary");
-        wait.until(d -> d.findElement(checkoutLocator).isDisplayed());
+        wait.until(ExpectedConditions.visibilityOfElementLocated(checkoutLocator));
         getDriver().findElement(checkoutLocator).click();
         return new CheckoutPage(getDriver());
     }
 
     public void clickContinueShopping() {
         By continueLocator = By.cssSelector(".modal-body .cart-content-btn .btn-secondary");
-        wait.until(d -> d.findElement(continueLocator).isDisplayed());
+        wait.until(ExpectedConditions.visibilityOfElementLocated(continueLocator));
         getDriver().findElement(continueLocator).click();
     }
 }

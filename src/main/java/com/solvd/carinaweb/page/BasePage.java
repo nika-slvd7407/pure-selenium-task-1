@@ -14,7 +14,7 @@ import java.time.Duration;
 
 public class BasePage extends AbstractPage {
 
-    private static final Logger log = LogManager.getLogger(BasePage.class);
+    protected  final Logger log = LogManager.getLogger(getClass());
     private static final int WAIT_TIME = R.CONFIG.getInt("WAIT_TIME");
     private final static String frameId = "framelive";
     protected WebDriverWait wait;

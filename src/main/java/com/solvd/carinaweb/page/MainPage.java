@@ -1,14 +1,12 @@
 package com.solvd.carinaweb.page;
 
+import com.solvd.util.PriceUtil;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
-import com.zebrunner.carina.webdriver.gui.AbstractPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.List;
 import java.util.Random;
 
@@ -31,9 +29,12 @@ public class MainPage extends BasePage {
     @FindBy(id = "wrapper")
     private ExtendedWebElement pageContainer;
 
+    private By contentWrapper = By.id("content");
+
     public MainPage(WebDriver driver) {
         super(driver);
         //switchToFramelive();
+        waitUntilVisibilityOf(contentWrapper);
     }
 
     public SearchPage search(String name) {
@@ -43,14 +44,12 @@ public class MainPage extends BasePage {
     }
 
     public ItemPage clickRandomItem() {
-        wait.until(d -> !mainPageItemList.isEmpty());
         int randomIndex = new Random().nextInt(mainPageItemList.size());
         mainPageItemList.get(randomIndex).click();
         return new ItemPage(getDriver());
     }
 
     public ItemPage clickItem(int index) {
-        wait.until(d -> !mainPageItemList.isEmpty());
         mainPageItemList.get(index).click();
         return new ItemPage(getDriver());
     }
@@ -72,11 +71,7 @@ public class MainPage extends BasePage {
                 .replaceAll("[^0-9.]", "");
 
         double priceWithoutTax = Double.parseDouble(rawPrice);
-        double priceWithTax = priceWithoutTax * 1.20;
-
-        return BigDecimal.valueOf(priceWithTax)
-                .setScale(2, RoundingMode.HALF_UP)
-                .doubleValue();
+        return PriceUtil.addTaxAndRound(priceWithoutTax);
     }
 
     public int getMainPageItemAmount() {

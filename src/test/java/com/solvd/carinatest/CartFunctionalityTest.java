@@ -24,7 +24,7 @@ public class CartFunctionalityTest extends BaseTest {
         String itemName = itemPage.getItemName().toLowerCase();
 
         itemPage.addToCart();
-        CheckoutPage checkoutPage = itemPage.getItemCartComponent().clickProceedToCheckout();
+        CheckoutPage checkoutPage = itemPage.clickProceedToCheckout();
 
         List<String> checkoutItemList = checkoutPage.getItemList();
 
@@ -41,8 +41,6 @@ public class CartFunctionalityTest extends BaseTest {
         basePage.open();
         MainPage mainPage = basePage.switchToShopFrame();
         ItemPage itemPage = mainPage.clickItem(0);
-
-        pause(3L);
 
         itemPage.addToCart();
         CheckoutPage checkoutPage = itemPage.clickProceedToCheckout();
