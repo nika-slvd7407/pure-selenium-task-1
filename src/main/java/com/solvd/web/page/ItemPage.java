@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
@@ -31,12 +32,12 @@ public class ItemPage extends AbstractPage {
     }
 
     public CheckoutPage clickProceedToCheckout() {
-        cartItemComponent.clickProceedToCheckout();
-        return new CheckoutPage(getDriver());
+        getCartItemComponent().clickProceedToCheckout();
+       return new CheckoutPage(getDriver());
     }
 
     public void clickContinueShopping() {
-        cartItemComponent.clickContinueShopping();
+        getCartItemComponent().clickContinueShopping();
     }
 
     public void addToCart() {
@@ -49,7 +50,7 @@ public class ItemPage extends AbstractPage {
                 .replaceAll("[^0-9.]", ""));
     }
 
-    public boolean checkCategory(String category) {
+    public boolean isCategory(String category) {
         List<WebElement> items = getDriver()
                 .findElements(By.cssSelector("nav.breadcrumb a span"));
 
@@ -70,5 +71,11 @@ public class ItemPage extends AbstractPage {
 
     public void back() {
         getDriver().navigate().back();
+    }
+
+    public CartItemComponent getCartItemComponent() {
+        WebElement modal = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.id("blockcart-modal")));
+        return new CartItemComponent(getDriver(), modal);
     }
 }
