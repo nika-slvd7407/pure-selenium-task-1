@@ -15,12 +15,10 @@ public class ItemPage extends AbstractPage {
     private WebElement addToCartButton;
 
     @FindBy(css = "h1.h1")
-    private WebElement itemDescription;
+    private WebElement itemName;
 
     @FindBy(css = "span.current-price-value")
     private WebElement itemPrice;
-
-    private CartItemComponent cartItemComponent = new CartItemComponent(getDriver());
 
     public ItemPage(WebDriver driver) {
         super(driver);
@@ -28,16 +26,16 @@ public class ItemPage extends AbstractPage {
     }
 
     public String getItemName() {
-        return getText(itemDescription);
+        return getText(itemName);
     }
 
     public CheckoutPage clickProceedToCheckout() {
-        cartItemComponent.clickProceedToCheckout();
-        return new CheckoutPage(getDriver());
+        getCartItemComponent().clickProceedToCheckout();
+       return new CheckoutPage(getDriver());
     }
 
     public void clickContinueShopping() {
-        cartItemComponent.clickContinueShopping();
+        getCartItemComponent().clickContinueShopping();
     }
 
     public void addToCart() {
@@ -50,7 +48,7 @@ public class ItemPage extends AbstractPage {
                 .replaceAll("[^0-9.]", ""));
     }
 
-    public boolean checkCategory(String category) {
+    public boolean isCategory(String category) {
         List<WebElement> items = getDriver()
                 .findElements(By.cssSelector("nav.breadcrumb a span"));
 
@@ -71,5 +69,11 @@ public class ItemPage extends AbstractPage {
 
     public void back() {
         getDriver().navigate().back();
+    }
+
+    public CartItemComponent getCartItemComponent() {
+        WebElement modal = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.id("blockcart-modal")));
+        return new CartItemComponent(getDriver(), modal);
     }
 }

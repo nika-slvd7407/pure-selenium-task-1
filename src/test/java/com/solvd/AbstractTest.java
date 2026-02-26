@@ -26,7 +26,7 @@ public abstract class AbstractTest {
     public void setup() {
         log.info("setup start");
 
-        driverThreadLocal.set(DriverFactory.createDriver("chrome"));
+        driverThreadLocal.set(DriverFactory.createDriver(Config.get("BROWSER")));
         WebDriver driver = getDriver();
 
         sf = new SoftAssert();

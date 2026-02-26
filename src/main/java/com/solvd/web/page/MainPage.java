@@ -79,5 +79,17 @@ public class MainPage extends AbstractPage {
         return new SearchPage(getDriver());
     }
 
+    public SearchPage selectSubCategory(String mainCategoryName, String subCategoryName) {
+        By mainCategory = By.xpath(
+                "//ul[@id='top-menu']//a[contains(@class,'dropdown-item') and contains(normalize-space(),'" + mainCategoryName + "')]");
+
+        By subCategory = By.xpath("//a[contains(@class,'dropdown-submenu') and contains(text(),'" + subCategoryName + "')]");
+
+        hover(getDriver().findElement(mainCategory));
+
+        click(getDriver().findElement(subCategory));
+        return new SearchPage(getDriver());
+    }
+
 
 }
