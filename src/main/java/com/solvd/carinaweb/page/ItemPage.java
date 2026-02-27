@@ -15,14 +15,14 @@ public class ItemPage extends BasePage {
     private ExtendedWebElement addToCartButton;
 
     @FindBy(css = "h1.h1")
-    private ExtendedWebElement itemDescription;
+    private ExtendedWebElement itemName;
 
     @FindBy(css = "span.current-price-value")
     private ExtendedWebElement itemPrice;
 
     private By content = By.id("add-to-cart-or-refresh");
 
-     @FindBy(id = "breadcrumb")
+    @FindBy(id = "breadcrumb")
     private ItemCartComponent ItemCartComponent;
 
     public ItemPage(WebDriver driver) {
@@ -33,13 +33,13 @@ public class ItemPage extends BasePage {
     }
 
     public String getItemName() {
-        return itemDescription.getText();
+        return itemName.getText();
     }
 
     public void addToCart() {
         waitUntilClickableOf(addToCartButton);
         addToCartButton.click();
-       // wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("blockcart-modal")));
+        // wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("blockcart-modal")));
     }
 
     public Double getItemPrice() {
@@ -51,7 +51,7 @@ public class ItemPage extends BasePage {
         return ItemCartComponent;
     }
 
-    public boolean checkCategory(String category) {
+    public boolean isCategory(String category) {
 
         List<ExtendedWebElement> items =
                 findExtendedWebElements(By.cssSelector("nav.breadcrumb a span"));
@@ -71,7 +71,7 @@ public class ItemPage extends BasePage {
         for (ExtendedWebElement item : items) {
             log.info(item.getText().trim());
         }
-        return items.get(items.size()-1).getText().trim();
+        return items.get(items.size() - 1).getText().trim();
     }
 
     public void back() {

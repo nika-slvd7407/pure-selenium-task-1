@@ -14,7 +14,7 @@ public class CartFunctionalityTest extends BaseTest {
     private static final int AMOUNT_OF_CLICKS = 5;
 
     @Test(description = "assert that after pressing add to cart button item added into cart")
-    public void testCartFunction() {
+    public void testAddItemToCart() {
 
         BasePage basePage = new BasePage(getDriver());
         basePage.open();

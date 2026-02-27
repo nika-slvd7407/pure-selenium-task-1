@@ -14,6 +14,8 @@ public class SearchFunctionalityTest extends BaseTest {
 
     private static final String ITEM_TO_SEARCH = R.CONFIG.get("ITEM_TO_SEARCH");
     private static final String CATEGORY = R.CONFIG.get("CATEGORY");
+    private static final String MAIN_CATEGORY = R.CONFIG.get("MAIN_CATEGORY");
+
 
     @Test(description = "assert that search function is working properly and outputs items")
     public void testSearchFunction() {
@@ -37,7 +39,7 @@ public class SearchFunctionalityTest extends BaseTest {
         BasePage basePage = new BasePage(getDriver());
         basePage.open();
         MainPage mainPage = basePage.switchToShopFrame();
-        SearchPage searchPage = mainPage.selectClothesMenCategory();
+        SearchPage searchPage = mainPage.selectSubCategory(MAIN_CATEGORY, CATEGORY);
 
         ItemPage itemPage = searchPage.openItemByIndex(0);
         String actualCategory = itemPage.getCategory();

@@ -12,20 +12,15 @@ import java.util.Random;
 
 public class MainPage extends BasePage {
 
+    private final By menCategory = By.id("category-4");
     @FindBy(css = "input.ui-autocomplete-input")
     private ExtendedWebElement inputForm;
-
     @FindBy(css = "div.thumbnail-container h3 a")
     private List<ExtendedWebElement> mainPageItemList;
-
     @FindBy(css = "div.thumbnail-container span.price")
     private List<ExtendedWebElement> priceList;
-
     @FindBy(id = "category-3")
     private ExtendedWebElement clotheCategoryButton;
-
-    private final By menCategory = By.id("category-4");
-
     @FindBy(id = "wrapper")
     private ExtendedWebElement pageContainer;
 
@@ -83,6 +78,21 @@ public class MainPage extends BasePage {
         clotheCategoryButton.hover();
         wait.until(d -> getDriver().findElement(menCategory).isDisplayed());
         getDriver().findElement(menCategory).click();
+        return new SearchPage(getDriver());
+    }
+
+    public SearchPage selectSubCategory(String mainCategoryName, String subCategoryName) {
+        By mainCategory = By.xpath(
+                "//ul[@id='top-menu']//a[contains(@class,'dropdown-item') and contains(normalize-space(),'" + mainCategoryName + "')]");
+
+        By subCategory = By.xpath("//a[contains(@class,'dropdown-submenu') and contains(text(),'" + subCategoryName + "')]");
+        waitUntilVisibilityOf(mainCategory);
+
+        findExtendedWebElement(mainCategory).hover();
+
+        waitUntilVisibilityOf(subCategory);
+
+        findExtendedWebElement(subCategory).click();
         return new SearchPage(getDriver());
     }
 }

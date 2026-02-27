@@ -14,9 +14,9 @@ import java.time.Duration;
 
 public class BasePage extends AbstractPage {
 
-    protected  final Logger log = LogManager.getLogger(getClass());
     private static final int WAIT_TIME = R.CONFIG.getInt("WAIT_TIME");
     private final static String frameId = "framelive";
+    protected final Logger log = LogManager.getLogger(getClass());
     protected WebDriverWait wait;
 
     public BasePage(WebDriver driver) {
@@ -28,16 +28,16 @@ public class BasePage extends AbstractPage {
     }
 
     public MainPage switchToShopFrame() {
-            switchToFramelive();
-            return new MainPage(getDriver());
+        switchToFramelive();
+        return new MainPage(getDriver());
     }
 
     protected void switchToFrame(String frameId) {
-            wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.id(frameId)));
+        wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.id(frameId)));
     }
 
     protected void switchToFramelive() {
-            wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.id(frameId)));
+        wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.id(frameId)));
     }
 
     protected void switchToDefault() {
