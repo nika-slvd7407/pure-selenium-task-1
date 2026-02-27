@@ -8,10 +8,6 @@ import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
 
 @DeviceType(pageType = DeviceType.Type.ANDROID_PHONE, parentClass = MainPage.class)
 public class MainPageAndroid extends MainPage {
@@ -19,30 +15,31 @@ public class MainPageAndroid extends MainPage {
     @FindBy(xpath = "(//a[contains(@class, 'all-product-link')])[1]")
     private ExtendedWebElement allProductsLink;
 
-    private static final int WAIT_TIME = R.CONFIG.getInt("WAIT_TIME");
 
     public MainPageAndroid(WebDriver driver) {
         super(driver);
     }
 
     @Override
-    public SearchPage selectClothesMenCategory() {
-
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(WAIT_TIME));
+    public SearchPage selectSubCategory(String mainCategoryName, String subCategoryName) {
 
         allProductsLink.click();
 
-        wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("(//div[contains(@class, 'navbar-toggler')])[1]")
-        )).click();
+        By mainCategory = By.xpath(
+                "//li[@data-depth='0']/a[normalize-space(text())='" + mainCategoryName + "']" +
+                        "/following-sibling::div[contains(@class,'navbar-toggler')]"
+        );
 
-        wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[contains(@class, 'category-sub-link') and contains(text(), 'Men')]")
-        )).click();
+        By subCategory = By.xpath(
+                "//ul[contains(@class, 'category-sub-menu')]//a[contains(text(), '" + subCategoryName + "')]"
+        );
 
-        wait.until(ExpectedConditions.presenceOfElementLocated(
-                By.cssSelector("div.js-product.product")
-        ));
+        waitUntilVisibilityOf(mainCategory);
+        findExtendedWebElement(mainCategory).click();
+
+        waitUntilVisibilityOf(subCategory);
+        findExtendedWebElement(subCategory).click();
+
          log.info("finished selecting categorry {}", R.CONFIG.get("CATEGORY"));
         return initPage(getDriver(), SearchPage.class);
     }

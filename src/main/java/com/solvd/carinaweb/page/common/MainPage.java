@@ -78,5 +78,5 @@ public abstract class MainPage extends BasePage {
         return mainPageItemList.size();
     }
 
-    public abstract SearchPage selectClothesMenCategory();
+    public abstract SearchPage selectSubCategory(String mainCategoryName, String subCategoryName);
 }

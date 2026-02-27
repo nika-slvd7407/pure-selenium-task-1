@@ -26,21 +26,24 @@ import java.util.Random;
 
 public class MainPageDesktop extends MainPage {
 
-    @FindBy(id = "category-3")
-    private ExtendedWebElement clotheCategoryButton;
-
-    private final By menCategory = By.id("category-4");
-
     public MainPageDesktop(WebDriver driver) {
         super(driver);
     }
 
     @Override
-    public SearchPage selectClothesMenCategory() {
-        clotheCategoryButton.hover();
-        wait.until(d -> getDriver().findElement(menCategory).isDisplayed());
-        getDriver().findElement(menCategory).click();
+    public SearchPage selectSubCategory(String mainCategoryName, String subCategoryName) {
+
+        By mainCategory = By.xpath("//ul[@id='top-menu']//a[contains(@class,'dropdown-item') and contains(normalize-space(),'"
+                + mainCategoryName + "')]");
+        By subCategory = By.xpath("//a[contains(@class,'dropdown-submenu') and contains(text(),'"
+                + subCategoryName + "')]");
+
+        waitUntilVisibilityOf(mainCategory);
+        findExtendedWebElement(mainCategory).hover();
+
+        waitUntilVisibilityOf(subCategory);
+        findExtendedWebElement(subCategory).click();
+
         return initPage(getDriver(), SearchPage.class);
     }
-
 }

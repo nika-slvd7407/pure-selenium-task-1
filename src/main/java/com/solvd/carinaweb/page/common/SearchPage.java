@@ -23,7 +23,7 @@ public abstract class SearchPage extends BasePage {
 
     public SearchPage(WebDriver driver) {
         super(driver);
-        //   switchToFramelive();
+       //  switchToFramelive();
         waitUntilVisibilityOf(resultContainerLocator);
 
     }
