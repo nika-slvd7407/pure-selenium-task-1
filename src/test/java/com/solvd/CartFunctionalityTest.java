@@ -19,11 +19,9 @@ public class CartFunctionalityTest extends AbstractTest {
 
         String itemName = itemPage.getItemName().toLowerCase();
         itemPage.addToCart();
-        log.info("{} - added item", itemName);
 
         CheckoutPage checkoutPage = itemPage.clickProceedToCheckout();
         List<String> checkoutItemList = checkoutPage.getItemList();
-        log.info("checkout item list: {}", checkoutItemList);
         Assert.assertTrue(checkoutItemList.contains(itemName), "checkout doesn't contains added item");
     }
 

@@ -24,9 +24,10 @@ public class SearchFunctionalityTest extends AbstractTest {
 
         List<String> searchedItems = searchPage.getSearchedItems();
 
-        sf.assertTrue(!searchedItems.isEmpty(), "error zero items found!");
-        searchedItems.forEach(item -> log.info("{} found", item));
-        sf.assertAll();
+        Assert.assertTrue(
+                searchedItems.stream().anyMatch(item -> item.contains(ITEM_TO_SEARCH.toLowerCase())),
+                "error no items found with name: " + ITEM_TO_SEARCH
+        );
     }
 
     @Test(description = "select category and assert that all the items shown are of right category")

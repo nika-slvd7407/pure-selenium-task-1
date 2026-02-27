@@ -18,7 +18,6 @@ public class SearchPage extends AbstractPage {
     public SearchPage(WebDriver driver) {
         super(driver);
         switchToFramelive();
-
         waitForElementVisible(resultContainer);
     }
 
@@ -49,6 +48,5 @@ public class SearchPage extends AbstractPage {
     private List<WebElement> getItems() {
         return items;
     }
-
 
 }
