@@ -19,11 +19,9 @@ public class CartFunctionalityTest extends AbstractTest {
 
         String itemName = itemPage.getItemName().toLowerCase();
         itemPage.addToCart();
-        log.info("{} - added item", itemName);
 
         CheckoutPage checkoutPage = itemPage.clickProceedToCheckout();
         List<String> checkoutItemList = checkoutPage.getItemList();
-        log.info("checkout item list: {}", checkoutItemList);
         Assert.assertTrue(checkoutItemList.contains(itemName), "checkout doesn't contains added item");
     }
 
@@ -40,6 +38,6 @@ public class CartFunctionalityTest extends AbstractTest {
         checkoutPage.waitUntilAmountUpdated(expectedAmount);
 
         int itemAmount = checkoutPage.getItemAmount();
-        Assert.assertEquals(itemAmount, expectedAmount);
+        Assert.assertEquals(itemAmount, expectedAmount, "amount of items in cart doesn't match expected");
     }
 }

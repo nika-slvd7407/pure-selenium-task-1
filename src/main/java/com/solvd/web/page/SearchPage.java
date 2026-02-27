@@ -18,7 +18,6 @@ public class SearchPage extends AbstractPage {
     public SearchPage(WebDriver driver) {
         super(driver);
         switchToFramelive();
-
         waitForElementVisible(resultContainer);
     }
 
@@ -40,7 +39,6 @@ public class SearchPage extends AbstractPage {
         click(elements.get(index));
         return new ItemPage(getDriver());
     }
-
 
     public int getItemAmount() {
         return items.size();

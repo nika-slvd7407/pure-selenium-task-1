@@ -40,6 +40,7 @@ public class ItemPage extends AbstractPage {
 
     public void addToCart() {
         click(addToCartButton);
+        log.info("{} - added item", itemName);
     }
 
     public Double getItemPrice() {
