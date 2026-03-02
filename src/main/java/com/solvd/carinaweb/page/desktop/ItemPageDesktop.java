@@ -20,4 +20,9 @@ public class ItemPageDesktop extends ItemPage {
     public ItemPageDesktop(WebDriver driver) {
         super(driver);
     }
+
+    @Override
+    public void downloadPicture() {
+
+    }
 }

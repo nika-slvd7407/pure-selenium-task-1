@@ -75,4 +75,6 @@ public abstract class ItemPage extends BasePage {
     public CheckoutPage clickProceedToCheckout(){
         return getItemCartComponent().clickProceedToCheckout();
     }
+
+    public abstract void downloadPicture();
 }
