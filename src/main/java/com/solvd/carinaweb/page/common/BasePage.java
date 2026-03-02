@@ -53,4 +53,7 @@ public abstract class BasePage extends AbstractPage {
     protected void waitUntilClickableOf(WebElement webElement) {
         wait.until(ExpectedConditions.elementToBeClickable(webElement));
     }
+
+    protected void waitUntilNotEmpty(){}
+
 }

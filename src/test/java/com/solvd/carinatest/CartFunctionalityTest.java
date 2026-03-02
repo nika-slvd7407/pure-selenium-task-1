@@ -44,7 +44,6 @@ public class CartFunctionalityTest extends BaseTest {
 
         itemPage.addToCart();
         CheckoutPage checkoutPage = itemPage.clickProceedToCheckout();
-
         checkoutPage.incrementAmount(AMOUNT_OF_CLICKS);
 
         int expectedAmount = 1 + AMOUNT_OF_CLICKS;

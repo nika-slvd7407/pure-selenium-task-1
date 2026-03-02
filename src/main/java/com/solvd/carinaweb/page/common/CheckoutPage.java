@@ -14,25 +14,22 @@ public abstract class CheckoutPage extends BasePage {
 
     private static final Logger log = LogManager.getLogger(CheckoutPage.class);
 
+    private final By itemAmountLocator = By.cssSelector("#cart-subtotal-products span.js-subtotal");
+    private final By cartContainerLocator = By.cssSelector("div.cart-overview.js-cart");
+
     @FindBy(css = "div.product-line-info a.label")
     private List<ExtendedWebElement> itemsInCheckout;
-
-    @FindBy(css = "span.js-subtotal")
-    private ExtendedWebElement itemAmount;
 
     @FindBy(css = "button.bootstrap-touchspin-up")
     private ExtendedWebElement incrementButton;
 
-    private By itemListLocator = By.id("main");
-
     public CheckoutPage(WebDriver driver) {
         super(driver);
-        waitUntilVisibilityOf(itemListLocator);
+        waitUntilClickableOf(incrementButton);
     }
 
     public List<String> getItemList() {
-
-        wait.until(d -> !itemsInCheckout.isEmpty());
+    //    wait.until(d -> !itemsInCheckout.isEmpty());
 
         List<String> itemList = new ArrayList<>();
 
@@ -46,7 +43,7 @@ public abstract class CheckoutPage extends BasePage {
     }
 
     public int getItemAmount() {
-        String rawAmount = itemAmount.getText();
+        String rawAmount = wait.until(driver -> driver.findElement(itemAmountLocator).getText());
         return Integer.parseInt(rawAmount.split(" ")[0]);
     }
 
@@ -62,6 +59,10 @@ public abstract class CheckoutPage extends BasePage {
     }
 
     public void waitUntilAmountUpdated(int expectedAmount) {
-        wait.until(d -> getItemAmount() == expectedAmount);
+        wait.until(d -> {
+            String text = d.findElement(itemAmountLocator).getText();
+            int current = Integer.parseInt(text.split(" ")[0]);
+            return current == expectedAmount;
+        });
     }
 }
