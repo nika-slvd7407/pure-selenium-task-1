@@ -1,5 +1,6 @@
 package com.solvd;
 
+import com.solvd.testutil.ScreenshotListener;
 import com.solvd.util.Config;
 import com.solvd.util.DriverFactory;
 import org.apache.logging.log4j.LogManager;
@@ -12,28 +13,27 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.asserts.SoftAssert;
 
 import java.time.Duration;
 
+@Listeners(ScreenshotListener.class)
 public abstract class AbstractTest {
 
     protected final Logger log = LogManager.getLogger(getClass());
     private static final ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
-    protected SoftAssert sf;
 
     @BeforeMethod(alwaysRun = true)
-    public void setup() {
+    @Parameters({"browser"})
+    public void setup(@Optional("chrome") String browser) {
         log.info("setup start");
-
-        driverThreadLocal.set(DriverFactory.createDriver(Config.get("BROWSER")));
+        driverThreadLocal.set(DriverFactory.createDriver(browser));
         WebDriver driver = getDriver();
 
-        sf = new SoftAssert();
-
         getDriver().get(Config.get("URL"));
-
-
         log.info("setup end");
     }
 

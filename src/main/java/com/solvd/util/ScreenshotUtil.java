@@ -25,7 +25,7 @@ public class ScreenshotUtil {
             FileUtils.copyFile(srcFile, new File(filePath));
             log.info("Screenshot saved at: {}", filePath);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Failed to save screenshot", e);
         }
         return filePath;
     }

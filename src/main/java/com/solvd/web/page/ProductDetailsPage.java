@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class ProductDetailsPage extends AbstractPage {
@@ -43,10 +44,11 @@ public class ProductDetailsPage extends AbstractPage {
         log.info("{} - added item", itemName);
     }
 
-    public Double getItemPrice() {
+    public BigDecimal getItemPrice() {
         String rawPrice = getText(itemPrice);
-        return  Double.parseDouble(rawPrice
-                .replaceAll("[^0-9.]", ""));
+
+        return  BigDecimal.valueOf(Double.parseDouble(rawPrice
+                .replaceAll("[^0-9.]", "")));
     }
 
     public boolean isCategory(String category) {
