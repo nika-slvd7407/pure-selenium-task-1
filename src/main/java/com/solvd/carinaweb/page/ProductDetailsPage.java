@@ -5,11 +5,11 @@ import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.math.BigDecimal;
 import java.util.List;
 
-public class ItemPage extends BasePage {
+public class ProductDetailsPage extends BasePage {
 
     @FindBy(css = "button.add-to-cart")
     private ExtendedWebElement addToCartButton;
@@ -20,16 +20,16 @@ public class ItemPage extends BasePage {
     @FindBy(css = "span.current-price-value")
     private ExtendedWebElement itemPrice;
 
-    private By content = By.id("add-to-cart-or-refresh");
+    @FindBy(css = "add-to-cart-or-refresh")
+    private ExtendedWebElement contentWrapper;
 
-    @FindBy(id = "breadcrumb")
-    private ItemCartComponent ItemCartComponent;
+    @FindBy(id = "blockcart-modal")
+    private ItemCartComponent itemCartComponent;
 
-    public ItemPage(WebDriver driver) {
+    public ProductDetailsPage(WebDriver driver) {
         super(driver);
-        //     switchToFramelive();
-        waitUntilVisibilityOf(content);
-        //pause(3L);
+        setUiLoadedMarker(contentWrapper);
+
     }
 
     public String getItemName() {
@@ -39,16 +39,16 @@ public class ItemPage extends BasePage {
     public void addToCart() {
         waitUntilClickableOf(addToCartButton);
         addToCartButton.click();
-        // wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("blockcart-modal")));
+        isPageOpened();
     }
 
-    public Double getItemPrice() {
+    public BigDecimal getItemPrice() {
         String rawPrice = itemPrice.getText();
-        return Double.parseDouble(rawPrice.replaceAll("[^0-9.]", ""));
+        return BigDecimal.valueOf(Double.parseDouble(rawPrice.replaceAll("[^0-9.]", "")));
     }
 
     public ItemCartComponent getItemCartComponent() {
-        return ItemCartComponent;
+        return itemCartComponent;
     }
 
     public boolean isCategory(String category) {
@@ -61,20 +61,20 @@ public class ItemPage extends BasePage {
     }
 
     public String getCategory() {
-        By breadcrumbItems = By.cssSelector("nav.breadcrumb a span");
-        wait.until(ExpectedConditions.visibilityOfAllElements(getDriver().findElements(breadcrumbItems)));
-        List<ExtendedWebElement> items =
-                findExtendedWebElements(breadcrumbItems);
+        List<ExtendedWebElement> items = findExtendedWebElements(By.cssSelector("nav.breadcrumb a span"));
+
         if (items.isEmpty()) {
             return "no category";
         }
+
         for (ExtendedWebElement item : items) {
             log.info(item.getText().trim());
         }
+
         return items.get(items.size() - 1).getText().trim();
     }
 
-    public void back() {
+    public void navigateBack() {
         getDriver().navigate().back();
     }
 

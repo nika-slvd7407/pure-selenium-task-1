@@ -1,7 +1,7 @@
 package com.solvd.carinatest;
 
 import com.solvd.carinaweb.page.BasePage;
-import com.solvd.carinaweb.page.ItemPage;
+import com.solvd.carinaweb.page.ProductDetailsPage;
 import com.solvd.carinaweb.page.MainPage;
 import com.solvd.carinaweb.page.SearchPage;
 import com.zebrunner.carina.utils.R;
@@ -41,8 +41,8 @@ public class SearchFunctionalityTest extends BaseTest {
         MainPage mainPage = basePage.switchToShopFrame();
         SearchPage searchPage = mainPage.selectSubCategory(MAIN_CATEGORY, CATEGORY);
 
-        ItemPage itemPage = searchPage.openItemByIndex(0);
-        String actualCategory = itemPage.getCategory();
+        ProductDetailsPage productDetailsPage = searchPage.openItemByIndex(0);
+        String actualCategory = productDetailsPage.getCategory();
 
         Assert.assertEquals(
                 actualCategory,

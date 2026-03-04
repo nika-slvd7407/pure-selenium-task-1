@@ -24,16 +24,17 @@ public class CheckoutPage extends BasePage {
     private ExtendedWebElement incrementButton;
 
     private By itemListLocator = By.id("main");
+    private ExtendedWebElement mainWrapper;
 
     public CheckoutPage(WebDriver driver) {
         super(driver);
-        //   switchToFramelive();
-        waitUntilVisibilityOf(itemListLocator);
+        setUiLoadedMarker(mainWrapper);
+        isPageOpened();
     }
 
     public List<String> getItemList() {
 
-        wait.until(d -> !itemsInCheckout.isEmpty());
+        itemsInCheckout.get(0).assertElementPresent();
 
         List<String> itemList = new ArrayList<>();
 
@@ -56,13 +57,16 @@ public class CheckoutPage extends BasePage {
         incrementButton.click();
     }
 
-    public void incrementAmount(int clickTime) {
+    public void increaseItemQuantity(int clickTime) {
         for (int i = 0; i < clickTime; i++) {
             clickIncrementButton();
         }
     }
 
     public void waitUntilAmountUpdated(int expectedAmount) {
-        wait.until(d -> getItemAmount() == expectedAmount);
+        itemAmount.waitUntil(driver ->
+                        getItemAmount() == expectedAmount,
+                WAIT_TIME
+        );
     }
 }

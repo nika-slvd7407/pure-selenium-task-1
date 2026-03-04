@@ -2,34 +2,38 @@ package com.solvd.carinaweb.page;
 
 import com.solvd.util.PriceUtil;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
+import com.zebrunner.carina.webdriver.decorator.PageOpeningStrategy;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Random;
 
 public class MainPage extends BasePage {
 
-    private final By menCategory = By.id("category-4");
     @FindBy(css = "input.ui-autocomplete-input")
     private ExtendedWebElement inputForm;
+
     @FindBy(css = "div.thumbnail-container h3 a")
     private List<ExtendedWebElement> mainPageItemList;
+
     @FindBy(css = "div.thumbnail-container span.price")
     private List<ExtendedWebElement> priceList;
+
     @FindBy(id = "category-3")
     private ExtendedWebElement clotheCategoryButton;
-    @FindBy(id = "wrapper")
-    private ExtendedWebElement pageContainer;
 
-    private By contentWrapper = By.id("content");
+    @FindBy(xpath = "//div[contains (@class, 'products row')]")
+    private ExtendedWebElement pageContainer;
 
     public MainPage(WebDriver driver) {
         super(driver);
-        //switchToFramelive();
-        waitUntilVisibilityOf(contentWrapper);
+        setPageOpeningStrategy(PageOpeningStrategy.BY_ELEMENT);
+        setUiLoadedMarker(pageContainer);
+        isPageOpened();
     }
 
     public SearchPage search(String name) {
@@ -38,19 +42,20 @@ public class MainPage extends BasePage {
         return new SearchPage(getDriver());
     }
 
-    public ItemPage clickRandomItem() {
+    public ProductDetailsPage clickRandomItem() {
         int randomIndex = new Random().nextInt(mainPageItemList.size());
         mainPageItemList.get(randomIndex).click();
-        return new ItemPage(getDriver());
+        return new ProductDetailsPage(getDriver());
     }
 
-    public ItemPage clickItem(int index) {
+    public ProductDetailsPage clickItem(int index) {
         mainPageItemList.get(index).click();
-        return new ItemPage(getDriver());
+        return new ProductDetailsPage(getDriver());
     }
 
-    public String getName(int index) {
-        wait.until(d -> !mainPageItemList.isEmpty());
+    public String getItemName(int index) {
+        mainPageItemList.get(index).assertElementPresent(WAIT_TIME);
+
         return mainPageItemList.get(index)
                 .getText()
                 .toLowerCase()
@@ -58,8 +63,8 @@ public class MainPage extends BasePage {
                 .trim();
     }
 
-    public Double getPrice(int index) {
-        wait.until(d -> !priceList.isEmpty());
+    public BigDecimal getPrice(int index) {
+        mainPageItemList.get(index).assertElementPresent(WAIT_TIME);
 
         String rawPrice = priceList.get(index)
                 .getText()
@@ -70,15 +75,8 @@ public class MainPage extends BasePage {
     }
 
     public int getMainPageItemAmount() {
-        wait.until(d -> !mainPageItemList.isEmpty());
+        mainPageItemList.get(0).assertElementPresent(WAIT_TIME);
         return mainPageItemList.size();
-    }
-
-    public SearchPage selectClothesMenCategory() {
-        clotheCategoryButton.hover();
-        wait.until(d -> getDriver().findElement(menCategory).isDisplayed());
-        getDriver().findElement(menCategory).click();
-        return new SearchPage(getDriver());
     }
 
     public SearchPage selectSubCategory(String mainCategoryName, String subCategoryName) {

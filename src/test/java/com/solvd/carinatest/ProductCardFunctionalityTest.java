@@ -1,10 +1,12 @@
 package com.solvd.carinatest;
 
 import com.solvd.carinaweb.page.BasePage;
-import com.solvd.carinaweb.page.ItemPage;
+import com.solvd.carinaweb.page.ProductDetailsPage;
 import com.solvd.carinaweb.page.MainPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.math.BigDecimal;
 
 public class ProductCardFunctionalityTest extends BaseTest {
 
@@ -17,11 +19,11 @@ public class ProductCardFunctionalityTest extends BaseTest {
 
         int itemIndex = 0;
 
-        double expectedPrice = mainPage.getPrice(itemIndex);
-        ItemPage itemPage = mainPage.clickItem(itemIndex);
+        BigDecimal expectedPrice = mainPage.getPrice(itemIndex);
+        ProductDetailsPage productDetailsPage = mainPage.clickItem(itemIndex);
 
         Assert.assertEquals(
-                itemPage.getItemPrice(),
+                productDetailsPage.getItemPrice(),
                 expectedPrice,
                 "Product price mismatch between Main Page and Item Page"
         );

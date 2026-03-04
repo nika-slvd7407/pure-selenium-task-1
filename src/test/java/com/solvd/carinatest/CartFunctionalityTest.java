@@ -2,7 +2,7 @@ package com.solvd.carinatest;
 
 import com.solvd.carinaweb.page.BasePage;
 import com.solvd.carinaweb.page.CheckoutPage;
-import com.solvd.carinaweb.page.ItemPage;
+import com.solvd.carinaweb.page.ProductDetailsPage;
 import com.solvd.carinaweb.page.MainPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -19,12 +19,12 @@ public class CartFunctionalityTest extends BaseTest {
         BasePage basePage = new BasePage(getDriver());
         basePage.open();
         MainPage mainPage = basePage.switchToShopFrame();
-        ItemPage itemPage = mainPage.clickItem(0);
+        ProductDetailsPage productDetailsPage = mainPage.clickItem(0);
 
-        String itemName = itemPage.getItemName().toLowerCase();
+        String itemName = productDetailsPage.getItemName().toLowerCase();
 
-        itemPage.addToCart();
-        CheckoutPage checkoutPage = itemPage.clickProceedToCheckout();
+        productDetailsPage.addToCart();
+        CheckoutPage checkoutPage = productDetailsPage.clickProceedToCheckout();
 
         List<String> checkoutItemList = checkoutPage.getItemList();
 
@@ -40,12 +40,12 @@ public class CartFunctionalityTest extends BaseTest {
         BasePage basePage = new BasePage(getDriver());
         basePage.open();
         MainPage mainPage = basePage.switchToShopFrame();
-        ItemPage itemPage = mainPage.clickItem(0);
+        ProductDetailsPage productDetailsPage = mainPage.clickItem(0);
 
-        itemPage.addToCart();
-        CheckoutPage checkoutPage = itemPage.clickProceedToCheckout();
+        productDetailsPage.addToCart();
+        CheckoutPage checkoutPage = productDetailsPage.clickProceedToCheckout();
 
-        checkoutPage.incrementAmount(AMOUNT_OF_CLICKS);
+        checkoutPage.increaseItemQuantity(AMOUNT_OF_CLICKS);
 
         int expectedAmount = 1 + AMOUNT_OF_CLICKS;
         checkoutPage.waitUntilAmountUpdated(expectedAmount);

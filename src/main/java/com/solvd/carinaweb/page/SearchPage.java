@@ -1,7 +1,6 @@
 package com.solvd.carinaweb.page;
 
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
@@ -13,20 +12,17 @@ public class SearchPage extends BasePage {
     @FindBy(css = "div.js-product.product h2 a")
     private List<ExtendedWebElement> items;
 
-    @FindBy(id = "wrapper")
+    @FindBy(id = "products")
     private ExtendedWebElement resultContainer;
-
-    private By resultContainerLocator = By.id("wrapper");
 
     public SearchPage(WebDriver driver) {
         super(driver);
-        //   switchToFramelive();
-        waitUntilVisibilityOf(resultContainerLocator);
-
+        setUiLoadedMarker(resultContainer);
+        isPageOpened();
     }
 
     public List<String> getSearchedItems() {
-        wait.until(d -> !items.isEmpty());
+        items.get(0).assertElementPresent();
 
         List<String> titles = new ArrayList<>();
 
@@ -37,14 +33,14 @@ public class SearchPage extends BasePage {
         return titles;
     }
 
-    public ItemPage openItemByIndex(int index) {
-        wait.until(d -> !items.isEmpty());
+    public ProductDetailsPage openItemByIndex(int index) {
+        items.get(0).assertElementPresent();
         items.get(index).click();
-        return new ItemPage(getDriver());
+        return new ProductDetailsPage(getDriver());
     }
 
     public int getItemAmount() {
-        wait.until(d -> !items.isEmpty());
+        items.get(0).assertElementPresent();
         return items.size();
     }
 }
