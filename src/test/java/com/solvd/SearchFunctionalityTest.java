@@ -1,13 +1,10 @@
 package com.solvd;
 
 import com.solvd.util.Config;
-import com.solvd.util.DriverManager;
-import com.solvd.util.WebUtil;
+import com.solvd.web.page.ProductDetailsPage;
 import com.solvd.web.page.MainPage;
 import com.solvd.web.page.SearchPage;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -15,19 +12,36 @@ import java.util.List;
 public class SearchFunctionalityTest extends AbstractTest {
 
     private static final String ITEM_TO_SEARCH = Config.get("ITEM_TO_SEARCH");
+    private static final String CATEGORY = Config.get("CATEGORY");
+    private static final String MAIN_CATEGORY = Config.get("MAIN_CATEGORY");
+
 
     @Test(description = "assert that search function is working properly and outputs items")
     public void testSearchFunction() throws InterruptedException {
-        WebUtil.switchFrame(driver,"framelive", wait);
-        log.info("frame switch");
 
-        MainPage mainPage = new MainPage(driver);
+        MainPage mainPage = new MainPage(getDriver());
         SearchPage searchPage = mainPage.search(ITEM_TO_SEARCH);
 
         List<String> searchedItems = searchPage.getSearchedItems();
 
-        sf.assertTrue(!searchedItems.isEmpty(), "error zero items found!");
-        searchedItems.forEach(item -> log.info("{} found", item));
-        sf.assertAll();
+        Assert.assertTrue(
+                searchedItems.stream().anyMatch(item -> item.contains(ITEM_TO_SEARCH.toLowerCase())),
+                "error no items found with name: " + ITEM_TO_SEARCH
+        );
     }
+
+    @Test(description = "select category and assert that all the items shown are of right category")
+    public void testCategoryFunctionality() {
+        MainPage mainPage = new MainPage(getDriver());
+        SearchPage searchPage = mainPage.selectSubCategory(MAIN_CATEGORY, CATEGORY);
+        ProductDetailsPage productDetailsPage = searchPage.openItemByIndex(0);
+        String firstCategory = productDetailsPage.getCategory();
+
+        Assert.assertEquals(
+                firstCategory,
+                CATEGORY,
+                "First item does not belong to selected category: " + firstCategory
+        );
+    }
+
 }

@@ -9,7 +9,7 @@ public final class Config {
     private static final Properties PROPERTIES = new Properties();
 
     static {
-        try (InputStream input = Config.class.getClassLoader().getResourceAsStream("basic.properties")) {
+        try (InputStream input = Config.class.getClassLoader().getResourceAsStream("config.properties")) {
 
             if (input == null) {
                 throw new RuntimeException("properties not found");
