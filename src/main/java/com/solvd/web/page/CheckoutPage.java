@@ -1,5 +1,6 @@
 package com.solvd.web.page;
 
+import com.solvd.util.PriceUtil;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -39,15 +40,15 @@ public class CheckoutPage extends AbstractPage {
 
     public int getItemAmount() {
         String rawAmount = getText(itemAmount);
-        return Integer.valueOf(rawAmount.split(" ")[0]);
+        return PriceUtil.parseItemAmountText(rawAmount);
     }
 
     public void clickIncrementButton() {
         click(incrementButton);
     }
 
-    public void incrementAmount(int clickTime) {
-        for (int i = 0; i < clickTime; i++) {
+    public void increaseItemQuantity(int times) {
+        for (int i = 0; i < times; i++) {
             clickIncrementButton();
         }
     }
@@ -55,6 +56,5 @@ public class CheckoutPage extends AbstractPage {
     public void waitUntilAmountUpdated(int expectedAmount) {
         wait.until(driver -> getItemAmount() == expectedAmount);
     }
-
 
 }

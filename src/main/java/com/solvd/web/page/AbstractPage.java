@@ -20,7 +20,6 @@ public abstract class AbstractPage {
     protected final Logger log = LogManager.getLogger(getClass());
     private final static String frameId = "framelive";
 
-
     public AbstractPage(WebDriver driver) {
 
         this.driver = driver;
@@ -82,10 +81,6 @@ public abstract class AbstractPage {
         } catch (Exception e) {
             log.warn("'framelive' not found");
         }
-    }
-
-    protected void waitUntilVisibilityOf(By locator) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
     protected void switchToFramelive() {

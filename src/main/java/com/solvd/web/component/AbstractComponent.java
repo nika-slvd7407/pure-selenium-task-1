@@ -11,10 +11,10 @@ public abstract class AbstractComponent {
 
     protected WebDriverWait wait;
     protected WebDriver driver;
-    protected WebElement context;
+    protected WebElement rootElement;
 
     public AbstractComponent(WebElement root, WebDriver driver) {
-        this.context = root;
+        this.rootElement = root;
         this.driver = driver;
         this.wait = new WebDriverWait(
                 driver,

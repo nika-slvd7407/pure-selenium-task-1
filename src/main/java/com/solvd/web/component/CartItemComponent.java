@@ -13,8 +13,6 @@ public class CartItemComponent extends AbstractComponent {
     private final By continueShoppingLocator =
             By.cssSelector(".modal-body .cart-content-btn .btn-secondary");
 
-    private final By wrapperLocator = By.id("wrapper");
-
     public CartItemComponent(WebDriver driver, WebElement root) {
         super(root, driver);
     }
@@ -22,21 +20,12 @@ public class CartItemComponent extends AbstractComponent {
     public void clickProceedToCheckout() {
         WebElement checkoutButton =
                 wait.until(ExpectedConditions.elementToBeClickable(checkoutButtonLocator));
-        click(checkoutButton);
+        checkoutButton.click();
     }
 
     public void clickContinueShopping() {
         WebElement continueButton =
                 wait.until(ExpectedConditions.elementToBeClickable(continueShoppingLocator));
-        click(continueButton);
-    }
-
-    private void click(WebElement element) {
-        waitForElementVisible(element);
-        element.click();
-    }
-
-    protected WebElement waitForElementVisible(WebElement element) {
-        return wait.until(ExpectedConditions.visibilityOf(element));
+        continueButton.click();
     }
 }

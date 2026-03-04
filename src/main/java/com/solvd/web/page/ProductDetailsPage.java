@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
-public class ItemPage extends AbstractPage {
+public class ProductDetailsPage extends AbstractPage {
 
     @FindBy(css = "button.add-to-cart")
     private WebElement addToCartButton;
@@ -20,12 +20,9 @@ public class ItemPage extends AbstractPage {
     @FindBy(css = "span.current-price-value")
     private WebElement itemPrice;
 
-    private By content = By.id("add-to-cart-or-refresh");
-
-    public ItemPage(WebDriver driver) {
+    public ProductDetailsPage(WebDriver driver) {
         super(driver);
         wait.until(ExpectedConditions.visibilityOf(addToCartButton));
-        waitUntilVisibilityOf(content);
     }
 
     public String getItemName() {
@@ -34,7 +31,7 @@ public class ItemPage extends AbstractPage {
 
     public CheckoutPage clickProceedToCheckout() {
         getCartItemComponent().clickProceedToCheckout();
-        return new CheckoutPage(getDriver());
+       return new CheckoutPage(getDriver());
     }
 
     public void clickContinueShopping() {
@@ -42,13 +39,13 @@ public class ItemPage extends AbstractPage {
     }
 
     public void addToCart() {
-        wait.until(ExpectedConditions.elementToBeClickable(addToCartButton));
         click(addToCartButton);
+        log.info("{} - added item", itemName);
     }
 
     public Double getItemPrice() {
         String rawPrice = getText(itemPrice);
-        return Double.parseDouble(rawPrice
+        return  Double.parseDouble(rawPrice
                 .replaceAll("[^0-9.]", ""));
     }
 
@@ -71,7 +68,7 @@ public class ItemPage extends AbstractPage {
         return items.get(items.size() - 1).getText().trim();
     }
 
-    public void back() {
+    public void navigateBack() {
         getDriver().navigate().back();
     }
 

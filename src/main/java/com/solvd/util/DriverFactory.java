@@ -1,43 +1,28 @@
 package com.solvd.util;
 
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.remote.RemoteWebDriver;
-
-import java.net.URL;
 
 public class DriverFactory {
 
-    public static WebDriver createDriver(String driverName) {
+    public static WebDriver createDriver(String browser) {
 
-        if (driverName == null) {
-            throw new RuntimeException("driver is missing");
+        if (browser == null) {
+            browser = "chrome";
         }
 
-        try {
-            URL gridUrl = new URL(Config.get("GRID_URL"));
+        switch (browser.toLowerCase()) {
+            case "chrome":
+                ChromeOptions options = new ChromeOptions();
+                options.addArguments("--start-maximized");
+                options.addArguments("--remote-allow-origins=*");
+                options.addArguments("--no-sandbox");
+                options.addArguments("--disable-dev-shm-usage");
+                return new ChromeDriver(options);
 
-            switch (driverName.toLowerCase()) {
-
-                case "firefox":
-                    FirefoxOptions firefoxOptions = new FirefoxOptions();
-                    return new RemoteWebDriver(gridUrl, firefoxOptions);
-
-                case "chrome":
-                    ChromeOptions chromeOptions = new ChromeOptions();
-                    chromeOptions.addArguments("--start-maximized");
-                    chromeOptions.addArguments("--no-sandbox");
-                    chromeOptions.addArguments("--disable-dev-shm-usage");
-                    return new RemoteWebDriver(gridUrl, chromeOptions);
-
-                default:
-                    throw new RuntimeException("uknnown driver  " + driverName);
-            }
-
-        } catch (Exception e) {
-            throw new WebDriverException("didnt created browser", e);
+            default:
+                throw new IllegalArgumentException("Unsupported browser: " + browser);
         }
     }
 }
