@@ -1,6 +1,7 @@
 package com.solvd.carinaweb.component;
 
 import com.solvd.carinaweb.page.CheckoutPage;
+import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -16,7 +17,7 @@ public class ItemCartComponent extends BaseComponent {
     public CheckoutPage clickProceedToCheckout() {
 
         By checkoutLocator = By.cssSelector(".modal-body .cart-content-btn .btn-primary");
-        WebElement checkoutBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(checkoutLocator));
+        ExtendedWebElement checkoutBtn = waitUntil;
         checkoutBtn.click();
         return new CheckoutPage(getDriver());
     }
