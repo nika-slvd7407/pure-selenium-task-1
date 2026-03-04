@@ -1,7 +1,7 @@
 package com.solvd;
 
 import com.solvd.web.page.CheckoutPage;
-import com.solvd.web.page.ItemPage;
+import com.solvd.web.page.ProductDetailsPage;
 import com.solvd.web.page.MainPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -15,12 +15,12 @@ public class CartFunctionalityTest extends AbstractTest {
     @Test(description = "assert that after pressing add to cart button item added into cart")
     public void testAddItemToCart() {
         MainPage mainPage = new MainPage(getDriver());
-        ItemPage itemPage = mainPage.clickItem(0);
+        ProductDetailsPage productDetailsPage = mainPage.clickItem(0);
 
-        String itemName = itemPage.getItemName().toLowerCase();
-        itemPage.addToCart();
+        String itemName = productDetailsPage.getItemName().toLowerCase();
+        productDetailsPage.addToCart();
 
-        CheckoutPage checkoutPage = itemPage.clickProceedToCheckout();
+        CheckoutPage checkoutPage = productDetailsPage.clickProceedToCheckout();
         List<String> checkoutItemList = checkoutPage.getItemList();
         Assert.assertTrue(checkoutItemList.contains(itemName), "checkout doesn't contains added item");
     }
@@ -29,12 +29,12 @@ public class CartFunctionalityTest extends AbstractTest {
     public void testCartQuantityUpdate() {
         MainPage mainPage = new MainPage(getDriver());
 
-        ItemPage itemPage = mainPage.clickItem(0);
+        ProductDetailsPage productDetailsPage = mainPage.clickItem(0);
 
-        itemPage.addToCart();
-        CheckoutPage checkoutPage = itemPage.clickProceedToCheckout();
+        productDetailsPage.addToCart();
+        CheckoutPage checkoutPage = productDetailsPage.clickProceedToCheckout();
 
-        checkoutPage.incrementAmount(AMOUNT_OF_CLICKS);
+        checkoutPage.increaseItemQuantity(AMOUNT_OF_CLICKS);
         int expectedAmount = 1 + AMOUNT_OF_CLICKS;
         checkoutPage.waitUntilAmountUpdated(expectedAmount);
 

@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
-public class ItemPage extends AbstractPage {
+public class ProductDetailsPage extends AbstractPage {
 
     @FindBy(css = "button.add-to-cart")
     private WebElement addToCartButton;
@@ -20,7 +20,7 @@ public class ItemPage extends AbstractPage {
     @FindBy(css = "span.current-price-value")
     private WebElement itemPrice;
 
-    public ItemPage(WebDriver driver) {
+    public ProductDetailsPage(WebDriver driver) {
         super(driver);
         wait.until(ExpectedConditions.visibilityOf(addToCartButton));
     }
@@ -68,7 +68,7 @@ public class ItemPage extends AbstractPage {
         return items.get(items.size() - 1).getText().trim();
     }
 
-    public void back() {
+    public void navigateBack() {
         getDriver().navigate().back();
     }
 

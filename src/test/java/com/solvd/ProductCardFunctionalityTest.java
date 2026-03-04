@@ -1,11 +1,11 @@
 package com.solvd;
 
-import com.solvd.web.page.ItemPage;
+import com.solvd.web.page.ProductDetailsPage;
 import com.solvd.web.page.MainPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.util.Random;
+import java.math.BigDecimal;
 
 public class ProductCardFunctionalityTest extends AbstractTest {
 
@@ -14,11 +14,11 @@ public class ProductCardFunctionalityTest extends AbstractTest {
         MainPage mainPage = new MainPage(getDriver());
         int itemIndex = 0;
 
-        double expectedPrice = mainPage.getPrice(itemIndex);
-        ItemPage itemPage = mainPage.clickItem(itemIndex);
+        BigDecimal expectedPrice = mainPage.getPrice(itemIndex);
+        ProductDetailsPage productDetailsPage = mainPage.clickItem(itemIndex);
 
         Assert.assertEquals(
-                itemPage.getItemPrice(),
+                productDetailsPage.getItemPrice(),
                 expectedPrice,
                 "Product price mismatch between Main Page and Item Page"
         );

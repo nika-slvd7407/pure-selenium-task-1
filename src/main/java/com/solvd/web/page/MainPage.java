@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Random;
 
@@ -40,29 +41,29 @@ public class MainPage extends AbstractPage {
         return new SearchPage(getDriver());
     }
 
-    public ItemPage clickRandomItem() {
+    public ProductDetailsPage clickRandomItem() {
         int randomIndex = new Random().nextInt(getItems().size());
         WebElement elementToClick = getItems().get(randomIndex);
         click(elementToClick);
-        return new ItemPage(getDriver());
+        return new ProductDetailsPage(getDriver());
     }
 
     private List<WebElement> getItems() {
         return wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(itemLocator));
     }
 
-    public ItemPage clickItem(int index) {
+    public ProductDetailsPage clickItem(int index) {
         List<WebElement> items = getItems();
         click(items.get(index));
-        return new ItemPage(getDriver());
+        return new ProductDetailsPage(getDriver());
     }
 
-    public String getName(int index) {
+    public String getItemName(int index) {
         WebElement elementToGetName = getItems().get(index);
         return getText(elementToGetName).toLowerCase().replace("...", "");
     }
 
-    public Double getPrice(int index) {
+    public BigDecimal getPrice(int index) {
         String rawPrice = getText(priceList.get(index));
         double priceWithoutTax = Double.parseDouble(rawPrice
                 .replaceAll("[^0-9.]", ""));
@@ -90,6 +91,5 @@ public class MainPage extends AbstractPage {
         click(getDriver().findElement(subCategory));
         return new SearchPage(getDriver());
     }
-
 
 }

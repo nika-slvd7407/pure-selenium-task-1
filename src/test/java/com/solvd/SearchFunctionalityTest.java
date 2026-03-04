@@ -1,7 +1,7 @@
 package com.solvd;
 
 import com.solvd.util.Config;
-import com.solvd.web.page.ItemPage;
+import com.solvd.web.page.ProductDetailsPage;
 import com.solvd.web.page.MainPage;
 import com.solvd.web.page.SearchPage;
 import org.testng.Assert;
@@ -34,8 +34,8 @@ public class SearchFunctionalityTest extends AbstractTest {
     public void testCategoryFunctionality() {
         MainPage mainPage = new MainPage(getDriver());
         SearchPage searchPage = mainPage.selectSubCategory(MAIN_CATEGORY, CATEGORY);
-        ItemPage itemPage = searchPage.openItemByIndex(0);
-        String firstCategory = itemPage.getCategory();
+        ProductDetailsPage productDetailsPage = searchPage.openItemByIndex(0);
+        String firstCategory = productDetailsPage.getCategory();
 
         Assert.assertEquals(
                 firstCategory,

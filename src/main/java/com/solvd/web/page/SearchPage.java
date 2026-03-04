@@ -27,7 +27,7 @@ public class SearchPage extends AbstractPage {
                 .collect(Collectors.toList());
     }
 
-    public ItemPage openItemByIndex(int index) {
+    public ProductDetailsPage openItemByIndex(int index) {
         List<WebElement> elements = getItems();
 
         if (index >= elements.size()) {
@@ -37,7 +37,7 @@ public class SearchPage extends AbstractPage {
         }
 
         click(elements.get(index));
-        return new ItemPage(getDriver());
+        return new ProductDetailsPage(getDriver());
     }
 
     public int getItemAmount() {
@@ -47,6 +47,4 @@ public class SearchPage extends AbstractPage {
     private List<WebElement> getItems(){
         return items;
     }
-
-
 }
