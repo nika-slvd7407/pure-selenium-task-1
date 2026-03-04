@@ -3,6 +3,7 @@ package com.solvd.carinaweb.page.common;
 import com.solvd.carinaweb.page.desktop.BasePageDesktop;
 import com.solvd.carinaweb.page.desktop.MainPageDesktop;
 import com.zebrunner.carina.utils.R;
+import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,15 +19,11 @@ public abstract class BasePage extends AbstractPage {
 
     protected static final Logger log = LogManager.getLogger(BasePage.class);
     protected static final int WAIT_TIME = R.CONFIG.getInt("WAIT_TIME");
-    protected WebDriverWait wait;
     private final static String frameId = "framelive";
 
     public BasePage(WebDriver driver) {
         super(driver);
-        this.wait = new WebDriverWait(
-                driver,
-                Duration.ofSeconds(WAIT_TIME)
-        );
+
     }
 
     public MainPage switchToShopFrame() {
@@ -35,11 +32,11 @@ public abstract class BasePage extends AbstractPage {
     }
 
     protected void switchToFrame(String frameId) {
-        wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.id(frameId)));
+        getDriver().switchTo().frame(frameId);
     }
 
     protected void switchToFramelive() {
-        wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.id(frameId)));
+        getDriver().switchTo().frame(frameId);
     }
 
     protected void switchToDefault() {
@@ -47,11 +44,12 @@ public abstract class BasePage extends AbstractPage {
     }
 
     protected void waitUntilVisibilityOf(By locator) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+        findExtendedWebElement(locator, WAIT_TIME)
+                .assertElementPresent(WAIT_TIME);
     }
 
-    protected void waitUntilClickableOf(WebElement webElement) {
-        wait.until(ExpectedConditions.elementToBeClickable(webElement));
+    protected void waitUntilClickableOf(ExtendedWebElement webElement) {
+        webElement.isClickable(WAIT_TIME);
     }
 
     protected void waitUntilNotEmpty(){}
