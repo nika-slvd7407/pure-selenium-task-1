@@ -15,7 +15,6 @@ public class MainPageAndroid extends MainPage {
     @FindBy(xpath = "(//a[contains(@class, 'all-product-link')])[1]")
     private ExtendedWebElement allProductsLink;
 
-
     public MainPageAndroid(WebDriver driver) {
         super(driver);
     }

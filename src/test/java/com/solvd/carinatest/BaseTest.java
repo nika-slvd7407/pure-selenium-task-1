@@ -19,6 +19,5 @@ public class BaseTest extends AbstractTest {
     public void setUp(@Optional("chrome") String browser) {
         R.CONFIG.put("browser", browser);
         log.info("{} browser will be used for test", browser);
-        sf = new SoftAssert();
     }
 }

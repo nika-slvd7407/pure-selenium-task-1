@@ -2,11 +2,13 @@ package com.solvd.carinaweb.page.common;
 
 import com.solvd.util.PriceUtil;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
+import com.zebrunner.carina.webdriver.decorator.PageOpeningStrategy;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Random;
 
@@ -24,16 +26,14 @@ public abstract class MainPage extends BasePage {
     @FindBy(id = "category-3")
     private ExtendedWebElement clotheCategoryButton;
 
-
-    @FindBy(id = "wrapper")
+    @FindBy(xpath = "//div[contains (@class, 'products row')]")
     private ExtendedWebElement pageContainer;
-
-    private By contentWrapper = By.id("content");
 
     public MainPage(WebDriver driver) {
         super(driver);
-        //switchToFramelive();
-        waitUntilVisibilityOf(contentWrapper);
+        setPageOpeningStrategy(PageOpeningStrategy.BY_ELEMENT);
+        setUiLoadedMarker(pageContainer);
+        isPageOpened();
     }
 
     public SearchPage search(String name) {
@@ -42,19 +42,20 @@ public abstract class MainPage extends BasePage {
         return initPage(getDriver(), SearchPage.class);
     }
 
-    public ItemPage clickRandomItem() {
+    public ProductDetailsPage clickRandomItem() {
         int randomIndex = new Random().nextInt(mainPageItemList.size());
         mainPageItemList.get(randomIndex).click();
-        return initPage(getDriver(), ItemPage.class);
+        return initPage(getDriver(), ProductDetailsPage.class);
     }
 
-    public ItemPage clickItem(int index) {
+    public ProductDetailsPage clickItem(int index) {
         mainPageItemList.get(index).click();
-        return initPage(getDriver(), ItemPage.class);
+        return initPage(getDriver(), ProductDetailsPage.class);
     }
 
-    public String getName(int index) {
-        wait.until(d -> !mainPageItemList.isEmpty());
+    public String getItemName(int index) {
+        mainPageItemList.get(index).assertElementPresent(WAIT_TIME);
+
         return mainPageItemList.get(index)
                 .getText()
                 .toLowerCase()
@@ -62,8 +63,8 @@ public abstract class MainPage extends BasePage {
                 .trim();
     }
 
-    public Double getPrice(int index) {
-        wait.until(d -> !priceList.isEmpty());
+    public BigDecimal getPrice(int index) {
+        mainPageItemList.get(index).assertElementPresent(WAIT_TIME);
 
         String rawPrice = priceList.get(index)
                 .getText()
@@ -74,7 +75,7 @@ public abstract class MainPage extends BasePage {
     }
 
     public int getMainPageItemAmount() {
-        wait.until(d -> !mainPageItemList.isEmpty());
+        mainPageItemList.get(0).assertElementPresent(WAIT_TIME);
         return mainPageItemList.size();
     }
 

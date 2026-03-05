@@ -20,16 +20,24 @@ public abstract class CheckoutPage extends BasePage {
     @FindBy(css = "div.product-line-info a.label")
     private List<ExtendedWebElement> itemsInCheckout;
 
+    @FindBy(css = "span.js-subtotal")
+    private ExtendedWebElement itemAmount;
+
     @FindBy(css = "button.bootstrap-touchspin-up")
     private ExtendedWebElement incrementButton;
 
+    private By itemListLocator = By.id("main");
+    private ExtendedWebElement mainWrapper;
+
     public CheckoutPage(WebDriver driver) {
         super(driver);
-        waitUntilClickableOf(incrementButton);
+        setUiLoadedMarker(mainWrapper);
+        isPageOpened();
     }
 
     public List<String> getItemList() {
-    //    wait.until(d -> !itemsInCheckout.isEmpty());
+
+        itemsInCheckout.get(0).assertElementPresent();
 
         List<String> itemList = new ArrayList<>();
 
@@ -43,7 +51,7 @@ public abstract class CheckoutPage extends BasePage {
     }
 
     public int getItemAmount() {
-        String rawAmount = wait.until(driver -> driver.findElement(itemAmountLocator).getText());
+        String rawAmount = itemAmount.getText();
         return Integer.parseInt(rawAmount.split(" ")[0]);
     }
 
@@ -52,17 +60,16 @@ public abstract class CheckoutPage extends BasePage {
         incrementButton.click();
     }
 
-    public void incrementAmount(int clickTime) {
+    public void increaseItemQuantity(int clickTime) {
         for (int i = 0; i < clickTime; i++) {
             clickIncrementButton();
         }
     }
 
     public void waitUntilAmountUpdated(int expectedAmount) {
-        wait.until(d -> {
-            String text = d.findElement(itemAmountLocator).getText();
-            int current = Integer.parseInt(text.split(" ")[0]);
-            return current == expectedAmount;
-        });
+        itemAmount.waitUntil(driver ->
+                        getItemAmount() == expectedAmount,
+                WAIT_TIME
+        );
     }
 }

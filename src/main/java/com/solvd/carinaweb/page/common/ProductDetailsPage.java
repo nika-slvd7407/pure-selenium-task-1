@@ -7,48 +7,52 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.math.BigDecimal;
 import java.util.List;
 
-public abstract class ItemPage extends BasePage {
+public abstract class ProductDetailsPage extends BasePage {
 
     @FindBy(css = "button.add-to-cart")
     private ExtendedWebElement addToCartButton;
 
     @FindBy(css = "h1.h1")
-    private ExtendedWebElement itemDescription;
+    private ExtendedWebElement itemName;
 
     @FindBy(css = "span.current-price-value")
     private ExtendedWebElement itemPrice;
 
-    private By content = By.id("add-to-cart-or-refresh");
+    @FindBy(css = "add-to-cart-or-refresh")
+    private ExtendedWebElement contentWrapper;
 
-     @FindBy(id = "breadcrumb")
-    private ItemCartComponent ItemCartComponent;
+    @FindBy(id = "blockcart-modal")
+    private ItemCartComponent itemCartComponent;
 
-    public ItemPage(WebDriver driver) {
+    public ProductDetailsPage(WebDriver driver) {
         super(driver);
-        waitUntilVisibilityOf(content);
+        setUiLoadedMarker(contentWrapper);
+
     }
 
     public String getItemName() {
-        return itemDescription.getText();
+        return itemName.getText();
     }
 
     public void addToCart() {
         waitUntilClickableOf(addToCartButton);
         addToCartButton.click();
+        isPageOpened();
     }
 
-    public Double getItemPrice() {
+    public BigDecimal getItemPrice() {
         String rawPrice = itemPrice.getText();
-        return Double.parseDouble(rawPrice.replaceAll("[^0-9.]", ""));
+        return BigDecimal.valueOf(Double.parseDouble(rawPrice.replaceAll("[^0-9.]", "")));
     }
 
     public ItemCartComponent getItemCartComponent() {
-        return ItemCartComponent;
+        return itemCartComponent;
     }
 
-    public boolean checkCategory(String category) {
+    public boolean isCategory(String category) {
 
         List<ExtendedWebElement> items =
                 findExtendedWebElements(By.cssSelector("nav.breadcrumb a span"));
@@ -58,23 +62,21 @@ public abstract class ItemPage extends BasePage {
     }
 
     public String getCategory() {
-        By breadcrumbItems = By.cssSelector("nav.breadcrumb a span");
-        wait.until(ExpectedConditions.visibilityOfAllElements(getDriver().findElements(breadcrumbItems)));
-        List<ExtendedWebElement> items =
-                findExtendedWebElements(breadcrumbItems);
+        List<ExtendedWebElement> items = findExtendedWebElements(By.cssSelector("nav.breadcrumb a span"));
+
         if (items.isEmpty()) {
             return "no category";
         }
         return items.get(items.size() - 1).getText().trim();
     }
 
-    public void back() {
+    public void navigateBack() {
         getDriver().navigate().back();
     }
 
-    public CheckoutPage clickProceedToCheckout(){
+    public CheckoutPage clickProceedToCheckout() {
         return getItemCartComponent().clickProceedToCheckout();
     }
 
-    public abstract void downloadPicture();
+    public abstract boolean downloadPicture();
 }
