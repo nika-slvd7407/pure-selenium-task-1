@@ -20,9 +20,7 @@ public class SearchFunctionalityTest extends BaseTest {
 
     @Test(description = "assert that search function is working properly and outputs items")
     public void testSearchFunction() {
-        BasePage basePage = initPage(getDriver(), BasePage.class);
-        basePage.open();
-        MainPage mainPage = basePage.switchToShopFrame();
+        MainPage mainPage = openMainPage();
 
         SearchPage searchPage = mainPage.search(ITEM_TO_SEARCH);
 
@@ -36,10 +34,7 @@ public class SearchFunctionalityTest extends BaseTest {
 
     @Test(description = "select category and assert that first item belongs to selected category")
     public void testCategoryFunctionality() {
-
-        BasePage basePage = initPage(getDriver(), BasePage.class);
-        basePage.open();
-        MainPage mainPage = basePage.switchToShopFrame();
+        MainPage mainPage = openMainPage();
         SearchPage searchPage = mainPage.selectSubCategory(MAIN_CATEGORY, CATEGORY);
 
         ProductDetailsPage productDetailsPage = searchPage.openItemByIndex(0);

@@ -1,5 +1,7 @@
 package com.solvd.carinatest;
 
+import com.solvd.carinaweb.page.common.BasePage;
+import com.solvd.carinaweb.page.common.MainPage;
 import com.zebrunner.carina.core.AbstractTest;
 import com.zebrunner.carina.utils.R;
 import org.apache.logging.log4j.LogManager;
@@ -20,4 +22,9 @@ public class BaseTest extends AbstractTest {
         R.CONFIG.put("browser", browser);
         log.info("{} browser will be used for test", browser);
     }
-}
+
+    protected MainPage openMainPage() {
+        BasePage basePage = initPage(getDriver(), BasePage.class);
+        basePage.open();
+        return basePage.switchToShopFrame();
+    }}

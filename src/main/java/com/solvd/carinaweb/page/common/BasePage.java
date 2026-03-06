@@ -10,16 +10,21 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
 
 public abstract class BasePage extends AbstractPage {
 
-    protected static final Logger log = LogManager.getLogger(BasePage.class);
     protected static final int WAIT_TIME = R.CONFIG.getInt("WAIT_TIME");
     private final static String frameId = "framelive";
+    protected final Logger log = LogManager.getLogger(getClass());
+
+    @FindBy(id = "header")
+    private ExtendedWebElement header;
 
     public BasePage(WebDriver driver) {
         super(driver);
@@ -44,14 +49,19 @@ public abstract class BasePage extends AbstractPage {
     }
 
     protected void waitUntilVisibilityOf(By locator) {
-        findExtendedWebElement(locator, WAIT_TIME)
-                .assertElementPresent(WAIT_TIME);
+        findExtendedWebElement(locator)
+                .assertElementPresent();
     }
 
     protected void waitUntilClickableOf(ExtendedWebElement webElement) {
-        webElement.isClickable(WAIT_TIME);
+        webElement.isClickable();
     }
 
-    protected void waitUntilNotEmpty(){}
-
+    // i need this method cos the lists load late even with uiLoadingMarker in page constructors,
+    // the page is initialized but the lists are empty :D
+    protected void waitUntilListsArePopulated(List<ExtendedWebElement>... lists) {
+        for (List<ExtendedWebElement> list : lists) {
+            waitUntil(driver -> !list.isEmpty(), 10);
+        }
+    }
 }
