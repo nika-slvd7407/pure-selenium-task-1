@@ -23,17 +23,15 @@ public abstract class MainPage extends BasePage {
     @FindBy(css = "div.thumbnail-container span.price")
     private List<ExtendedWebElement> priceList;
 
-    @FindBy(id = "category-3")
-    private ExtendedWebElement clotheCategoryButton;
-
-    @FindBy(xpath = "//div[contains (@class, 'products row')]")
+    @FindBy(id = "content")
     private ExtendedWebElement pageContainer;
 
     public MainPage(WebDriver driver) {
         super(driver);
         setPageOpeningStrategy(PageOpeningStrategy.BY_ELEMENT);
         setUiLoadedMarker(pageContainer);
-        isPageOpened();
+
+        waitUntilListsArePopulated(priceList, mainPageItemList);
     }
 
     public SearchPage search(String name) {
@@ -54,7 +52,7 @@ public abstract class MainPage extends BasePage {
     }
 
     public String getItemName(int index) {
-        mainPageItemList.get(index).assertElementPresent(WAIT_TIME);
+        mainPageItemList.get(index).assertElementPresent();
 
         return mainPageItemList.get(index)
                 .getText()
@@ -64,18 +62,17 @@ public abstract class MainPage extends BasePage {
     }
 
     public BigDecimal getPrice(int index) {
-        mainPageItemList.get(index).assertElementPresent(WAIT_TIME);
 
         String rawPrice = priceList.get(index)
                 .getText()
                 .replaceAll("[^0-9.]", "");
 
-        double priceWithoutTax = Double.parseDouble(rawPrice);
+        BigDecimal priceWithoutTax = BigDecimal.valueOf(Double.parseDouble(rawPrice));
         return PriceUtil.addTaxAndRound(priceWithoutTax);
     }
 
     public int getMainPageItemAmount() {
-        mainPageItemList.get(0).assertElementPresent(WAIT_TIME);
+        mainPageItemList.get(0).assertElementPresent();
         return mainPageItemList.size();
     }
 

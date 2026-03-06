@@ -14,17 +14,15 @@ public class CartFunctionalityTest extends BaseTest {
     private static final int AMOUNT_OF_CLICKS = 5;
 
     @Test(description = "assert that after pressing add to cart button item added into cart")
-    public void testCartFunction() {
+    public void testAddItemToCart() {
+        MainPage mainPage = openMainPage();
 
-        BasePage basePage = initPage(getDriver(), BasePage.class);
-        basePage.open();
-        MainPage mainPage = basePage.switchToShopFrame();
         ProductDetailsPage productDetailsPage = mainPage.clickItem(0);
 
         String itemName = productDetailsPage.getItemName().toLowerCase();
 
-        productDetailsPage.addToCart();
-        CheckoutPage checkoutPage = productDetailsPage.getItemCartComponent().clickProceedToCheckout();
+        productDetailsPage.addProductToCart();
+        CheckoutPage checkoutPage = productDetailsPage.clickProceedToCheckout();
 
         List<String> checkoutItemList = checkoutPage.getItemList();
 
@@ -36,13 +34,11 @@ public class CartFunctionalityTest extends BaseTest {
 
     @Test(description = "assert that after adding item into cart incrementation function works")
     public void testCartQuantityUpdate() {
+        MainPage mainPage = openMainPage();
 
-        BasePage basePage = initPage(getDriver(), BasePage.class);
-        basePage.open();
-        MainPage mainPage = basePage.switchToShopFrame();
         ProductDetailsPage productDetailsPage = mainPage.clickItem(0);
 
-        productDetailsPage.addToCart();
+        productDetailsPage.addProductToCart();
         CheckoutPage checkoutPage = productDetailsPage.clickProceedToCheckout();
 
         checkoutPage.increaseItemQuantity(AMOUNT_OF_CLICKS);

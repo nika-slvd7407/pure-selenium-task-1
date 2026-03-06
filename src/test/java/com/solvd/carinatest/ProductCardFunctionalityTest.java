@@ -12,11 +12,9 @@ import java.math.BigDecimal;
 public class ProductCardFunctionalityTest extends BaseTest {
 
     @Test(description = "assert that product card from the main page works")
-    public void testAddProductToCard() {
+    public void testProductCard() {
 
-        BasePage basePage = initPage(getDriver(), BasePage.class);
-        basePage.open();
-        MainPage mainPage = basePage.switchToShopFrame();
+        MainPage mainPage = openMainPage();
 
         int itemIndex = 0;
 

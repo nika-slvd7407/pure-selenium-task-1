@@ -5,11 +5,9 @@ import com.zebrunner.carina.webdriver.gui.AbstractUIObject;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
+public abstract class BaseComponent extends AbstractUIObject {
 
-public class BaseComponent extends AbstractUIObject {
-
-    protected int WAIT_TIME = R.CONFIG.getInt("WAIT_TIME");
+    protected static final int WAIT_TIME = R.CONFIG.getInt("WAIT_TIME");
 
     public BaseComponent(WebDriver driver) {
         super(driver);

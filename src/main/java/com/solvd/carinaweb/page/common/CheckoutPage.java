@@ -1,5 +1,6 @@
 package com.solvd.carinaweb.page.common;
 
+import com.solvd.util.PriceUtil;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,13 +27,14 @@ public abstract class CheckoutPage extends BasePage {
     @FindBy(css = "button.bootstrap-touchspin-up")
     private ExtendedWebElement incrementButton;
 
-    private By itemListLocator = By.id("main");
+    @FindBy(xpath = "//div[contains(@class, 'cart-grid-body col-lg-8')]")
     private ExtendedWebElement mainWrapper;
 
     public CheckoutPage(WebDriver driver) {
         super(driver);
         setUiLoadedMarker(mainWrapper);
-        isPageOpened();
+
+        waitUntilListsArePopulated(itemsInCheckout);
     }
 
     public List<String> getItemList() {
@@ -52,7 +54,7 @@ public abstract class CheckoutPage extends BasePage {
 
     public int getItemAmount() {
         String rawAmount = itemAmount.getText();
-        return Integer.parseInt(rawAmount.split(" ")[0]);
+        return PriceUtil.parseItemAmountText(rawAmount);
     }
 
     public void clickIncrementButton() {
@@ -67,9 +69,7 @@ public abstract class CheckoutPage extends BasePage {
     }
 
     public void waitUntilAmountUpdated(int expectedAmount) {
-        itemAmount.waitUntil(driver ->
-                        getItemAmount() == expectedAmount,
-                WAIT_TIME
-        );
+        itemAmount.waitUntil(driver -> getItemAmount() == expectedAmount, 15);
+
     }
 }
