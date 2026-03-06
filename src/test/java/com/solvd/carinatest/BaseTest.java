@@ -1,5 +1,7 @@
 package com.solvd.carinatest;
 
+import com.solvd.carinaweb.page.BasePage;
+import com.solvd.carinaweb.page.MainPage;
 import com.zebrunner.carina.core.AbstractTest;
 import com.zebrunner.carina.utils.R;
 import org.apache.logging.log4j.LogManager;
@@ -11,13 +13,18 @@ import org.testng.asserts.SoftAssert;
 
 public class BaseTest extends AbstractTest {
 
-    protected final Logger log = LogManager.getLogger(getCases());
-    protected SoftAssert sf;
+    protected final Logger log = LogManager.getLogger(getClass());
 
     @BeforeMethod
     @Parameters({"browser"})
     public void setUp(@Optional("chrome") String browser) {
         R.CONFIG.put("browser", browser);
         log.info("{} browser will be used for test", browser);
+
     }
-}
+
+    protected MainPage openMainPage() {
+        BasePage basePage = new BasePage(getDriver());
+        basePage.open();
+        return basePage.switchToShopFrame();
+    }}

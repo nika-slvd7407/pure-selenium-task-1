@@ -18,11 +18,12 @@ public class SearchPage extends BasePage {
     public SearchPage(WebDriver driver) {
         super(driver);
         setUiLoadedMarker(resultContainer);
-        isPageOpened();
+
+        waitUntilListsArePopulated(items);
     }
 
     public List<String> getSearchedItems() {
-        items.get(0).assertElementPresent();
+        items.get(0).isVisible();
 
         List<String> titles = new ArrayList<>();
 
@@ -39,7 +40,7 @@ public class SearchPage extends BasePage {
         return new ProductDetailsPage(getDriver());
     }
 
-    public int getItemAmount() {
+    public int getItemQuantity() {
         items.get(0).assertElementPresent();
         return items.size();
     }

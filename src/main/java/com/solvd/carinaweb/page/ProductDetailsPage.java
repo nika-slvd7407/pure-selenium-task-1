@@ -14,6 +14,9 @@ public class ProductDetailsPage extends BasePage {
     @FindBy(css = "button.add-to-cart")
     private ExtendedWebElement addToCartButton;
 
+    @FindBy(css = "nav.breadcrumb a span")
+    private List<ExtendedWebElement> breadcrumbItems;
+
     @FindBy(css = "h1.h1")
     private ExtendedWebElement itemName;
 
@@ -30,13 +33,14 @@ public class ProductDetailsPage extends BasePage {
         super(driver);
         setUiLoadedMarker(contentWrapper);
 
+        waitUntilListsArePopulated(breadcrumbItems);
     }
 
     public String getItemName() {
         return itemName.getText();
     }
 
-    public void addToCart() {
+    public void addProductToCart() {
         waitUntilClickableOf(addToCartButton);
         addToCartButton.click();
         isPageOpened();
@@ -54,14 +58,14 @@ public class ProductDetailsPage extends BasePage {
     public boolean isCategory(String category) {
 
         List<ExtendedWebElement> items =
-                findExtendedWebElements(By.cssSelector("nav.breadcrumb a span"));
+                getGetBreadcrumbItems();
 
         return items.stream()
                 .anyMatch(el -> el.getText().trim().equals(category));
     }
 
     public String getCategory() {
-        List<ExtendedWebElement> items = findExtendedWebElements(By.cssSelector("nav.breadcrumb a span"));
+        List<ExtendedWebElement> items = getGetBreadcrumbItems();
 
         if (items.isEmpty()) {
             return "no category";
@@ -80,5 +84,9 @@ public class ProductDetailsPage extends BasePage {
 
     public CheckoutPage clickProceedToCheckout() {
         return getItemCartComponent().clickProceedToCheckout();
+    }
+
+    public List<ExtendedWebElement> getGetBreadcrumbItems() {
+        return breadcrumbItems;
     }
 }
