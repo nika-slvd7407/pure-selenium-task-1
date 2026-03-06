@@ -36,28 +36,11 @@ public class BasePage extends AbstractPage {
 
     protected void switchToFramelive() {
         getDriver().switchTo().frame(frameId);
-
     }
 
     protected void switchToDefault() {
         getDriver().switchTo().defaultContent();
     }
 
-    protected void waitUntilVisibilityOf(By locator) {
-        findExtendedWebElement(locator)
-                .assertElementPresent();
-    }
-
-    protected void waitUntilClickableOf(ExtendedWebElement webElement) {
-        webElement.isClickable();
-    }
-
-    // i need this method cos the lists load late even with uiLoadingMarker in page constructors,
-    // the page is initialized but the lists are empty :D
-    protected void waitUntilListsArePopulated(List<ExtendedWebElement>... lists) {
-        for (List<ExtendedWebElement> list : lists) {
-            waitUntil(driver -> !list.isEmpty(), 10);
-        }
-    }
 }
 

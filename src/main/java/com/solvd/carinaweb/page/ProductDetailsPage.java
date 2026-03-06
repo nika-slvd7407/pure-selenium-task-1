@@ -1,6 +1,7 @@
 package com.solvd.carinaweb.page;
 
 import com.solvd.carinaweb.component.ItemCartComponent;
+import com.solvd.util.WaitUtil;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -32,8 +33,6 @@ public class ProductDetailsPage extends BasePage {
     public ProductDetailsPage(WebDriver driver) {
         super(driver);
         setUiLoadedMarker(contentWrapper);
-
-        waitUntilListsArePopulated(breadcrumbItems);
     }
 
     public String getItemName() {
@@ -41,14 +40,13 @@ public class ProductDetailsPage extends BasePage {
     }
 
     public void addProductToCart() {
-        waitUntilClickableOf(addToCartButton);
+        addToCartButton.isClickable();
         addToCartButton.click();
-        isPageOpened();
     }
 
     public BigDecimal getItemPrice() {
         String rawPrice = itemPrice.getText();
-        return BigDecimal.valueOf(Double.parseDouble(rawPrice.replaceAll("[^0-9.]", "")));
+        return new BigDecimal(rawPrice.replaceAll("[^0-9.]", ""));
     }
 
     public ItemCartComponent getItemCartComponent() {
@@ -87,6 +85,7 @@ public class ProductDetailsPage extends BasePage {
     }
 
     public List<ExtendedWebElement> getGetBreadcrumbItems() {
+        WaitUtil.waitForElementsListNotEmpty(breadcrumbItems, 15, getDriver());
         return breadcrumbItems;
     }
 }

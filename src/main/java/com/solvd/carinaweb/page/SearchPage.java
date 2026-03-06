@@ -1,5 +1,6 @@
 package com.solvd.carinaweb.page;
 
+import com.solvd.util.WaitUtil;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -18,16 +19,12 @@ public class SearchPage extends BasePage {
     public SearchPage(WebDriver driver) {
         super(driver);
         setUiLoadedMarker(resultContainer);
-
-        waitUntilListsArePopulated(items);
     }
 
     public List<String> getSearchedItems() {
-        items.get(0).isVisible();
-
         List<String> titles = new ArrayList<>();
 
-        for (ExtendedWebElement item : items) {
+        for (ExtendedWebElement item : getItems()) {
             titles.add(item.getText().toLowerCase().trim());
         }
 
@@ -35,13 +32,16 @@ public class SearchPage extends BasePage {
     }
 
     public ProductDetailsPage openItemByIndex(int index) {
-        items.get(0).assertElementPresent();
-        items.get(index).click();
+        getItems().get(index).click();
         return new ProductDetailsPage(getDriver());
     }
 
     public int getItemQuantity() {
-        items.get(0).assertElementPresent();
         return items.size();
+    }
+
+    public List<ExtendedWebElement> getItems() {
+        WaitUtil.waitForElementsListNotEmpty(items, 15, getDriver());
+        return items;
     }
 }
