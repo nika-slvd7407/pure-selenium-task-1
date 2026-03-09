@@ -34,8 +34,6 @@ public abstract class CheckoutPage extends BasePage {
     public CheckoutPage(WebDriver driver) {
         super(driver);
         setUiLoadedMarker(mainWrapper);
-
-        waitUntilListsArePopulated(itemsInCheckout);
     }
 
     public List<String> getItemList() {
