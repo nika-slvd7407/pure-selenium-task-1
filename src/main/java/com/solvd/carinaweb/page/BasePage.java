@@ -1,7 +1,5 @@
-package com.solvd.carinaweb.page.common;
+package com.solvd.carinaweb.page;
 
-import com.solvd.carinaweb.page.desktop.BasePageDesktop;
-import com.solvd.carinaweb.page.desktop.MainPageDesktop;
 import com.zebrunner.carina.utils.R;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
@@ -9,17 +7,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
 import java.util.List;
 
-public abstract class BasePage extends AbstractPage {
+public class BasePage extends AbstractPage {
 
-    protected static final int WAIT_TIME = R.CONFIG.getInt("WAIT_TIME");
     private final static String frameId = "framelive";
     protected final Logger log = LogManager.getLogger(getClass());
 
@@ -28,12 +21,13 @@ public abstract class BasePage extends AbstractPage {
 
     public BasePage(WebDriver driver) {
         super(driver);
-
+        setUiLoadedMarker(header);
     }
 
     public MainPage switchToShopFrame() {
         switchToFramelive();
-        return initPage(getDriver(), MainPage.class);
+        log.info("frame switched");
+        return new MainPage(getDriver());
     }
 
     protected void switchToFrame(String frameId) {
@@ -48,13 +42,5 @@ public abstract class BasePage extends AbstractPage {
         getDriver().switchTo().defaultContent();
     }
 
-    protected void waitUntilVisibilityOf(By locator) {
-        findExtendedWebElement(locator)
-                .assertElementPresent();
-    }
-
-    protected void waitUntilClickableOf(ExtendedWebElement webElement) {
-        webElement.isClickable();
-    }
-
 }
+
