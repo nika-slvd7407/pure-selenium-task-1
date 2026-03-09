@@ -1,5 +1,6 @@
 package com.solvd.carinaweb.page.common;
 
+import com.solvd.util.WaitUtil;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -19,16 +20,12 @@ public abstract class SearchPage extends BasePage {
     public SearchPage(WebDriver driver) {
         super(driver);
         setUiLoadedMarker(resultContainer);
-
-        waitUntilListsArePopulated(items);
     }
 
     public List<String> getSearchedItems() {
-        items.get(0).assertElementPresent();
-
         List<String> titles = new ArrayList<>();
 
-        for (ExtendedWebElement item : items) {
+        for (ExtendedWebElement item : getItems()) {
             titles.add(item.getText().toLowerCase().trim());
         }
 
@@ -36,13 +33,16 @@ public abstract class SearchPage extends BasePage {
     }
 
     public ProductDetailsPage openItemByIndex(int index) {
-        items.get(0).assertElementPresent();
-        items.get(index).click();
-       return initPage(getDriver(), ProductDetailsPage.class);
+        getItems().get(index).click();
+        return initPage(getDriver(), ProductDetailsPage.class);
     }
 
-    public int getItemAmount() {
-        items.get(0).assertElementPresent();
+    public int getItemQuantity() {
         return items.size();
+    }
+
+    public List<ExtendedWebElement> getItems() {
+        WaitUtil.waitForElementsListNotEmpty(items, 15, getDriver());
+        return items;
     }
 }

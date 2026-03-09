@@ -57,11 +57,4 @@ public abstract class BasePage extends AbstractPage {
         webElement.isClickable();
     }
 
-    // i need this method cos the lists load late even with uiLoadingMarker in page constructors,
-    // the page is initialized but the lists are empty :D
-    protected void waitUntilListsArePopulated(List<ExtendedWebElement>... lists) {
-        for (List<ExtendedWebElement> list : lists) {
-            waitUntil(driver -> !list.isEmpty(), 10);
-        }
-    }
 }

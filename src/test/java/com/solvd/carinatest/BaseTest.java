@@ -13,8 +13,7 @@ import org.testng.asserts.SoftAssert;
 
 public class BaseTest extends AbstractTest {
 
-    protected final Logger log = LogManager.getLogger(getCases());
-    protected SoftAssert sf;
+    protected final Logger log = LogManager.getLogger(getClass());
 
     @BeforeMethod
     @Parameters({"browser"})

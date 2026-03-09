@@ -1,6 +1,7 @@
 package com.solvd.carinaweb.page.common;
 
 import com.solvd.util.PriceUtil;
+import com.solvd.util.WaitUtil;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.decorator.PageOpeningStrategy;
 import org.openqa.selenium.By;
@@ -30,8 +31,6 @@ public abstract class MainPage extends BasePage {
         super(driver);
         setPageOpeningStrategy(PageOpeningStrategy.BY_ELEMENT);
         setUiLoadedMarker(pageContainer);
-
-        waitUntilListsArePopulated(priceList, mainPageItemList);
     }
 
     public SearchPage search(String name) {
@@ -42,19 +41,17 @@ public abstract class MainPage extends BasePage {
 
     public ProductDetailsPage clickRandomItem() {
         int randomIndex = new Random().nextInt(mainPageItemList.size());
-        mainPageItemList.get(randomIndex).click();
+        getMainPageItemList().get(randomIndex).click();
         return initPage(getDriver(), ProductDetailsPage.class);
     }
 
     public ProductDetailsPage clickItem(int index) {
-        mainPageItemList.get(index).click();
+        getMainPageItemList().get(index).click();
         return initPage(getDriver(), ProductDetailsPage.class);
     }
 
     public String getItemName(int index) {
-        mainPageItemList.get(index).assertElementPresent();
-
-        return mainPageItemList.get(index)
+        return getMainPageItemList().get(index)
                 .getText()
                 .toLowerCase()
                 .replace("...", "")
@@ -63,7 +60,7 @@ public abstract class MainPage extends BasePage {
 
     public BigDecimal getPrice(int index) {
 
-        String rawPrice = priceList.get(index)
+        String rawPrice = getPriceList().get(index)
                 .getText()
                 .replaceAll("[^0-9.]", "");
 
@@ -72,8 +69,17 @@ public abstract class MainPage extends BasePage {
     }
 
     public int getMainPageItemAmount() {
-        mainPageItemList.get(0).assertElementPresent();
-        return mainPageItemList.size();
+        return getMainPageItemList().size();
+    }
+
+    public List<ExtendedWebElement> getMainPageItemList() {
+        WaitUtil.waitForElementsListNotEmpty(mainPageItemList, 15, getDriver());
+        return mainPageItemList;
+    }
+
+    public List<ExtendedWebElement> getPriceList() {
+        WaitUtil.waitForElementsListNotEmpty(priceList, 15, getDriver());
+        return priceList;
     }
 
     public abstract SearchPage selectSubCategory(String mainCategoryName, String subCategoryName);

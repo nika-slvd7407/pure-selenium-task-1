@@ -1,6 +1,7 @@
 package com.solvd.carinaweb.page.common;
 
 import com.solvd.util.PriceUtil;
+import com.solvd.util.WaitUtil;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,17 +34,13 @@ public abstract class CheckoutPage extends BasePage {
     public CheckoutPage(WebDriver driver) {
         super(driver);
         setUiLoadedMarker(mainWrapper);
-
-        waitUntilListsArePopulated(itemsInCheckout);
     }
 
     public List<String> getItemList() {
 
-        itemsInCheckout.get(0).assertElementPresent();
-
         List<String> itemList = new ArrayList<>();
 
-        for (ExtendedWebElement element : itemsInCheckout) {
+        for (ExtendedWebElement element : getItemsInCheckout()) {
             String text = element.getText().toLowerCase().trim();
             itemList.add(text);
             log.info("Item found in checkout: {}", text);
@@ -70,6 +67,10 @@ public abstract class CheckoutPage extends BasePage {
 
     public void waitUntilAmountUpdated(int expectedAmount) {
         itemAmount.waitUntil(driver -> getItemAmount() == expectedAmount, 15);
+    }
 
+    public List<ExtendedWebElement> getItemsInCheckout() {
+       WaitUtil.waitForElementsListNotEmpty(itemsInCheckout,15, getDriver());
+        return itemsInCheckout;
     }
 }
