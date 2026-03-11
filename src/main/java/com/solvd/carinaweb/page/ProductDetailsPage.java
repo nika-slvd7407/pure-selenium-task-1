@@ -3,9 +3,9 @@ package com.solvd.carinaweb.page;
 import com.solvd.carinaweb.component.ItemCartComponent;
 import com.solvd.util.WaitUtil;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -40,7 +40,7 @@ public class ProductDetailsPage extends BasePage {
     }
 
     public void addProductToCart() {
-        addToCartButton.isClickable();
+        addToCartButton.waitUntil(ExpectedConditions.elementToBeClickable(addToCartButton), 15);
         addToCartButton.click();
     }
 
@@ -53,24 +53,11 @@ public class ProductDetailsPage extends BasePage {
         return itemCartComponent;
     }
 
-    public boolean isCategory(String category) {
-
-        List<ExtendedWebElement> items =
-                getGetBreadcrumbItems();
-
-        return items.stream()
-                .anyMatch(el -> el.getText().trim().equals(category));
-    }
-
     public String getCategory() {
-        List<ExtendedWebElement> items = getGetBreadcrumbItems();
+        List<ExtendedWebElement> items = getBreadcrumbItems();
 
         if (items.isEmpty()) {
             return "no category";
-        }
-
-        for (ExtendedWebElement item : items) {
-            log.info(item.getText().trim());
         }
 
         return items.get(items.size() - 1).getText().trim();
@@ -84,7 +71,7 @@ public class ProductDetailsPage extends BasePage {
         return getItemCartComponent().clickProceedToCheckout();
     }
 
-    public List<ExtendedWebElement> getGetBreadcrumbItems() {
+    public List<ExtendedWebElement> getBreadcrumbItems() {
         WaitUtil.waitForElementsListNotEmpty(breadcrumbItems, 15, getDriver());
         return breadcrumbItems;
     }

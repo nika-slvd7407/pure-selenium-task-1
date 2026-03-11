@@ -81,18 +81,20 @@ public class MainPage extends BasePage {
     }
 
     public SearchPage selectSubCategory(String mainCategoryName, String subCategoryName) {
-        By mainCategory = By.xpath(
-                "//ul[@id='top-menu']//a[contains(@class,'dropdown-item') and contains(normalize-space(),'" + mainCategoryName + "')]");
+        By mainCategory = By.xpath(String.format(
+                "//ul[@id='top-menu']//a[contains(@class,'dropdown-item') and contains(normalize-space(),'%s')]",
+                mainCategoryName));
 
-        By subCategory = By.xpath("//a[contains(@class,'dropdown-submenu') and contains(text(),'" + subCategoryName + "')]");
+        By subCategory = By.xpath(String.format(
+                "//ul[@id='top-menu']//a[contains(@class,'dropdown-item') and contains(normalize-space(),'%s')]",
+                subCategoryName));
 
-        isAnyElementPresent(findExtendedWebElement(mainCategory));
+        ExtendedWebElement mainCategoryElement = findExtendedWebElement(mainCategory);
+        mainCategoryElement.hover();
 
-        findExtendedWebElement(mainCategory).hover();
+        ExtendedWebElement subCategoryElement = findExtendedWebElement(subCategory);
+        subCategoryElement.click();
 
-        isAnyElementPresent(findExtendedWebElement(subCategory));
-
-        findExtendedWebElement(subCategory).click();
         return new SearchPage(getDriver());
     }
 }

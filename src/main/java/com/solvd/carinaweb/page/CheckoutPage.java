@@ -5,7 +5,6 @@ import com.solvd.util.WaitUtil;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
@@ -67,7 +66,7 @@ public class CheckoutPage extends BasePage {
     }
 
     public List<ExtendedWebElement> getItemsInCheckout() {
-       WaitUtil.waitForElementsListNotEmpty(itemsInCheckout,15, getDriver());
+        WaitUtil.waitForElementsListNotEmpty(itemsInCheckout, 15, getDriver());
         return itemsInCheckout;
     }
 }

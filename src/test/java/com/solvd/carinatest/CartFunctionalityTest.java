@@ -27,12 +27,12 @@ public class CartFunctionalityTest extends BaseTest {
 
         Assert.assertTrue(
                 checkoutItemList.contains(itemName),
-                "checkout doesn't contain added item"
+                "checkout doesn't contain added item:" + itemName
         );
     }
 
     @Test(description = "assert that after adding item into cart incrementation function works")
-    public void testCartQuantityUpdate() {
+    public void verifyCartQuantityUpdateAfterIncrement() {
         MainPage mainPage = openMainPage();
 
         ProductDetailsPage productDetailsPage = mainPage.clickItem(0);
@@ -48,6 +48,7 @@ public class CartFunctionalityTest extends BaseTest {
         Assert.assertEquals(
                 checkoutPage.getItemAmount(),
                 expectedAmount
+                ,"Item amount in checkout is not updated after incrementing"
         );
     }
 }
