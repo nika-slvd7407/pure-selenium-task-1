@@ -41,7 +41,7 @@ public abstract class ProductDetailsPage extends BasePage {
     }
 
     public void addProductToCart() {
-        addToCartButton.isClickable();
+        addToCartButton.waitUntil(ExpectedConditions.elementToBeClickable(addToCartButton), 15);
         addToCartButton.click();
     }
 
@@ -54,24 +54,11 @@ public abstract class ProductDetailsPage extends BasePage {
         return itemCartComponent;
     }
 
-    public boolean isCategory(String category) {
-
-        List<ExtendedWebElement> items =
-                getGetBreadcrumbItems();
-
-        return items.stream()
-                .anyMatch(el -> el.getText().trim().equals(category));
-    }
-
     public String getCategory() {
-        List<ExtendedWebElement> items = getGetBreadcrumbItems();
+        List<ExtendedWebElement> items = getBreadcrumbItems();
 
         if (items.isEmpty()) {
             return "no category";
-        }
-
-        for (ExtendedWebElement item : items) {
-            log.info(item.getText().trim());
         }
 
         return items.get(items.size() - 1).getText().trim();
@@ -85,7 +72,7 @@ public abstract class ProductDetailsPage extends BasePage {
         return getItemCartComponent().clickProceedToCheckout();
     }
 
-    public List<ExtendedWebElement> getGetBreadcrumbItems() {
+    public List<ExtendedWebElement> getBreadcrumbItems() {
         WaitUtil.waitForElementsListNotEmpty(breadcrumbItems, 15, getDriver());
         return breadcrumbItems;
     }

@@ -26,9 +26,9 @@ public class SearchFunctionalityTest extends BaseTest {
 
         List<String> searchedItems = searchPage.getSearchedItems();
 
-        Assert.assertFalse(
-                searchedItems.isEmpty(),
-                "error zero items found"
+        Assert.assertTrue(
+                searchedItems.stream().allMatch(i -> i.contains(ITEM_TO_SEARCH)),
+                "Search results do not match query"
         );
     }
 
