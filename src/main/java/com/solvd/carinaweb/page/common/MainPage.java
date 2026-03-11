@@ -64,7 +64,7 @@ public abstract class MainPage extends BasePage {
                 .getText()
                 .replaceAll("[^0-9.]", "");
 
-        BigDecimal priceWithoutTax = BigDecimal.valueOf(Double.parseDouble(rawPrice));
+        BigDecimal priceWithoutTax = new BigDecimal(rawPrice);
         return PriceUtil.addTaxAndRound(priceWithoutTax);
     }
 
