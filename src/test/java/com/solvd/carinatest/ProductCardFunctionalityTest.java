@@ -1,17 +1,20 @@
-package com.solvd;
+package com.solvd.carinatest;
 
-import com.solvd.web.page.ProductDetailsPage;
-import com.solvd.web.page.MainPage;
+import com.solvd.carinaweb.page.BasePage;
+import com.solvd.carinaweb.page.ProductDetailsPage;
+import com.solvd.carinaweb.page.MainPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.math.BigDecimal;
 
-public class ProductCardFunctionalityTest extends AbstractTest {
+public class ProductCardFunctionalityTest extends BaseTest {
 
-    @Test(description = "assert that product card from the main page works ")
-    public void testAddProductToCard() {
-        MainPage mainPage = new MainPage(getDriver());
+    @Test(description = "assert that product card from the main page works")
+    public void testProductCard() {
+
+        MainPage mainPage = openMainPage();
+
         int itemIndex = 0;
 
         BigDecimal expectedPrice = mainPage.getPrice(itemIndex);
