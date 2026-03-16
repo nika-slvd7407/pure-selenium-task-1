@@ -43,7 +43,7 @@ public abstract class ProductDetailsPage extends BasePage {
     }
 
     public void addProductToCart() {
-        addToCartButton.waitUntil(ExpectedConditions.elementToBeClickable(addToCartButton), 15);
+        addToCartButton.isClickable();
         addToCartButton.click();
     }
 
