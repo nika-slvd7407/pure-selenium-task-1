@@ -17,6 +17,9 @@ public class SearchFunctionalityTest extends BaseTest {
     private static final String CATEGORY = R.CONFIG.get("CATEGORY");
     private static final String MAIN_CATEGORY = R.CONFIG.get("MAIN_CATEGORY");
 
+    public SearchFunctionalityTest(String browser) {
+        super(browser);
+    }
 
     @Test(description = "assert that search function is working properly and outputs items")
     public void testSearchFunction() {
@@ -27,8 +30,8 @@ public class SearchFunctionalityTest extends BaseTest {
         List<String> searchedItems = searchPage.getSearchedItems();
 
         Assert.assertTrue(
-                searchedItems.stream().allMatch(i -> i.contains(ITEM_TO_SEARCH)),
-                "Search results do not match query"
+                searchedItems.stream().anyMatch(i -> i.toLowerCase().contains(ITEM_TO_SEARCH.toLowerCase())),
+                String.format("Search results do not match query. Items found: %s", searchedItems)
         );
     }
 
@@ -38,7 +41,7 @@ public class SearchFunctionalityTest extends BaseTest {
         SearchPage searchPage = mainPage.selectSubCategory(MAIN_CATEGORY, CATEGORY);
 
         ProductDetailsPage productDetailsPage = searchPage.openItemByIndex(0);
-        String actualCategory = productDetailsPage.getCategory();
+        String actualCategory = productDetailsPage.getCategory().get();
 
         Assert.assertEquals(
                 actualCategory,

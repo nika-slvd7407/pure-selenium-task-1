@@ -42,7 +42,7 @@ public abstract class SearchPage extends BasePage {
     }
 
     public List<ExtendedWebElement> getItems() {
-        WaitUtil.waitForElementsListNotEmpty(items, 15, getDriver());
+        WaitUtil.waitForElementsListNotEmpty(items, getDriver());
         return items;
     }
 }

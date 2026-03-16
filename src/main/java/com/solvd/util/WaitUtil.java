@@ -1,5 +1,6 @@
 package com.solvd.util;
 
+import com.zebrunner.carina.utils.R;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
@@ -11,10 +12,11 @@ import java.util.List;
 
 public class WaitUtil {
 
-    public static void waitForElementsListNotEmpty(final List<? extends ExtendedWebElement> elements,
-                                            long waitTimeoutSec, WebDriver driver) {
+private static Duration waitTimeoutSec = Duration.ofSeconds(Long.parseLong(R.CONFIG.get("WAIT_TIME")));
+
+    public static void waitForElementsListNotEmpty(final List<? extends ExtendedWebElement> elements, WebDriver driver) {
         try {
-            new WebDriverWait(driver, Duration.ofSeconds(waitTimeoutSec))
+            new WebDriverWait(driver, waitTimeoutSec)
                     .ignoring(WebDriverException.class)
                     .until(d -> elements.stream().anyMatch(ExtendedWebElement::isElementPresent));
         } catch (TimeoutException e) {

@@ -14,10 +14,17 @@ import org.testng.asserts.SoftAssert;
 public class BaseTest extends AbstractTest {
 
     protected final Logger log = LogManager.getLogger(getClass());
+    protected String browser;
+
+    public BaseTest() {
+    }
+
+    public BaseTest(String browser) {
+        this.browser = browser;
+    }
 
     @BeforeMethod
-    @Parameters({"browser"})
-    public void setUp(@Optional("chrome") String browser) {
+    public void setUp() {
         R.CONFIG.put("browser", browser);
         log.info("{} browser will be used for test", browser);
     }
@@ -26,4 +33,5 @@ public class BaseTest extends AbstractTest {
         BasePage basePage = initPage(getDriver(), BasePage.class);
         basePage.open();
         return basePage.switchToShopFrame();
-    }}
+    }
+ }

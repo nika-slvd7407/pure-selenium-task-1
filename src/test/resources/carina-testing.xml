@@ -1,25 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 
-<suite name="suite" parallel="tests" thread-count="3">
+<suite name="suite" parallel="classes" thread-count="4">
 
-    <test name="web tests chrome">
-        <parameter name="browser" value="chrome"/>
+    <test name="web-tests">
+        <parameter name="browsers" value="chrome,firefox"/>
         <classes>
-            <class name="com.solvd.carinatest.SearchFunctionalityTest"/>
-            <class name="com.solvd.carinatest.ProductCardFunctionalityTest"/>
-            <class name="com.solvd.carinatest.CartFunctionalityTest"/>
-        </classes>
-    </test>
-
-    <test name="web tests firefox">
-        <parameter name="browser" value="firefox"/>
-        <classes>
-            <class name="com.solvd.carinatest.SearchFunctionalityTest"/>
-            <class name="com.solvd.carinatest.ProductCardFunctionalityTest"/>
-            <class name="com.solvd.carinatest.CartFunctionalityTest"/>
+            <class name="com.solvd.testutil.BrowserFactory"/>
         </classes>
     </test>
 
 </suite>
-

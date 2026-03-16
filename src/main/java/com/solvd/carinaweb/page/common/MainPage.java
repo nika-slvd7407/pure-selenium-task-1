@@ -73,12 +73,12 @@ public abstract class MainPage extends BasePage {
     }
 
     public List<ExtendedWebElement> getMainPageItemList() {
-        WaitUtil.waitForElementsListNotEmpty(mainPageItemList, 15, getDriver());
+        WaitUtil.waitForElementsListNotEmpty(mainPageItemList, getDriver());
         return mainPageItemList;
     }
 
     public List<ExtendedWebElement> getPriceList() {
-        WaitUtil.waitForElementsListNotEmpty(priceList, 15, getDriver());
+        WaitUtil.waitForElementsListNotEmpty(priceList, getDriver());
         return priceList;
     }
 

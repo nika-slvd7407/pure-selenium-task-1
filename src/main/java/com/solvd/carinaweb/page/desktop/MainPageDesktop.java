@@ -33,10 +33,8 @@ public class MainPageDesktop extends MainPage {
     @Override
     public SearchPage selectSubCategory(String mainCategoryName, String subCategoryName) {
 
-        By mainCategory = By.xpath("//ul[@id='top-menu']//a[contains(@class,'dropdown-item') and contains(normalize-space(),'"
-                + mainCategoryName + "')]");
-        By subCategory = By.xpath("//a[contains(@class,'dropdown-submenu') and contains(text(),'"
-                + subCategoryName + "')]");
+        By mainCategory = By.xpath(String.format("//ul[@id='top-menu']//a[contains(@class,'dropdown-item') and contains(normalize-space(),'%s')]", mainCategoryName));
+        By subCategory = By.xpath(String.format("//a[contains(@class,'dropdown-submenu') and contains(text(),'%s')]", subCategoryName));
 
         waitUntilVisibilityOf(mainCategory);
         findExtendedWebElement(mainCategory).hover();

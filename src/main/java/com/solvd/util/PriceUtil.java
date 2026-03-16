@@ -17,4 +17,8 @@ public class PriceUtil {
         return Integer.valueOf(rawAmount.split(" ")[0]);
     }
 
+    public static BigDecimal parsePrice(String rawPrice){
+        return new BigDecimal(rawPrice.replaceAll("[^0-9.]", ""));
+    }
+
 }

@@ -11,6 +11,10 @@ import java.math.BigDecimal;
 
 public class ProductCardFunctionalityTest extends BaseTest {
 
+    public ProductCardFunctionalityTest(String browser) {
+        super(browser);
+    }
+
     @Test(description = "assert that product card from the main page works")
     public void testProductCard() {
 

@@ -10,4 +10,8 @@ public class BasePageAndroid extends BasePage {
     public BasePageAndroid(WebDriver driver) {
         super(driver);
     }
+
+    public BasePage test(){
+        return initPage(getDriver(), BasePage.class);
+    }
 }

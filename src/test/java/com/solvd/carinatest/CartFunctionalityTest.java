@@ -13,13 +13,17 @@ public class CartFunctionalityTest extends BaseTest {
 
     private static final int AMOUNT_OF_CLICKS = 5;
 
+    public CartFunctionalityTest(String browser) {
+        super(browser);
+    }
+
     @Test(description = "assert that after pressing add to cart button item added into cart")
     public void testAddItemToCart() {
         MainPage mainPage = openMainPage();
 
         ProductDetailsPage productDetailsPage = mainPage.clickItem(0);
 
-        String itemName = productDetailsPage.getItemName().toLowerCase();
+        String itemName = productDetailsPage.getItemName();
 
         productDetailsPage.addProductToCart();
         CheckoutPage checkoutPage = productDetailsPage.clickProceedToCheckout();
@@ -28,7 +32,7 @@ public class CartFunctionalityTest extends BaseTest {
 
         Assert.assertTrue(
                 checkoutItemList.contains(itemName),
-                "checkout doesn't contain added item:" + itemName
+                String.format("Expected checkout to contain item: %s, but actual items are: %s", itemName, checkoutItemList)
         );
     }
 
