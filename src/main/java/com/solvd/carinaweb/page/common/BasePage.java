@@ -11,7 +11,6 @@ import org.openqa.selenium.support.FindBy;
 
 public abstract class BasePage extends AbstractPage {
 
-    protected static final int WAIT_TIME = R.CONFIG.getInt("WAIT_TIME");
     private final static String FRAME_ID = "framelive";
     protected final Logger log = LogManager.getLogger(getClass());
 
@@ -20,7 +19,6 @@ public abstract class BasePage extends AbstractPage {
 
     public BasePage(WebDriver driver) {
         super(driver);
-
     }
 
     public MainPage switchToShopFrame() {
