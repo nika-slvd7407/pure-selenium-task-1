@@ -4,7 +4,6 @@ import com.solvd.util.PriceUtil;
 import com.solvd.util.WaitUtil;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.decorator.PageOpeningStrategy;
-import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -73,12 +72,12 @@ public abstract class MainPage extends BasePage {
     }
 
     public List<ExtendedWebElement> getMainPageItemList() {
-        WaitUtil.waitForElementsListNotEmpty(mainPageItemList, 15, getDriver());
+        WaitUtil.waitForElementsListNotEmpty(mainPageItemList, getDriver());
         return mainPageItemList;
     }
 
     public List<ExtendedWebElement> getPriceList() {
-        WaitUtil.waitForElementsListNotEmpty(priceList, 15, getDriver());
+        WaitUtil.waitForElementsListNotEmpty(priceList, getDriver());
         return priceList;
     }
 

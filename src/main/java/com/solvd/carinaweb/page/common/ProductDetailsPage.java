@@ -1,15 +1,16 @@
 package com.solvd.carinaweb.page.common;
 
 import com.solvd.carinaweb.uielement.common.ItemCartComponent;
+import com.solvd.util.PriceUtil;
 import com.solvd.util.WaitUtil;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 public abstract class ProductDetailsPage extends BasePage {
 
@@ -37,7 +38,7 @@ public abstract class ProductDetailsPage extends BasePage {
     }
 
     public String getItemName() {
-        return itemName.getText();
+        return itemName.getText().toLowerCase();
     }
 
     public void addProductToCart() {
@@ -47,21 +48,23 @@ public abstract class ProductDetailsPage extends BasePage {
 
     public BigDecimal getItemPrice() {
         String rawPrice = itemPrice.getText();
-        return new BigDecimal(rawPrice.replaceAll("[^0-9.]", ""));
+        return PriceUtil.parsePrice(rawPrice);
     }
 
     public ItemCartComponent getItemCartComponent() {
         return itemCartComponent;
     }
 
-    public String getCategory() {
+    public Optional<String> getCategory() {
         List<ExtendedWebElement> items = getBreadcrumbItems();
 
+        Optional<String> category = Optional.empty();
+
         if (items.isEmpty()) {
-            return "no category";
+            return category;
         }
 
-        return items.get(items.size() - 1).getText().trim();
+        return category = Optional.of(items.get(items.size() - 1).getText().trim());
     }
 
     public void navigateBack() {
@@ -72,10 +75,10 @@ public abstract class ProductDetailsPage extends BasePage {
         return getItemCartComponent().clickProceedToCheckout();
     }
 
-    public abstract boolean downloadPicture();
+    public abstract boolean isPhotoDownloaded();
 
     public List<ExtendedWebElement> getBreadcrumbItems() {
-        WaitUtil.waitForElementsListNotEmpty(breadcrumbItems, 15, getDriver());
+        WaitUtil.waitForElementsListNotEmpty(breadcrumbItems, getDriver());
         return breadcrumbItems;
     }
 }

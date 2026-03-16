@@ -2,7 +2,6 @@ package com.solvd.carinaweb.page.common;
 
 import com.solvd.util.WaitUtil;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
@@ -42,7 +41,7 @@ public abstract class SearchPage extends BasePage {
     }
 
     public List<ExtendedWebElement> getItems() {
-        WaitUtil.waitForElementsListNotEmpty(items, 15, getDriver());
+        WaitUtil.waitForElementsListNotEmpty(items, getDriver());
         return items;
     }
 }

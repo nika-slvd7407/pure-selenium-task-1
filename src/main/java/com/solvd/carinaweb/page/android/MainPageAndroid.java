@@ -39,7 +39,7 @@ public class MainPageAndroid extends MainPage {
         waitUntilVisibilityOf(subCategory);
         findExtendedWebElement(subCategory).click();
 
-         log.info("finished selecting categorry {}", R.CONFIG.get("CATEGORY"));
+        log.info("finished selecting categorry {}", R.CONFIG.get("CATEGORY"));
         return initPage(getDriver(), SearchPage.class);
     }
 }

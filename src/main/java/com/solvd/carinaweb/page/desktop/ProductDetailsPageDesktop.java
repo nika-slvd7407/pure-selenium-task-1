@@ -20,7 +20,7 @@ public class ProductDetailsPageDesktop extends ProductDetailsPage {
     }
 
     @Override
-    public boolean downloadPicture() {
+    public boolean isPhotoDownloaded() {
         By picturePath = By.xpath("//section[contains(@id,'content')]//img[contains(@class,'js-qv-product-cover')]");
 
         String imageUrl = findExtendedWebElement(picturePath).getAttribute("src");

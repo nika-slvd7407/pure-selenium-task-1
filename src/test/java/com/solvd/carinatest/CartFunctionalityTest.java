@@ -1,9 +1,8 @@
 package com.solvd.carinatest;
 
-import com.solvd.carinaweb.page.common.BasePage;
 import com.solvd.carinaweb.page.common.CheckoutPage;
-import com.solvd.carinaweb.page.common.ProductDetailsPage;
 import com.solvd.carinaweb.page.common.MainPage;
+import com.solvd.carinaweb.page.common.ProductDetailsPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -13,13 +12,17 @@ public class CartFunctionalityTest extends BaseTest {
 
     private static final int AMOUNT_OF_CLICKS = 5;
 
+    public CartFunctionalityTest(String browser) {
+        super(browser);
+    }
+
     @Test(description = "assert that after pressing add to cart button item added into cart")
     public void testAddItemToCart() {
         MainPage mainPage = openMainPage();
 
         ProductDetailsPage productDetailsPage = mainPage.clickItem(0);
 
-        String itemName = productDetailsPage.getItemName().toLowerCase();
+        String itemName = productDetailsPage.getItemName();
 
         productDetailsPage.addProductToCart();
         CheckoutPage checkoutPage = productDetailsPage.clickProceedToCheckout();
@@ -28,7 +31,7 @@ public class CartFunctionalityTest extends BaseTest {
 
         Assert.assertTrue(
                 checkoutItemList.contains(itemName),
-                "checkout doesn't contain added item:" + itemName
+                String.format("Expected checkout to contain item: %s, but actual items are: %s", itemName, checkoutItemList)
         );
     }
 
@@ -49,7 +52,7 @@ public class CartFunctionalityTest extends BaseTest {
         Assert.assertEquals(
                 checkoutPage.getItemAmount(),
                 expectedAmount
-                ,"Item amount in checkout is not updated after incrementing"
+                , "Item amount in checkout is not updated after incrementing"
         );
     }
 }

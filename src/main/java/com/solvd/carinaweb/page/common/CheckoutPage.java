@@ -5,7 +5,6 @@ import com.solvd.util.WaitUtil;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
@@ -15,9 +14,6 @@ import java.util.List;
 public abstract class CheckoutPage extends BasePage {
 
     private static final Logger log = LogManager.getLogger(CheckoutPage.class);
-
-    private final By itemAmountLocator = By.cssSelector("#cart-subtotal-products span.js-subtotal");
-    private final By cartContainerLocator = By.cssSelector("div.cart-overview.js-cart");
 
     @FindBy(css = "div.product-line-info a.label")
     private List<ExtendedWebElement> itemsInCheckout;
@@ -55,12 +51,12 @@ public abstract class CheckoutPage extends BasePage {
     }
 
     public void clickIncrementButton() {
-        waitUntilClickableOf(incrementButton);
+        incrementButton.isClickable();
         incrementButton.click();
     }
 
-    public void increaseItemQuantity(int clickTime) {
-        for (int i = 0; i < clickTime; i++) {
+    public void increaseItemQuantity(int numberOfClicks) {
+        for (int i = 0; i < numberOfClicks; i++) {
             clickIncrementButton();
         }
     }
@@ -70,7 +66,7 @@ public abstract class CheckoutPage extends BasePage {
     }
 
     public List<ExtendedWebElement> getItemsInCheckout() {
-       WaitUtil.waitForElementsListNotEmpty(itemsInCheckout,15, getDriver());
+        WaitUtil.waitForElementsListNotEmpty(itemsInCheckout, getDriver());
         return itemsInCheckout;
     }
 }

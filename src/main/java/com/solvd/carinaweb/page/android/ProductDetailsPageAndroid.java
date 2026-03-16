@@ -16,7 +16,7 @@ public class ProductDetailsPageAndroid extends ProductDetailsPage {
     }
 
     @Override
-    public boolean downloadPicture() {
+    public boolean isPhotoDownloaded() {
         By picturePath = By.xpath("//section[contains(@id,'content')]//img[contains(@class,'js-qv-product-cover')]");
 
         String imageUrl = findExtendedWebElement(picturePath).getAttribute("src");
@@ -39,7 +39,7 @@ public class ProductDetailsPageAndroid extends ProductDetailsPage {
         return isPhotoListNotEmpty();
     }
 
-    public boolean isPhotoListNotEmpty(){
+    public boolean isPhotoListNotEmpty() {
         By photoList = By.xpath("//android.widget.GridView[@resource-id='com.google.android.apps.photos:id/recycler_view']//android.widget.ImageView");
         return !findExtendedWebElements(photoList).isEmpty();
     }

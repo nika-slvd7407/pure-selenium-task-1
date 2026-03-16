@@ -15,7 +15,7 @@ public class DownloadPictureTest extends BaseTest {
         MainPage mainPage = basePage.switchToShopFrame();
         ProductDetailsPage productDetailsPage = mainPage.clickItem(0);
 
-        Assert.assertTrue(productDetailsPage.downloadPicture(), "picture failed to download and its not present");
+        Assert.assertTrue(productDetailsPage.isPhotoDownloaded(), "picture failed to download and its not present");
 
     }
 }
